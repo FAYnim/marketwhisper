@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI UMKM - Promosi Cerdas untuk Usaha Lokal</title>
+    <meta name="description" content="Platform AI untuk membantu UMKM membuat konten promosi yang menarik">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/style.css">
+    
+    <!-- Font Inter & Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">🤖 AI UMKM</h1>
+            <nav class="nav">
+                <a href="#/" class="nav-link active">Home</a>
+                <a href="#/ideas" class="nav-link">Ide Konten</a>
+                <a href="#/caption" class="nav-link">Caption</a>
+                <a href="#/poster" class="nav-link">Poster</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="app" class="main-content">
+        <!-- Content akan dimuat di sini oleh JavaScript -->
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Memuat...</p>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <p id="toast-message">Pesan berhasil disalin!</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/main.js"></script>
+    <script src="src/js/utils.js"></script>
+    <script src="src/js/ai-ideas.js"></script>
+    <script src="src/js/ai-caption.js"></script>
+    <script src="src/js/ai-poster.js"></script>
+</body>
+</html>
