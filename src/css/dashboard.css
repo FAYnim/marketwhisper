@@ -7,7 +7,7 @@
 .dashboard-body {
     display: flex;
     min-height: 100vh;
-    background: #f8fafc;
+    background: #faf9f7;
 }
 
 /* ========================================
@@ -46,7 +46,7 @@
 .sidebar-logo {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #3b82f6;
+    color: #0B7350;
     margin: 0;
 }
 
@@ -89,9 +89,9 @@
 }
 
 .sidebar-link.active {
-    background: #eff6ff;
-    color: #3b82f6;
-    border-left-color: #3b82f6;
+    background: #f0f9f6;
+    color: #0B7350;
+    border-left-color: #0B7350;
 }
 
 .sidebar-link.sub {
@@ -125,7 +125,7 @@
 .user-avatar {
     width: 40px;
     height: 40px;
-    background: #3b82f6;
+    background: #0B7350;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -244,7 +244,7 @@
     width: 100%;
     max-width: none; /* Pastikan full width */
     padding: 1.5rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #faf9f7 0%, #f5f3f0 100%);
 }
 
 /* Dashboard Header */
@@ -313,9 +313,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: linear-gradient(135deg, #0B7350, #003b59);
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(11, 115, 80, 0.3);
 }
 
 .metric-content h3.metric-title {
@@ -383,8 +383,8 @@
 }
 
 .quick-action-card:hover {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: #0B7350;
+    border-color: #0B7350;
     color: white;
     transform: translateY(-2px);
 }
@@ -484,7 +484,7 @@
 
 .bar-fill {
     height: 24px;
-    background: #3b82f6;
+    background: #0B7350;
     border-radius: 4px;
     min-width: 20px;
     display: flex;
@@ -544,7 +544,7 @@
     gap: 1rem;
     padding: 1rem;
     background: #f8fafc;
-    border-left: 4px solid #3b82f6;
+    border-left: 4px solid #0B7350;
     border-radius: 0 8px 8px 0;
 }
 
@@ -555,7 +555,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #3b82f6;
+    background: #0B7350;
     color: white;
     border-radius: 50%;
     flex-shrink: 0;
