@@ -187,12 +187,13 @@
 }
 
 /* ========================================
-   MAIN CONTENT AREA
+   MAIN CONTENT AREA - FIXED FOR DESKTOP
    ======================================== */
 
 .main-wrapper {
     flex: 1;
-    margin-left: 0; /* No margin di mobile */
+    width: 100%;
+    margin-left: 0; /* Mobile: no margin */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -240,6 +241,8 @@
 /* Dashboard Content */
 .dashboard-content {
     flex: 1;
+    width: 100%;
+    max-width: none; /* Pastikan full width */
     padding: 1.5rem;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
@@ -573,23 +576,24 @@
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN - UPDATED
    ======================================== */
 
-/* Desktop */
+/* Desktop - FIXED LAYOUT */
 @media (min-width: 1024px) {
     .sidebar {
-        position: relative;
+        position: fixed; /* Keep fixed position */
         transform: translateX(0);
         box-shadow: none;
     }
     
     .main-wrapper {
-        margin-left: 280px;
+        margin-left: 280px; /* Push content right by sidebar width */
+        width: calc(100% - 280px); /* Full remaining width */
     }
     
     .top-header {
-        display: none;
+        display: none; /* Hide mobile header */
     }
     
     .sidebar-close {
@@ -599,12 +603,32 @@
     .sidebar-overlay {
         display: none;
     }
+    
+    .dashboard-content {
+        padding: 2rem; /* More padding on desktop */
+    }
+}
+
+/* Large Desktop - Extra space */
+@media (min-width: 1440px) {
+    .dashboard-content {
+        padding: 2rem 3rem;
+    }
+    
+    .dashboard-header {
+        padding: 2.5rem;
+    }
 }
 
 /* Tablet */
 @media (max-width: 1023px) {
     .sidebar-close {
         display: block;
+    }
+    
+    .main-wrapper {
+        margin-left: 0; /* Full width on tablet */
+        width: 100%;
     }
     
     .dashboard-header {
@@ -625,6 +649,11 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+    .main-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+    
     .dashboard-content {
         padding: 1rem;
     }
@@ -672,6 +701,10 @@
     
     .page-title {
         font-size: 1rem;
+    }
+    
+    .main-wrapper {
+        width: 100%;
     }
 }
 
