@@ -428,6 +428,52 @@
     }
 }
 
+/* ========================================
+   FONT AWESOME ICONS STYLING
+   ======================================== */
+
+/* Logo Icons */
+.logo i {
+    margin-right: 0.5rem;
+    color: #0B7350;
+    font-size: 1.3rem;
+}
+
+/* Hero Title Icons */
+.hero-title i {
+    margin-right: 0.5rem;
+    color: #f59e0b;
+}
+
+/* Button Icons */
+.btn i {
+    margin-right: 0.5rem;
+}
+
+/* Section Title Icons */
+.section-title i {
+    margin-right: 0.5rem;
+    color: #0B7350;
+}
+
+/* Feature Icons */
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #0B7350, #16a34a);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    color: white;
+    font-size: 2rem;
+}
+
+.feature-icon i {
+    font-size: 2rem;
+}
+
 /* Print Styles */
 @media print {
     .header, .nav, .btn, .cta-section { display: none; }

@@ -9,6 +9,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/ai-tools.css">
+    <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
     <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,45 +21,45 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1 class="sidebar-logo">
-                🤖 AI UMKM
+                <i class="fas fa-robot"></i> AI UMKM
             </h1>
-            <button class="sidebar-close" id="sidebar-close">✕</button>
+            <button class="sidebar-close" id="sidebar-close"><i class="fas fa-times"></i></button>
         </div>
         
         <nav class="sidebar-nav">
             <a href="index.html" class="sidebar-link">
-                <span class="sidebar-icon">🏠</span>
+                <span class="sidebar-icon"><i class="fas fa-home"></i></span>
                 <span class="sidebar-text">Home</span>
             </a>
             <a href="dashboard.html" class="sidebar-link">
-                <span class="sidebar-icon">📊</span>
+                <span class="sidebar-icon"><i class="fas fa-chart-bar"></i></span>
                 <span class="sidebar-text">Dashboard</span>
             </a>
             <a href="products.html" class="sidebar-link">
-                <span class="sidebar-icon">📦</span>
+                <span class="sidebar-icon"><i class="fas fa-box"></i></span>
                 <span class="sidebar-text">Produk</span>
             </a>
             <a href="ai-tools.html" class="sidebar-link active">
-                <span class="sidebar-icon">✨</span>
+                <span class="sidebar-icon"><i class="fas fa-magic"></i></span>
                 <span class="sidebar-text">AI Tools</span>
             </a>
             <a href="ai-tools.html#ideas" class="sidebar-link sub">
-                <span class="sidebar-icon">💡</span>
+                <span class="sidebar-icon"><i class="fas fa-lightbulb"></i></span>
                 <span class="sidebar-text">Ide Konten</span>
             </a>
             <a href="ai-tools.html#caption" class="sidebar-link sub">
-                <span class="sidebar-icon">✍️</span>
+                <span class="sidebar-icon"><i class="fas fa-pen-fancy"></i></span>
                 <span class="sidebar-text">Caption AI</span>
             </a>
             <a href="ai-tools.html#poster" class="sidebar-link sub">
-                <span class="sidebar-icon">🎨</span>
+                <span class="sidebar-icon"><i class="fas fa-palette"></i></span>
                 <span class="sidebar-text">Design Poster</span>
             </a>
         </nav>
         
         <div class="sidebar-footer">
             <div class="user-info">
-                <div class="user-avatar">👤</div>
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
                 <div class="user-details">
                     <p class="user-name">Demo User</p>
                     <p class="user-role">UMKM Owner</p>
@@ -76,11 +77,11 @@
         
         <!-- Top Header (Mobile) -->
         <header class="top-header">
-            <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
-            <h2 class="page-title">✨ AI Marketing Tools</h2>
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h2 class="page-title"><i class="fas fa-magic"></i> AI Marketing Tools</h2>
             <div class="header-actions">
                 <button class="btn btn-small btn-primary" onclick="location.href='products.html'">
-                    📦 Produk
+                    <i class="fas fa-box"></i> Produk
                 </button>
             </div>
         </header>
@@ -90,7 +91,7 @@
             
             <!-- AI Tools Header -->
             <section class="tools-header">
-                <h1 class="page-title">🤖 AI Marketing Tools</h1>
+                <h1 class="page-title"><i class="fas fa-robot"></i> AI Marketing Tools</h1>
                 <p class="page-description">Pilih tools AI yang ingin Anda gunakan untuk membuat konten promosi</p>
             </section>
 
@@ -99,15 +100,15 @@
                 
                 <!-- Ide Konten AI -->
                 <div class="tool-card" onclick="loadAITool('ideas')">
-                    <div class="tool-icon">💡</div>
+                    <div class="tool-icon"><i class="fas fa-lightbulb"></i></div>
                     <h2 class="tool-title">Ide Konten AI</h2>
                     <p class="tool-description">
                         Generate ide konten promosi kreatif berdasarkan jenis usaha dan target audience Anda.
                     </p>
                     <div class="tool-features">
-                        <span class="feature-tag">📱 Social Media</span>
-                        <span class="feature-tag">🎯 Target Audience</span>
-                        <span class="feature-tag">⚡ Instant</span>
+                        <span class="feature-tag"><i class="fas fa-mobile-alt"></i> Social Media</span>
+                        <span class="feature-tag"><i class="fas fa-bullseye"></i> Target Audience</span>
+                        <span class="feature-tag"><i class="fas fa-bolt"></i> Instant</span>
                     </div>
                     <button class="btn btn-primary tool-btn">
                         Mulai Generate Ide
@@ -116,15 +117,15 @@
 
                 <!-- Caption Generator -->
                 <div class="tool-card" onclick="loadAITool('caption')">
-                    <div class="tool-icon">✍️</div>
+                    <div class="tool-icon"><i class="fas fa-pen-fancy"></i></div>
                     <h2 class="tool-title">Caption Generator</h2>
                     <p class="tool-description">
                         Buat caption menarik untuk Instagram, Facebook, dan platform sosial media lainnya.
                     </p>
                     <div class="tool-features">
-                        <span class="feature-tag">📝 Auto Caption</span>
-                        <span class="feature-tag">#️⃣ Hashtags</span>
-                        <span class="feature-tag">🎨 Multiple Tone</span>
+                        <span class="feature-tag"><i class="fas fa-edit"></i> Auto Caption</span>
+                        <span class="feature-tag"><i class="fas fa-hashtag"></i> Hashtags</span>
+                        <span class="feature-tag"><i class="fas fa-palette"></i> Multiple Tone</span>
                     </div>
                     <button class="btn btn-primary tool-btn">
                         Buat Caption Sekarang
@@ -133,15 +134,15 @@
 
                 <!-- Poster Text Generator -->
                 <div class="tool-card" onclick="loadAITool('poster')">
-                    <div class="tool-icon">🎨</div>
+                    <div class="tool-icon"><i class="fas fa-palette"></i></div>
                     <h2 class="tool-title">Poster Text Generator</h2>
                     <p class="tool-description">
                         Generate teks untuk poster promosi dengan layout dan hierarki yang menarik.
                     </p>
                     <div class="tool-features">
-                        <span class="feature-tag">🎯 CTA Powerful</span>
-                        <span class="feature-tag">📐 Layout Guide</span>
-                        <span class="feature-tag">🎨 Design Tips</span>
+                        <span class="feature-tag"><i class="fas fa-bullseye"></i> CTA Powerful</span>
+                        <span class="feature-tag"><i class="fas fa-ruler-combined"></i> Layout Guide</span>
+                        <span class="feature-tag"><i class="fas fa-paint-brush"></i> Design Tips</span>
                     </div>
                     <button class="btn btn-primary tool-btn">
                         Design Poster Text
@@ -153,13 +154,13 @@
             <!-- Selected Product Info (if any) -->
             <div id="selected-product-info" class="selected-product hidden">
                 <div class="product-info-card">
-                    <h3>🔄 Menggunakan Data Produk:</h3>
+                    <h3><i class="fas fa-sync-alt"></i> Menggunakan Data Produk:</h3>
                     <div class="selected-product-details">
                         <span class="product-name" id="selected-product-name">-</span>
                         <span class="product-category" id="selected-product-category">-</span>
                     </div>
                     <button class="btn btn-small btn-secondary" onclick="clearSelectedProduct()">
-                        ❌ Hapus Pilihan
+                        <i class="fas fa-times"></i> Hapus Pilihan
                     </button>
                 </div>
             </div>
@@ -290,7 +291,7 @@
                 
                 // Track activity
                 if (typeof trackActivity === 'function') {
-                    trackActivity('tool_opened', `${toolType.charAt(0).toUpperCase() + toolType.slice(1)} Tool dibuka`, '🤖');
+                    trackActivity('tool_opened', `${toolType.charAt(0).toUpperCase() + toolType.slice(1)} Tool dibuka`, '<i class="fas fa-robot"></i>');
                 }
                 
             } catch (error) {

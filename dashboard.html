@@ -9,6 +9,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/dashboard.css">
+    <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
     <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,45 +22,45 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1 class="sidebar-logo">
-                🤖 AI UMKM
+                <i class="fas fa-robot"></i> AI UMKM
             </h1>
-            <button class="sidebar-close" id="sidebar-close">✕</button>
+            <button class="sidebar-close" id="sidebar-close"><i class="fas fa-times"></i></button>
         </div>
         
         <nav class="sidebar-nav">
             <a href="index.html" class="sidebar-link">
-                <span class="sidebar-icon">🏠</span>
+                <span class="sidebar-icon"><i class="fas fa-home"></i></span>
                 <span class="sidebar-text">Home</span>
             </a>
             <a href="dashboard.html" class="sidebar-link active">
-                <span class="sidebar-icon">📊</span>
+                <span class="sidebar-icon"><i class="fas fa-chart-bar"></i></span>
                 <span class="sidebar-text">Dashboard</span>
             </a>
             <a href="products.html" class="sidebar-link">
-                <span class="sidebar-icon">📦</span>
+                <span class="sidebar-icon"><i class="fas fa-box"></i></span>
                 <span class="sidebar-text">Produk</span>
             </a>
             <a href="ai-tools.html" class="sidebar-link">
-                <span class="sidebar-icon">✨</span>
+                <span class="sidebar-icon"><i class="fas fa-magic"></i></span>
                 <span class="sidebar-text">AI Tools</span>
             </a>
             <a href="ai-tools.html#ideas" class="sidebar-link sub">
-                <span class="sidebar-icon">💡</span>
+                <span class="sidebar-icon"><i class="fas fa-lightbulb"></i></span>
                 <span class="sidebar-text">Ide Konten</span>
             </a>
             <a href="ai-tools.html#caption" class="sidebar-link sub">
-                <span class="sidebar-icon">✍️</span>
+                <span class="sidebar-icon"><i class="fas fa-pen-fancy"></i></span>
                 <span class="sidebar-text">Caption AI</span>
             </a>
             <a href="ai-tools.html#poster" class="sidebar-link sub">
-                <span class="sidebar-icon">🎨</span>
+                <span class="sidebar-icon"><i class="fas fa-palette"></i></span>
                 <span class="sidebar-text">Design Poster</span>
             </a>
         </nav>
         
         <div class="sidebar-footer">
             <div class="user-info">
-                <div class="user-avatar">👤</div>
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
                 <div class="user-details">
                     <p class="user-name">Demo User</p>
                     <p class="user-role">UMKM Owner</p>
@@ -77,11 +78,11 @@
         
         <!-- Top Header (Mobile) -->
         <header class="top-header">
-            <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
-            <h2 class="page-title">📊 Dashboard Bisnis</h2>
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h2 class="page-title"><i class="fas fa-chart-bar"></i> Dashboard Bisnis</h2>
             <div class="header-actions">
                 <button class="btn btn-small btn-primary" onclick="location.href='products.html'">
-                    ➕ Produk
+                    <i class="fas fa-plus"></i> Produk
                 </button>
             </div>
         </header>
@@ -92,16 +93,16 @@
             <!-- Dashboard Header -->
             <section class="dashboard-header">
                 <div class="welcome-section">
-                    <h1 class="dashboard-title">Selamat datang kembali! 👋</h1>
+                    <h1 class="dashboard-title">Selamat datang kembali! <i class="fas fa-hand-paper"></i></h1>
                     <p class="dashboard-subtitle">Ringkasan bisnis Anda hari ini</p>
                     <p class="last-login">Login terakhir: <span id="last-login-time">2 Desember 2025, 14:30</span></p>
                 </div>
                 <div class="dashboard-actions">
                     <button class="btn btn-primary" onclick="location.href='products.html'">
-                        ➕ Tambah Produk
+                        <i class="fas fa-plus"></i> Tambah Produk
                     </button>
                     <button class="btn btn-secondary" onclick="location.href='ai-tools.html'">
-                        ✨ AI Tools
+                        <i class="fas fa-magic"></i> AI Tools
                     </button>
                 </div>
             </section>
@@ -109,7 +110,7 @@
             <!-- Key Metrics Cards -->
             <section class="metrics-grid">
                 <div class="metric-card">
-                    <div class="metric-icon">📦</div>
+                    <div class="metric-icon"><i class="fas fa-box"></i></div>
                     <div class="metric-content">
                         <h3 class="metric-title">Total Produk</h3>
                         <p class="metric-value" id="total-products">-</p>
@@ -118,7 +119,7 @@
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">📂</div>
+                    <div class="metric-icon"><i class="fas fa-folder"></i></div>
                     <div class="metric-content">
                         <h3 class="metric-title">Kategori</h3>
                         <p class="metric-value" id="total-categories">-</p>
@@ -127,7 +128,7 @@
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">🤖</div>
+                    <div class="metric-icon"><i class="fas fa-robot"></i></div>
                     <div class="metric-content">
                         <h3 class="metric-title">AI Usage</h3>
                         <p class="metric-value" id="ai-usage-count">-</p>
@@ -136,7 +137,7 @@
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">📈</div>
+                    <div class="metric-icon"><i class="fas fa-chart-line"></i></div>
                     <div class="metric-content">
                         <h3 class="metric-title">Konten Generated</h3>
                         <p class="metric-value" id="content-generated">-</p>
@@ -150,28 +151,28 @@
                 
                 <!-- Quick Actions Panel -->
                 <section class="dashboard-panel quick-actions-panel">
-                    <h2 class="panel-title">🚀 Quick Actions</h2>
+                    <h2 class="panel-title"><i class="fas fa-rocket"></i> Quick Actions</h2>
                     <div class="quick-actions">
                         <a href="products.html" class="quick-action-card">
-                            <div class="action-icon">📦</div>
+                            <div class="action-icon"><i class="fas fa-box"></i></div>
                             <h3>Kelola Produk</h3>
                             <p>Tambah, edit, atau hapus produk</p>
                         </a>
                         
                         <a href="ai-tools.html#ideas" class="quick-action-card">
-                            <div class="action-icon">💡</div>
+                            <div class="action-icon"><i class="fas fa-lightbulb"></i></div>
                             <h3>Ide Konten</h3>
                             <p>Generate ide promosi dengan AI</p>
                         </a>
                         
                         <a href="ai-tools.html#caption" class="quick-action-card">
-                            <div class="action-icon">✍️</div>
+                            <div class="action-icon"><i class="fas fa-pen-fancy"></i></div>
                             <h3>Caption AI</h3>
                             <p>Buat caption menarik otomatis</p>
                         </a>
                         
                         <a href="ai-tools.html#poster" class="quick-action-card">
-                            <div class="action-icon">🎨</div>
+                            <div class="action-icon"><i class="fas fa-palette"></i></div>
                             <h3>Design Poster</h3>
                             <p>Template poster untuk promosi</p>
                         </a>
@@ -180,10 +181,10 @@
 
                 <!-- Recent Activity Panel -->
                 <section class="dashboard-panel activity-panel">
-                    <h2 class="panel-title">📋 Aktivitas Terbaru</h2>
+                    <h2 class="panel-title"><i class="fas fa-clipboard-list"></i> Aktivitas Terbaru</h2>
                     <div class="activity-list" id="activity-list">
                         <div class="activity-item">
-                            <div class="activity-icon">📦</div>
+                            <div class="activity-icon"><i class="fas fa-box"></i></div>
                             <div class="activity-content">
                                 <p class="activity-text">Produk "Kopi Arabica Premium" ditambahkan</p>
                                 <p class="activity-time">2 jam yang lalu</p>
@@ -191,7 +192,7 @@
                         </div>
                         
                         <div class="activity-item">
-                            <div class="activity-icon">✨</div>
+                            <div class="activity-icon"><i class="fas fa-magic"></i></div>
                             <div class="activity-content">
                                 <p class="activity-text">Caption AI digunakan 3 kali</p>
                                 <p class="activity-time">1 hari yang lalu</p>
@@ -199,7 +200,7 @@
                         </div>
                         
                         <div class="activity-item">
-                            <div class="activity-icon">💡</div>
+                            <div class="activity-icon"><i class="fas fa-lightbulb"></i></div>
                             <div class="activity-content">
                                 <p class="activity-text">Generate 5 ide konten untuk makanan</p>
                                 <p class="activity-time">2 hari yang lalu</p>
@@ -217,7 +218,7 @@
 
             <!-- Category Distribution Chart -->
             <section class="dashboard-panel chart-panel">
-                <h2 class="panel-title">📊 Distribusi Kategori Produk</h2>
+                <h2 class="panel-title"><i class="fas fa-chart-bar"></i> Distribusi Kategori Produk</h2>
                 <div class="chart-container">
                     <div class="chart-legend" id="category-legend">
                         <!-- Legend akan di-generate oleh JavaScript -->
@@ -234,10 +235,10 @@
 
             <!-- Tips & Recommendations -->
             <section class="dashboard-panel tips-panel">
-                <h2 class="panel-title">💡 Tips & Rekomendasi</h2>
+                <h2 class="panel-title"><i class="fas fa-lightbulb"></i> Tips & Rekomendasi</h2>
                 <div class="tips-list" id="tips-list">
                     <div class="tip-item">
-                        <div class="tip-icon">🎯</div>
+                        <div class="tip-icon"><i class="fas fa-bullseye"></i></div>
                         <div class="tip-content">
                             <h4>Promosi Harian</h4>
                             <p>Posting konten secara konsisten setiap hari untuk meningkatkan engagement.</p>
@@ -245,7 +246,7 @@
                     </div>
                     
                     <div class="tip-item">
-                        <div class="tip-icon">📸</div>
+                        <div class="tip-icon"><i class="fas fa-camera"></i></div>
                         <div class="tip-content">
                             <h4>Visual Menarik</h4>
                             <p>Gunakan foto produk berkualitas tinggi untuk meningkatkan daya tarik.</p>
@@ -253,7 +254,7 @@
                     </div>
                     
                     <div class="tip-item">
-                        <div class="tip-icon">🤝</div>
+                        <div class="tip-icon"><i class="fas fa-handshake"></i></div>
                         <div class="tip-content">
                             <h4>Interaksi Pelanggan</h4>
                             <p>Balas komentar dan pesan dari pelanggan dengan cepat.</p>

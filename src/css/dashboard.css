@@ -729,3 +729,112 @@
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
+
+/* ========================================
+   FONT AWESOME ICONS STYLING
+   ======================================== */
+
+/* Sidebar Icons */
+.sidebar-icon i {
+    font-size: 1rem;
+    color: inherit;
+}
+
+.sidebar-logo i {
+    margin-right: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.sidebar-close i {
+    font-size: 1rem;
+}
+
+.sidebar-toggle i {
+    font-size: 1.1rem;
+}
+
+.user-avatar i {
+    font-size: 1.2rem;
+}
+
+/* Button Icons */
+.btn i {
+    margin-right: 0.5rem;
+}
+
+.page-title i {
+    margin-right: 0.5rem;
+    color: #0B7350;
+}
+
+.panel-title i {
+    margin-right: 0.5rem;
+    color: #0B7350;
+}
+
+.dashboard-title i {
+    margin-left: 0.5rem;
+    color: #f59e0b;
+}
+
+/* Metric Icons */
+.metric-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: #0B7350;
+    display: flex;
+    justify-content: center;
+}
+
+.metric-icon i {
+    font-size: 2rem;
+}
+
+/* Quick Action Icons */
+.action-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: #0B7350;
+    display: flex;
+    justify-content: center;
+}
+
+.action-icon i {
+    font-size: 2rem;
+}
+
+/* Activity Icons */
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0B7350;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.activity-icon i {
+    font-size: 1.2rem;
+}
+
+/* Tip Icons */
+.tip-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #0B7350, #16a34a);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.tip-icon i {
+    font-size: 1.5rem;
+}
