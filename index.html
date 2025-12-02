@@ -20,22 +20,67 @@
         <div class="container">
             <h1 class="logo">🤖 AI UMKM</h1>
             <nav class="nav">
-                <a href="#/" class="nav-link active">Home</a>
-                <a href="#/ideas" class="nav-link">Ide Konten</a>
-                <a href="#/caption" class="nav-link">Caption</a>
-                <a href="#/poster" class="nav-link">Poster</a>
-                <a href="#/products" class="nav-link">Produk</a>
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="products.html" class="nav-link">Produk</a>
+                <a href="ai-tools.html" class="nav-link">AI Tools</a>
+                <!-- Placeholder untuk auth -->
+                <div class="nav-auth hidden">
+                    <span class="user-name">Demo User</span>
+                    <button class="btn-logout">Login</button>
+                </div>
             </nav>
         </div>
     </header>
 
     <!-- Main Content Area -->
-    <main id="app" class="main-content">
-        <!-- Content akan dimuat di sini oleh JavaScript -->
-        <div class="loading">
-            <div class="spinner"></div>
-            <p>Memuat...</p>
-        </div>
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">🚀 AI Marketing untuk UMKM Indonesia</h1>
+                    <p class="hero-subtitle">Platform AI yang membantu UMKM membuat konten promosi menarik dalam hitungan detik</p>
+                    <div class="hero-actions">
+                        <a href="dashboard.html" class="btn btn-primary btn-large">
+                            📊 Masuk ke Dashboard
+                        </a>
+                        <a href="ai-tools.html" class="btn btn-secondary btn-large">
+                            ✨ Coba AI Tools
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">🎯 Fitur Unggulan</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💡</div>
+                        <h3>AI Ide Konten</h3>
+                        <p>Generate ide konten promosi kreatif berdasarkan jenis usaha Anda</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✍️</div>
+                        <h3>Caption Generator</h3>
+                        <p>Buat caption menarik untuk social media dengan AI</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Poster Designer</h3>
+                        <p>Template teks poster yang siap pakai untuk promosi</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📦</div>
+                        <h3>Manajemen Produk</h3>
+                        <p>Kelola data produk untuk kebutuhan marketing AI</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Toast Notification -->
@@ -44,12 +89,114 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="src/js/main.js"></script>
     <script src="src/js/utils.js"></script>
-    <script src="src/js/ai-products.js"></script>
-    <script src="src/js/ai-ideas.js"></script>
-    <script src="src/js/ai-caption.js"></script>
-    <script src="src/js/ai-poster.js"></script>
+    
+    <style>
+        /* Landing page specific styles */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .features {
+            padding: 4rem 0;
+            background: #f8fafc;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-large {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
 </body>
-</html></body>
 </html>

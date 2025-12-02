@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools - UMKM Marketing Assistant</title>
+    <meta name="description" content="Tools AI untuk konten marketing UMKM">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/style.css">
+    
+    <!-- Font Inter & Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <a href="index.html">🤖 AI UMKM</a>
+            </h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="products.html" class="nav-link">Produk</a>
+                <a href="ai-tools.html" class="nav-link active">AI Tools</a>
+                <!-- Placeholder untuk auth -->
+                <div class="nav-auth">
+                    <span class="user-name">Demo User</span>
+                    <button class="btn-logout">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- AI Tools Header -->
+            <section class="tools-header">
+                <h1 class="page-title">🤖 AI Marketing Tools</h1>
+                <p class="page-description">Pilih tools AI yang ingin Anda gunakan untuk membuat konten promosi</p>
+            </section>
+
+            <!-- AI Tools Grid -->
+            <section class="tools-grid">
+                
+                <!-- Ide Konten AI -->
+                <div class="tool-card" onclick="loadAITool('ideas')">
+                    <div class="tool-icon">💡</div>
+                    <h2 class="tool-title">Ide Konten AI</h2>
+                    <p class="tool-description">
+                        Generate ide konten promosi kreatif berdasarkan jenis usaha dan target audience Anda.
+                    </p>
+                    <div class="tool-features">
+                        <span class="feature-tag">📱 Social Media</span>
+                        <span class="feature-tag">🎯 Target Audience</span>
+                        <span class="feature-tag">⚡ Instant</span>
+                    </div>
+                    <button class="btn btn-primary tool-btn">
+                        Mulai Generate Ide
+                    </button>
+                </div>
+
+                <!-- Caption Generator -->
+                <div class="tool-card" onclick="loadAITool('caption')">
+                    <div class="tool-icon">✍️</div>
+                    <h2 class="tool-title">Caption Generator</h2>
+                    <p class="tool-description">
+                        Buat caption menarik untuk Instagram, Facebook, dan platform sosial media lainnya.
+                    </p>
+                    <div class="tool-features">
+                        <span class="feature-tag">📝 Auto Caption</span>
+                        <span class="feature-tag">#️⃣ Hashtags</span>
+                        <span class="feature-tag">🎨 Multiple Tone</span>
+                    </div>
+                    <button class="btn btn-primary tool-btn">
+                        Buat Caption Sekarang
+                    </button>
+                </div>
+
+                <!-- Poster Text Generator -->
+                <div class="tool-card" onclick="loadAITool('poster')">
+                    <div class="tool-icon">🎨</div>
+                    <h2 class="tool-title">Poster Text Generator</h2>
+                    <p class="tool-description">
+                        Generate teks untuk poster promosi dengan layout dan hierarki yang menarik.
+                    </p>
+                    <div class="tool-features">
+                        <span class="feature-tag">🎯 CTA Powerful</span>
+                        <span class="feature-tag">📐 Layout Guide</span>
+                        <span class="feature-tag">🎨 Design Tips</span>
+                    </div>
+                    <button class="btn btn-primary tool-btn">
+                        Design Poster Text
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- Selected Product Info (if any) -->
+            <div id="selected-product-info" class="selected-product hidden">
+                <div class="product-info-card">
+                    <h3>🔄 Menggunakan Data Produk:</h3>
+                    <div class="selected-product-details">
+                        <span class="product-name" id="selected-product-name">-</span>
+                        <span class="product-category" id="selected-product-category">-</span>
+                    </div>
+                    <button class="btn btn-small btn-secondary" onclick="clearSelectedProduct()">
+                        ❌ Hapus Pilihan
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Tool Content Area -->
+            <div id="ai-tool-content" class="tool-content hidden">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <p id="toast-message">Pesan</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/utils.js"></script>
+    <script src="src/js/ai-products.js"></script>
+    <script src="src/js/ai-ideas.js"></script>
+    <script src="src/js/ai-caption.js"></script>
+    <script src="src/js/ai-poster.js"></script>
+    <script src="src/js/dashboard.js"></script>
+
+    <script>
+        // AI Tools page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSelectedProduct();
+            checkURLFragment();
+        });
+
+        // Check if there's a selected product
+        function checkSelectedProduct() {
+            const selectedProduct = getSelectedProduct();
+            const productInfo = document.getElementById('selected-product-info');
+            
+            if (selectedProduct && productInfo) {
+                document.getElementById('selected-product-name').textContent = selectedProduct.name;
+                document.getElementById('selected-product-category').textContent = selectedProduct.category;
+                productInfo.classList.remove('hidden');
+            }
+        }
+
+        // Check URL fragment for direct tool access
+        function checkURLFragment() {
+            const fragment = window.location.hash.replace('#', '');
+            if (fragment && ['ideas', 'caption', 'poster'].includes(fragment)) {
+                loadAITool(fragment);
+            }
+        }
+
+        // Load specific AI tool
+        async function loadAITool(toolType) {
+            const contentArea = document.getElementById('ai-tool-content');
+            const toolsGrid = document.querySelector('.tools-grid');
+            
+            try {
+                // Show loading
+                contentArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Memuat AI Tool...</p></div>';
+                contentArea.classList.remove('hidden');
+                
+                // Hide tools grid
+                toolsGrid.style.display = 'none';
+                
+                // Load appropriate page content
+                let pageFile = '';
+                switch(toolType) {
+                    case 'ideas':
+                        pageFile = 'src/pages/ideas.html';
+                        break;
+                    case 'caption':
+                        pageFile = 'src/pages/caption.html';
+                        break;
+                    case 'poster':
+                        pageFile = 'src/pages/poster.html';
+                        break;
+                    default:
+                        throw new Error('Invalid tool type');
+                }
+                
+                const response = await fetch(pageFile);
+                const html = await response.text();
+                contentArea.innerHTML = html;
+                
+                // Initialize appropriate tool
+                switch(toolType) {
+                    case 'ideas':
+                        if (typeof initializeIdeasPage === 'function') {
+                            initializeIdeasPage();
+                        }
+                        break;
+                    case 'caption':
+                        if (typeof initializeCaptionPage === 'function') {
+                            initializeCaptionPage();
+                        }
+                        break;
+                    case 'poster':
+                        if (typeof initializePosterPage === 'function') {
+                            initializePosterPage();
+                        }
+                        break;
+                }
+                
+                // Update URL fragment
+                window.location.hash = toolType;
+                
+                // Track activity
+                if (typeof trackActivity === 'function') {
+                    trackActivity('tool_opened', `${toolType.charAt(0).toUpperCase() + toolType.slice(1)} Tool dibuka`, '🤖');
+                }
+                
+            } catch (error) {
+                console.error('Error loading AI tool:', error);
+                contentArea.innerHTML = '<div class="error">Error loading AI tool. Please try again.</div>';
+            }
+        }
+
+        // Back to tools selection
+        function backToTools() {
+            const contentArea = document.getElementById('ai-tool-content');
+            const toolsGrid = document.querySelector('.tools-grid');
+            
+            contentArea.classList.add('hidden');
+            toolsGrid.style.display = 'grid';
+            
+            // Clear URL fragment
+            window.location.hash = '';
+        }
+
+        // Add back button to loaded content (will be called by individual tools)
+        function addBackButton() {
+            const contentArea = document.getElementById('ai-tool-content');
+            const existingBackBtn = contentArea.querySelector('.back-to-tools-btn');
+            
+            if (!existingBackBtn) {
+                const backBtn = document.createElement('button');
+                backBtn.className = 'btn btn-secondary back-to-tools-btn';
+                backBtn.innerHTML = '← Kembali ke AI Tools';
+                backBtn.onclick = backToTools;
+                backBtn.style.marginBottom = '1.5rem';
+                
+                const firstChild = contentArea.firstElementChild;
+                if (firstChild) {
+                    contentArea.insertBefore(backBtn, firstChild);
+                }
+            }
+        }
+
+        // Export functions
+        window.loadAITool = loadAITool;
+        window.backToTools = backToTools;
+        window.addBackButton = addBackButton;
+    </script>
+
+    <style>
+        /* AI Tools specific styles */
+        .tools-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border-color: #3b82f6;
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tool-description {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tool-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .feature-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tool-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .selected-product {
+            margin-bottom: 2rem;
+        }
+
+        .product-info-card {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .selected-product-details {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .product-category {
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .tool-content {
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .tool-card {
+                padding: 1.5rem;
+            }
+            
+            .product-info-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+
+</body>
+</html>

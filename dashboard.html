@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard UMKM - AI Marketing Center</title>
+    <meta name="description" content="Dashboard analytics dan management untuk UMKM">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/dashboard.css">
+    
+    <!-- Font Inter & Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <a href="index.html">🤖 AI UMKM</a>
+            </h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="products.html" class="nav-link">Produk</a>
+                <a href="ai-tools.html" class="nav-link">AI Tools</a>
+                <!-- Placeholder untuk auth -->
+                <div class="nav-auth">
+                    <span class="user-name">Demo User</span>
+                    <button class="btn-logout">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Main Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            
+            <!-- Dashboard Header -->
+            <section class="dashboard-header">
+                <div class="welcome-section">
+                    <h1 class="dashboard-title">📊 Dashboard Bisnis</h1>
+                    <p class="dashboard-subtitle">Selamat datang di pusat kontrol AI Marketing Anda</p>
+                    <p class="last-login">Login terakhir: <span id="last-login-time">2 Desember 2025, 14:30</span></p>
+                </div>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary" onclick="location.href='products.html'">
+                        ➕ Tambah Produk
+                    </button>
+                    <button class="btn btn-secondary" onclick="location.href='ai-tools.html'">
+                        ✨ AI Tools
+                    </button>
+                </div>
+            </section>
+
+            <!-- Key Metrics Cards -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">📦</div>
+                    <div class="metric-content">
+                        <h3 class="metric-title">Total Produk</h3>
+                        <p class="metric-value" id="total-products">-</p>
+                        <p class="metric-subtitle">Produk terdaftar</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">📂</div>
+                    <div class="metric-content">
+                        <h3 class="metric-title">Kategori</h3>
+                        <p class="metric-value" id="total-categories">-</p>
+                        <p class="metric-subtitle">Jenis produk</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🤖</div>
+                    <div class="metric-content">
+                        <h3 class="metric-title">AI Usage</h3>
+                        <p class="metric-value" id="ai-usage-count">-</p>
+                        <p class="metric-subtitle">Kali digunakan</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">📈</div>
+                    <div class="metric-content">
+                        <h3 class="metric-title">Konten Generated</h3>
+                        <p class="metric-value" id="content-generated">-</p>
+                        <p class="metric-subtitle">Minggu ini</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions & Recent Activity -->
+            <div class="dashboard-grid">
+                
+                <!-- Quick Actions Panel -->
+                <section class="dashboard-panel quick-actions-panel">
+                    <h2 class="panel-title">🚀 Quick Actions</h2>
+                    <div class="quick-actions">
+                        <a href="products.html" class="quick-action-card">
+                            <div class="action-icon">📦</div>
+                            <h3>Kelola Produk</h3>
+                            <p>Tambah, edit, atau hapus produk</p>
+                        </a>
+                        
+                        <a href="ai-tools.html#ideas" class="quick-action-card">
+                            <div class="action-icon">💡</div>
+                            <h3>Ide Konten</h3>
+                            <p>Generate ide promosi dengan AI</p>
+                        </a>
+                        
+                        <a href="ai-tools.html#caption" class="quick-action-card">
+                            <div class="action-icon">✍️</div>
+                            <h3>Caption AI</h3>
+                            <p>Buat caption menarik otomatis</p>
+                        </a>
+                        
+                        <a href="ai-tools.html#poster" class="quick-action-card">
+                            <div class="action-icon">🎨</div>
+                            <h3>Design Poster</h3>
+                            <p>Template poster untuk promosi</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Recent Activity Panel -->
+                <section class="dashboard-panel activity-panel">
+                    <h2 class="panel-title">📋 Aktivitas Terbaru</h2>
+                    <div class="activity-list" id="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">📦</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Produk "Kopi Arabica Premium" ditambahkan</p>
+                                <p class="activity-time">2 jam yang lalu</p>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon">✨</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Caption AI digunakan 3 kali</p>
+                                <p class="activity-time">1 hari yang lalu</p>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon">💡</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Generate 5 ide konten untuk makanan</p>
+                                <p class="activity-time">2 hari yang lalu</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-empty hidden" id="activity-empty">
+                        <p>Belum ada aktivitas</p>
+                        <a href="ai-tools.html" class="btn btn-small">Mulai Sekarang</a>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Category Distribution Chart -->
+            <section class="dashboard-panel chart-panel">
+                <h2 class="panel-title">📊 Distribusi Kategori Produk</h2>
+                <div class="chart-container">
+                    <div class="chart-legend" id="category-legend">
+                        <!-- Legend akan di-generate oleh JavaScript -->
+                    </div>
+                    <div class="simple-chart" id="category-chart">
+                        <!-- Chart akan di-render oleh JavaScript -->
+                    </div>
+                </div>
+                <div class="chart-empty hidden" id="chart-empty">
+                    <p>Belum ada data untuk ditampilkan</p>
+                    <a href="products.html" class="btn btn-small">Tambah Produk Pertama</a>
+                </div>
+            </section>
+
+            <!-- Tips & Recommendations -->
+            <section class="dashboard-panel tips-panel">
+                <h2 class="panel-title">💡 Tips & Rekomendasi</h2>
+                <div class="tips-list" id="tips-list">
+                    <div class="tip-item">
+                        <div class="tip-icon">🎯</div>
+                        <div class="tip-content">
+                            <h4>Promosi Harian</h4>
+                            <p>Posting konten secara konsisten setiap hari untuk meningkatkan engagement.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon">📸</div>
+                        <div class="tip-content">
+                            <h4>Visual Menarik</h4>
+                            <p>Gunakan foto produk berkualitas tinggi untuk meningkatkan daya tarik.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon">🤝</div>
+                        <div class="tip-content">
+                            <h4>Interaksi Pelanggan</h4>
+                            <p>Balas komentar dan pesan dari pelanggan dengan cepat.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AI UMKM. Platform AI untuk UMKM Indonesia.</p>
+            <p>
+                <a href="privacy.html">Kebijakan Privasi</a> | 
+                <a href="terms.html">Syarat & Ketentuan</a> |
+                <a href="help.html">Bantuan</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <p id="toast-message">Notifikasi</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/utils.js"></script>
+    <script src="src/js/dashboard.js"></script>
+
+    <script>
+        // Initialize dashboard saat halaman load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+        });
+    </script>
+
+</body>
+</html>

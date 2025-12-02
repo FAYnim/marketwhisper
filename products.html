@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Produk - AI UMKM</title>
+    <meta name="description" content="Kelola data produk UMKM untuk promosi AI">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/style.css">
+    
+    <!-- Font Inter & Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <a href="index.html">🤖 AI UMKM</a>
+            </h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="products.html" class="nav-link active">Produk</a>
+                <a href="ai-tools.html" class="nav-link">AI Tools</a>
+                <!-- Placeholder untuk auth -->
+                <div class="nav-auth">
+                    <span class="user-name">Demo User</span>
+                    <button class="btn-logout">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="app" class="main-content">
+        <!-- Load existing products page content -->
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <p id="toast-message">Pesan berhasil disalin!</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/utils.js"></script>
+    <script src="src/js/ai-products.js"></script>
+    <script src="src/js/dashboard.js"></script>
+
+    <script>
+        // Load products page content
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('src/pages/products.html');
+                const html = await response.text();
+                document.getElementById('app').innerHTML = html;
+                
+                // Initialize products page
+                initializeProductsPage();
+                
+            } catch (error) {
+                console.error('Error loading products page:', error);
+                document.getElementById('app').innerHTML = '<div class="error">Error loading page</div>';
+            }
+        });
+    </script>
+</body>
+</html>
