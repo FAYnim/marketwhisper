@@ -15,30 +15,78 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Navigation Header -->
-    <header class="header">
-        <div class="container">
-            <h1 class="logo">
-                <a href="index.html">🤖 AI UMKM</a>
+<body class="dashboard-body">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-logo">
+                🤖 AI UMKM
             </h1>
-            <nav class="nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="products.html" class="nav-link">Produk</a>
-                <a href="ai-tools.html" class="nav-link active">AI Tools</a>
-                <!-- Placeholder untuk auth -->
-                <div class="nav-auth">
-                    <span class="user-name">Demo User</span>
-                    <button class="btn-logout">Logout</button>
-                </div>
-            </nav>
+            <button class="sidebar-close" id="sidebar-close">✕</button>
         </div>
-    </header>
+        
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <span class="sidebar-icon">🏠</span>
+                <span class="sidebar-text">Home</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-link">
+                <span class="sidebar-icon">📊</span>
+                <span class="sidebar-text">Dashboard</span>
+            </a>
+            <a href="products.html" class="sidebar-link">
+                <span class="sidebar-icon">📦</span>
+                <span class="sidebar-text">Produk</span>
+            </a>
+            <a href="ai-tools.html" class="sidebar-link active">
+                <span class="sidebar-icon">✨</span>
+                <span class="sidebar-text">AI Tools</span>
+            </a>
+            <a href="ai-tools.html#ideas" class="sidebar-link sub">
+                <span class="sidebar-icon">💡</span>
+                <span class="sidebar-text">Ide Konten</span>
+            </a>
+            <a href="ai-tools.html#caption" class="sidebar-link sub">
+                <span class="sidebar-icon">✍️</span>
+                <span class="sidebar-text">Caption AI</span>
+            </a>
+            <a href="ai-tools.html#poster" class="sidebar-link sub">
+                <span class="sidebar-icon">🎨</span>
+                <span class="sidebar-text">Design Poster</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">👤</div>
+                <div class="user-details">
+                    <p class="user-name">Demo User</p>
+                    <p class="user-role">UMKM Owner</p>
+                </div>
+            </div>
+            <button class="btn-logout">Logout</button>
+        </div>
+    </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        
+        <!-- Top Header (Mobile) -->
+        <header class="top-header">
+            <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+            <h2 class="page-title">✨ AI Marketing Tools</h2>
+            <div class="header-actions">
+                <button class="btn btn-small btn-primary" onclick="location.href='products.html'">
+                    📦 Produk
+                </button>
+            </div>
+        </header>
+
+        <!-- AI Tools Main Content -->
+        <main class="dashboard-content">
             
             <!-- AI Tools Header -->
             <section class="tools-header">
@@ -121,8 +169,8 @@
                 <!-- Dynamic content will be loaded here -->
             </div>
 
-        </div>
-    </main>
+        </main>
+    </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
@@ -138,8 +186,29 @@
     <script src="src/js/dashboard.js"></script>
 
     <script>
+        // Fungsi sederhana untuk toggle sidebar (mobile)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
         // AI Tools page functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Event listeners untuk sidebar
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebarClose = document.getElementById('sidebar-close');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+            // Buka sidebar
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            
+            // Tutup sidebar
+            sidebarClose.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+            
             checkSelectedProduct();
             checkURLFragment();
         });
@@ -267,134 +336,7 @@
         window.addBackButton = addBackButton;
     </script>
 
-    <style>
-        /* AI Tools specific styles */
-        .tools-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
 
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .tool-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            border-color: #0B7350;
-        }
-
-        .tool-icon {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .tool-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .tool-description {
-            color: #64748b;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .tool-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            justify-content: center;
-        }
-
-        .feature-tag {
-            background: #f1f5f9;
-            color: #475569;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .tool-btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        .selected-product {
-            margin-bottom: 2rem;
-        }
-
-        .product-info-card {
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-            border-radius: 8px;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .selected-product-details {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .product-name {
-            font-weight: 600;
-            color: #92400e;
-        }
-
-        .product-category {
-            background: #f59e0b;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-        }
-
-        .tool-content {
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .tool-card {
-                padding: 1.5rem;
-            }
-            
-            .product-info-card {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
 
 </body>
 </html>

@@ -1,89 +1,273 @@
 /* ========================================
-   AI Tools Page Styles
-   Specific styles for AI tools pages
+   AI Tools Page Styles with Sidebar Layout
+   Uses Dashboard Layout Architecture
    ======================================== */
+
+/* Dashboard Body Layout untuk AI Tools */
+.dashboard-body {
+    display: flex;
+    min-height: 100vh;
+    background: #faf9f7;
+}
 
 /* ========================================
-   HEADER & NAVIGATION (AI Tools specific)
+   SIDEBAR STYLES (inherited from dashboard)
    ======================================== */
 
-.header {
-    background: linear-gradient(135deg, var(--primary-green), var(--secondary-navy));
-    color: white;
+.sidebar {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0B7350;
+    margin: 0;
+}
+
+.sidebar-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    display: none;
+}
+
+.sidebar-close:hover {
+    background: #f1f5f9;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
     padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    color: #64748b;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.sidebar-link.active {
+    background: #f0f9f6;
+    color: #0B7350;
+    border-left-color: #0B7350;
+}
+
+.sidebar-link.sub {
+    padding-left: 2.5rem;
+    font-size: 0.9rem;
+}
+
+.sidebar-icon {
+    font-size: 1.25rem;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-text {
+    font-weight: 500;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: #0B7350;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 0.25rem 0;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.btn-logout {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-logout:hover {
+    background: #dc2626;
+}
+
+/* Sidebar Overlay (Mobile) */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ========================================
+   MAIN CONTENT AREA - AI TOOLS ADAPTATION
+   ======================================== */
+
+.main-wrapper {
+    flex: 1;
+    width: 100%;
+    margin-left: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Header (Mobile Only) */
+.top-header {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
-.header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px; 
-    margin: 0 auto;
-    padding: 0 1rem;
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
 }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0;
-}
-
-.nav {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-}
-
-.nav-link:hover, .nav-link.active {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.3);
-}
-
-/* ========================================
-   MAIN CONTENT & LAYOUT
-   ======================================== */
-
-.main-content {
-    min-height: calc(100vh - 80px);
-    padding: 2rem 0;
-}
-
-.page-container {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 1rem;
-    max-width: 600px; 
-}
-
-.page-header {
-    text-align: center;
-    margin-bottom: 2rem;
+.sidebar-toggle:hover {
+    background: #f1f5f9;
 }
 
 .page-title {
-    color: var(--primary-green);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Dashboard Content - AI Tools Style */
+.dashboard-content {
+    flex: 1;
+    width: 100%;
+    max-width: none;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #faf9f7 0%, #f5f3f0 100%);
+}
+
+/* AI Tools Header Styles */
+.tools-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tools-header .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
     margin-bottom: 0.5rem;
 }
 
-.page-description {
-    color: var(--gray-500);
-    font-size: 15px;
-    max-width: 400px;
+.tools-header .page-description {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -225,6 +409,42 @@
    PRODUCT SELECTION IN AI PAGES
    ======================================== */
 
+.selected-product {
+    margin-bottom: 2rem;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.product-info-card {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.selected-product-details {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.product-name {
+    font-weight: 600;
+    color: #92400e;
+}
+
+.product-category {
+    background: #f59e0b;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
 .product-selection {
     margin-bottom: 1.5rem;
     animation: fadeIn 0.3s ease-in-out;
@@ -322,16 +542,114 @@
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   AI TOOLS GRID & CARDS
    ======================================== */
 
-@media (min-width: 640px) {
-    .ideas-grid {
-        grid-template-columns: 1fr 1fr;
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tool-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-color: #0B7350;
+}
+
+.tool-icon {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.tool-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.tool-description {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.tool-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.feature-tag {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.tool-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+.tool-content {
+    margin-top: 2rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - SIDEBAR COMPATIBLE
+   ======================================== */
+
+/* Desktop - FIXED LAYOUT */
+@media (min-width: 1024px) {
+    .sidebar {
+        position: fixed;
+        transform: translateX(0);
+        box-shadow: none;
     }
     
-    .nav {
-        gap: 1rem;
+    .main-wrapper {
+        margin-left: 280px;
+        width: calc(100% - 280px);
+    }
+    
+    .top-header {
+        display: none;
+    }
+    
+    .sidebar-close {
+        display: none;
+    }
+    
+    .sidebar-overlay {
+        display: none;
+    }
+    
+    .dashboard-content {
+        padding: 2rem;
+    }
+    
+    .ideas-grid {
+        grid-template-columns: 1fr 1fr;
     }
     
     .tool-nav {
@@ -339,30 +657,95 @@
     }
 }
 
-@media (min-width: 768px) {
-    .page-container {
-        max-width: 768px;
+/* Large Desktop - Extra space */
+@media (min-width: 1440px) {
+    .dashboard-content {
+        padding: 2rem 3rem;
     }
     
-    .ideas-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .tools-header {
+        padding: 2.5rem;
+    }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+    .sidebar-close {
+        display: block;
     }
     
-    .idea-meta {
+    .main-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .tools-header {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .dashboard-content {
+        padding: 1rem;
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 }
 
-@media (min-width: 1024px) {
-    .page-container {
-        max-width: 1024px;
+/* Mobile */
+@media (max-width: 768px) {
+    .main-wrapper {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .dashboard-content {
+        padding: 1rem;
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .tool-card {
+        padding: 1.5rem;
+    }
+    
+    .ideas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .idea-meta {
+        gap: 0.75rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .tools-header .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .top-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .page-title {
+        font-size: 1rem;
+    }
+    
+    .main-wrapper {
+        margin-left: 0;
     }
 }
 
 /* Print Styles */
 @media print {
-    .header, .nav, .btn, .tool-nav { display: none; }
-    .page-container { max-width: none; }
+    .sidebar, .top-header, .btn, .tool-nav { display: none; }
+    .main-wrapper { margin-left: 0; }
     .output-box { border: 1px solid black; }
     * { color: black !important; }
 }
