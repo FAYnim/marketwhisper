@@ -7,6 +7,19 @@
         </p>
     </header>
 
+    <!-- Product Selection -->
+    <div id="product-selection" class="product-selection hidden">
+        <div class="selected-product-card">
+            <div class="selected-product-info">
+                <span class="label">Produk Terpilih:</span>
+                <strong id="selected-product-name"></strong>
+            </div>
+            <button type="button" class="btn-small btn-secondary" onclick="clearSelectedProductForCaption()">
+                ✕ Hapus
+            </button>
+        </div>
+    </div>
+
     <!-- Form Input -->
     <form class="caption-form" id="captionForm">
         <div class="form-group">
@@ -14,6 +27,7 @@
             <input type="text" id="captionTopic" class="form-input" 
                    placeholder="Contoh: Promo makan siang, produk baru, tips kesehatan..." 
                    required maxlength="100">
+            <small class="form-hint" id="product-hint">Atau pilih dari <a href="#/products">daftar produk</a> Anda</small>
         </div>
 
         <div class="form-group">

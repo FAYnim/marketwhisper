@@ -50,6 +50,8 @@ function handleRoute() {
         loadPage('caption');
     } else if (hash === '#/poster') {
         loadPage('poster');
+    } else if (hash === '#/products') {
+        loadPage('products');
     } else {
         // Halaman tidak ditemukan, redirect ke home
         window.location.hash = '#/';
@@ -120,6 +122,8 @@ function initializePage(pageName) {
         initializeCaptionPage();
     } else if (pageName === 'poster') {
         initializePosterPage();
+    } else if (pageName === 'products') {
+        initializeProductsPage();
     }
 }
 
