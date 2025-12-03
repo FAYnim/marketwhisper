@@ -131,6 +131,19 @@ body {
     color: #1e40af;
 }
 
+/* Remove button styling from mobile nav */
+.nav-link.btn {
+    background: transparent;
+    border: none;
+    color: #111827;
+    margin: 0;
+}
+
+.nav-link.btn:hover {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
 @media (min-width: 769px) {
     .hamburger {
         display: none;
@@ -158,7 +171,21 @@ body {
     .nav-link:hover {
         background-color: transparent;
         color: #fbbf24;
-        font-size: 20px;
+    }
+
+    /* Apply button styling only on desktop */
+    .nav-link.btn {
+        background: white;
+        color: #10b981;
+        border: 2px solid white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        margin-left: 8px;
+    }
+
+    .nav-link.btn:hover {
+        background: #f0f9ff;
+        color: #10b981;
     }
 
 

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk - AI UMKM</title>
+    <meta name="description" content="Masuk ke platform AI UMKM untuk mengakses fitur premium">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/landing.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    
+    <!-- Font Inter & Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <nav class="nav" aria-label="Main navigation">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">← Kembali ke Beranda</a>
+                <a href="register.html" class="nav-link">Daftar</a>
+            </div>
+        </nav>
+        <div class="header-content">
+            <h1 class="logo"><span class="span">U</span>MKM <span class="span">AI</span></h1>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- LOGIN SECTION -->
+        <section class="login-section">
+            <div class="hero-content" style="padding: 40px 20px;">
+                <h2>🔐 Masuk</h2>
+                <p class="hero-subtitle">Masuk ke akun Anda untuk mengakses fitur premium</p>
+            </div>
+
+            <div class="features" style="min-height: 360px; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                <div style="width:100%; max-width:420px;">
+                    <div class="card">
+                        <div style="padding:32px;">
+                            <h3>Masuk ke AI UMKM</h3>
+
+                            <form id="loginForm" class="auth-form">
+                                <label for="loginEmail">Email</label>
+                                <input id="loginEmail" type="email" required placeholder="masukkan email anda">
+                                
+                                <label for="loginPassword">Kata sandi</label>
+                                <input id="loginPassword" type="password" required placeholder="masukkan kata sandi">
+                                
+                                <button type="submit" class="btn btn-primary" style="margin-top: 16px;">Masuk</button>
+                                
+                                <p class="muted" style="text-align: center; margin-top: 16px;">
+                                    Belum punya akun? <a href="register.html" class="link-like">Daftar di sini</a>
+                                </p>
+                            </form>
+
+                            <div style="margin-top:24px; text-align:center;">
+                                <a href="index.html" class="btn btn-secondary">Kembali ke Beranda</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>&copy; 2025 AI UMKM - Platform AI untuk UMKM Indonesia</p>
+            <p>Membantu usaha lokal berkembang dengan teknologi kecerdasan buatan</p>
+        </footer>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <p id="toast-message">Pesan berhasil disalin!</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle login form submission (placeholder)
+            const loginForm = document.getElementById('loginForm');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showToast('Fitur login akan segera tersedia!');
+                });
+            }
+        });
+        
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            if (toast && toastMessage) {
+                toastMessage.textContent = message;
+                toast.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

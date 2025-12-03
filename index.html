@@ -30,7 +30,8 @@
                 <a href="#jenis-umkm" class="nav-link">Jenis UMKM</a>
                 <a href="#testimoni" class="nav-link">Testimoni</a>
                 <a href="#paket" class="nav-link">Paket</a>
-                <a href="#masuk" id="loginBtn" class="btn btn-secondary" style="margin-left:8px;">Masuk</a>
+                <a href="register.html" class="nav-link">Daftar</a>
+                <a href="login.html" id="loginBtn" class="nav-link">Masuk</a>
             </div>
         </nav>
         <div class="header-content">
@@ -249,49 +250,7 @@
             </div>
         </section>
 
-        <!-- LOGIN SECTION -->
-        <section id="masuk" class="login-section">
-            <div class="hero-content" style="padding: 40px 20px;">
-                <h2>🔐 Masuk / Daftar</h2>
-                <p class="hero-subtitle">Masuk untuk mengakses fitur produk</p>
-            </div>
 
-            <div class="features" style="min-height: 360px; display: flex; align-items: center; justify-content: center; padding: 20px;">
-                <div style="width:100%; max-width:420px;">
-                    <div class="card">
-                        <div style="padding:18px;">
-                            <h3 id="authTitle">Masuk ke Market Whispher AI</h3>
-
-                            <div id="authForms">
-                                <form id="loginForm" class="auth-form">
-                                    <label for="loginEmail">Email</label>
-                                    <input id="loginEmail" type="email" required>
-                                    <label for="loginPassword">Kata sandi</label>
-                                    <input id="loginPassword" type="password" required>
-                                    <button type="submit" class="btn btn-primary">Masuk</button>
-                                    <p class="muted">Belum punya akun? <button id="showSignup" class="link-like">Daftar</button></p>
-                                </form>
-
-                                <form id="signupForm" class="auth-form hidden">
-                                    <label for="signupName">Nama</label>
-                                    <input id="signupName" type="text" required>
-                                    <label for="signupEmail">Email</label>
-                                    <input id="signupEmail" type="email" required>
-                                    <label for="signupPassword">Kata sandi</label>
-                                    <input id="signupPassword" type="password" required>
-                                    <button type="submit" class="btn btn-primary">Daftar</button>
-                                    <p class="muted">Sudah punya akun? <button id="showLogin" class="link-like">Masuk</button></p>
-                                </form>
-                            </div>
-
-                            <div style="margin-top:12px; text-align:right;">
-                                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="btn btn-secondary">Kembali</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- CTA SECTION -->
         <section class="cta-section">
@@ -365,29 +324,7 @@
                 });
             });
             
-            // Handle auth form switching
-            const showSignup = document.getElementById('showSignup');
-            const showLogin = document.getElementById('showLogin');
-            const loginForm = document.getElementById('loginForm');
-            const signupForm = document.getElementById('signupForm');
-            
-            if (showSignup) {
-                showSignup.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    loginForm.classList.add('hidden');
-                    signupForm.classList.remove('hidden');
-                });
-            }
-            
-            if (showLogin) {
-                showLogin.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    signupForm.classList.add('hidden');
-                    loginForm.classList.remove('hidden');
-                });
-            }
-            
-            // Handle form submissions (placeholder)
+            // Handle form submissions for remaining forms (placeholder)
             const forms = document.querySelectorAll('form');
             forms.forEach(form => {
                 form.addEventListener('submit', function(e) {

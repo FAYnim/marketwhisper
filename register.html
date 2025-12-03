@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - AI UMKM</title>
+    <meta name="description" content="Daftar akun baru di platform AI UMKM">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/landing.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    
+    <!-- Font Inter & Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <nav class="nav" aria-label="Main navigation">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">← Kembali ke Beranda</a>
+                <a href="login.html" class="nav-link">Masuk</a>
+            </div>
+        </nav>
+        <div class="header-content">
+            <h1 class="logo"><span class="span">U</span>MKM <span class="span">AI</span></h1>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- REGISTER SECTION -->
+        <section class="login-section">
+            <div class="hero-content" style="padding: 40px 20px;">
+                <h2>📝 Daftar</h2>
+                <p class="hero-subtitle">Buat akun baru untuk mengakses fitur premium AI UMKM</p>
+            </div>
+
+            <div class="features" style="min-height: 360px; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                <div style="width:100%; max-width:420px;">
+                    <div class="card">
+                        <div style="padding:32px;">
+                            <h3>Daftar ke AI UMKM</h3>
+
+                            <form id="signupForm" class="auth-form">
+                                <label for="signupName">Nama Lengkap</label>
+                                <input id="signupName" type="text" required placeholder="masukkan nama lengkap">
+                                
+                                <label for="signupBusiness">Jenis Usaha</label>
+                                <select id="signupBusiness" required>
+                                    <option value="">Pilih jenis usaha Anda</option>
+                                    <option value="makanan">Makanan & Minuman</option>
+                                    <option value="fashion">Fashion & Pakaian</option>
+                                    <option value="jasa">Jasa & Layanan</option>
+                                    <option value="kerajinan">Kerajinan & Handmade</option>
+                                    <option value="kecantikan">Kecantikan & Kesehatan</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                                
+                                <label for="signupEmail">Email</label>
+                                <input id="signupEmail" type="email" required placeholder="masukkan email anda">
+                                
+                                <label for="signupPassword">Kata sandi</label>
+                                <input id="signupPassword" type="password" required placeholder="buat kata sandi (min. 6 karakter)">
+                                
+                                <label for="signupPasswordConfirm">Konfirmasi Kata sandi</label>
+                                <input id="signupPasswordConfirm" type="password" required placeholder="ulangi kata sandi">
+                                
+                                <button type="submit" class="btn btn-primary" style="margin-top: 16px;">Daftar Sekarang</button>
+                                
+                                <p class="muted" style="text-align: center; margin-top: 16px;">
+                                    Sudah punya akun? <a href="login.html" class="link-like">Masuk di sini</a>
+                                </p>
+                            </form>
+
+                            <div style="margin-top:24px; text-align:center;">
+                                <a href="index.html" class="btn btn-secondary">Kembali ke Beranda</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>&copy; 2025 AI UMKM - Platform AI untuk UMKM Indonesia</p>
+            <p>Membantu usaha lokal berkembang dengan teknologi kecerdasan buatan</p>
+        </footer>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <p id="toast-message">Pesan berhasil disalin!</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle register form submission (placeholder)
+            const signupForm = document.getElementById('signupForm');
+            
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Simple password confirmation check
+                    const password = document.getElementById('signupPassword').value;
+                    const confirmPassword = document.getElementById('signupPasswordConfirm').value;
+                    
+                    if (password !== confirmPassword) {
+                        showToast('Kata sandi dan konfirmasi tidak sama!');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        showToast('Kata sandi minimal 6 karakter!');
+                        return;
+                    }
+                    
+                    showToast('Fitur daftar akan segera tersedia!');
+                });
+            }
+        });
+        
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            if (toast && toastMessage) {
+                toastMessage.textContent = message;
+                toast.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
