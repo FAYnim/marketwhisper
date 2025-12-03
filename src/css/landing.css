@@ -236,33 +236,24 @@ body {
    ======================================== */
 .hero {
     background: 
-        linear-gradient(135deg, rgba(17, 24, 39, 0.80) 0%, rgba(17, 24, 39, 0.80) 100%),
-        url('../css/marketing.png') center/cover no-repeat,
-        url('../css/marketing-1.png') center/cover no-repeat;
-    background-attachment: fixed, scroll, scroll;
-    animation: slideImageRight 25s linear infinite;
+        linear-gradient(135deg, rgba(17, 24, 39, 0.75) 0%, rgba(17, 24, 39, 0.75) 100%),
+        url('../../assets/images/marketing-1.png') center/cover no-repeat;
+    background-attachment: scroll;
     padding: 40px 20px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Animasi slide kanan otomatis dengan 2 gambar */
-@keyframes slideImageRight {
-    0% {
-        background-position: 0% center, -400% center, 400% center;
-    }
-    25% {
-        background-position: 0% center, -200% center, 200% center;
-    }
-    50% {
-        background-position: 0% center, 0% center, 0% center;
-    }
-    75% {
-        background-position: 0% center, 200% center, -200% center;
-    }
-    100% {
-        background-position: 0% center, 400% center, -400% center;
+/* Remove complex animation - keep it simple for mobile */
+@media (min-width: 768px) {
+    .hero {
+        min-height: 600px;
+        background-attachment: fixed;
     }
 }
 
@@ -281,8 +272,9 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 16px;
-    color: #939cae;
+    font-size: 18px;
+    /* font-weight: bold; */
+    color: #fff;
     margin-bottom: 24px;
     line-height: 1.6;
 }
