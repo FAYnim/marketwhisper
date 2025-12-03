@@ -437,22 +437,26 @@ body {
 }
 
 .type-badge {
-    background: linear-gradient(135deg, #10b981 0%, #111827 100%);
-    color: white;
+    background: transparent;
+    border: 2px solid #10b981;
+    color: #10b981;
     padding: 16px;
     border-radius: 8px;
     text-align: center;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     transition: all 0.3s ease;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     min-height: 100px;
 }
 
 .type-badge:hover {
+    background: #10b981;;
+    color: white;
     transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
 }
