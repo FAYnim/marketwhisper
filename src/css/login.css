@@ -1,6 +1,6 @@
 /* ========================================
-   LOGIN PAGE STYLES
-   Styling khusus untuk halaman login
+   REGISTER PAGE STYLES
+   Styling khusus untuk halaman pendaftaran
    ======================================== */
 
 /* Header & Navigation */
@@ -62,7 +62,6 @@
 
 .login-section {
     flex: 1;
-    padding: 2rem 0;
 }
 
 .hero-content {
@@ -85,14 +84,13 @@
 
 /* Features Section (Form Container) */
 .features {
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 2rem 1rem;
     min-height: 400px;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
+    justify-content: center;}
 
 .card {
     background: white;
@@ -101,7 +99,6 @@
     border: 1px solid var(--gray-200);
     overflow: hidden;
     width: 100%;
-    max-width: 420px;
 }
 
 .card h3 {
@@ -115,22 +112,23 @@
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 0.75rem;
 }
 
 .auth-form .form-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0;
 }
 
 .auth-form label {
     font-weight: 500;
     color: var(--gray-700);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.125rem;
     font-size: 15px;
     display: block;
 }
 
-.auth-form input {
+.auth-form input,
+.auth-form select {
     width: 100%;
     padding: 1rem;
     border: 2px solid var(--gray-200);
@@ -141,7 +139,8 @@
     background: white;
 }
 
-.auth-form input:focus {
+.auth-form input:focus,
+.auth-form select:focus {
     outline: none;
     border-color: var(--primary-green);
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
@@ -151,20 +150,19 @@
     color: var(--gray-400);
 }
 
-/* Login specific adjustments */
-.login-section .auth-form {
-    gap: 0;
+.auth-form select {
+    cursor: pointer;
 }
 
-.login-section .btn-generate {
-    margin-top: 0.5rem;
+.auth-form select option {
+    padding: 0.5rem;
 }
 
 /* Muted text and links */
 .muted {
     color: var(--gray-500);
     font-size: 0.9rem;
-    margin-top: 1rem;
+    margin-top: 0;
     margin-bottom: 0;
 }
 
@@ -218,32 +216,29 @@
         margin-bottom: 0.5rem;
     }
     
-    .features {
-        padding: 1rem;
-    }
-    
     .card {
-        margin: 0 0.5rem;
+        margin: 0 1rem;
     }
 }
 
 @media (max-width: 480px) {
     .features {
         padding: 1rem 0.5rem;
-        min-height: 300px;
     }
     
-    .card .p-2 {
+    .card > div {
         padding: 1.5rem !important;
     }
     
-    .auth-form input {
+    .auth-form input,
+    .auth-form select {
         padding: 0.875rem;
         font-size: 15px;
     }
     
-    .hero-content {
-        padding: 1.5rem 1rem;
+    /* Additional spacing reduction for mobile */
+    .auth-form {
+        gap: 0.5rem;
     }
 }
 
@@ -257,13 +252,4 @@
 .btn:focus {
     outline: 2px solid var(--primary-green);
     outline-offset: 2px;
-}
-
-/* Additional login-specific styles */
-.login-section .hero-content {
-    padding: 2.5rem 1rem;
-}
-
-.login-section .features {
-    padding-top: 1rem;
 }
