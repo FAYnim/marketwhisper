@@ -72,7 +72,10 @@
         <header class="top-header">
             <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
             <h2 class="page-title"><i class="fas fa-chart-bar"></i> Dashboard Bisnis</h2>
-            <div class="header-actions">
+                <div class="header-actions">
+                <button class="btn btn-small btn-outline" onclick="refreshDashboard()" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
                 <button class="btn btn-small btn-primary" onclick="location.href='products.html'">
                     <i class="fas fa-plus"></i> Produk
                 </button>
@@ -90,6 +93,9 @@
                     <p class="last-login">Login terakhir: <span id="last-login-time">2 Desember 2025, 14:30</span></p>
                 </div>
                 <div class="dashboard-actions">
+                    <button class="btn btn-outline" onclick="refreshDashboard()">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
+                    </button>
                     <button class="btn btn-primary" onclick="location.href='products.html'">
                         <i class="fas fa-plus"></i> Tambah Produk
                     </button>
@@ -266,6 +272,7 @@
     <!-- JavaScript -->
     <script src="src/js/utils.js"></script>
     <script src="src/js/auth.js"></script>
+    <script src="src/js/db-products.js"></script>
     <script src="src/js/dashboard.js"></script>
 
     <script>
@@ -321,8 +328,8 @@
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 
-            // Initialize dashboard
-            initializeDashboard();
+            // Initialize dashboard (dengan async)
+            await initializeDashboard();
         });
     </script>
 

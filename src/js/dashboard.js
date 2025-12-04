@@ -13,11 +13,17 @@ let dashboardData = {
 };
 
 // Initialize dashboard
-function initializeDashboard() {
+async function initializeDashboard() {
     console.log('📊 Initialize Dashboard CRM');
     
-    // Load data
-    loadDashboardData();
+    // Show loading state
+    showDashboardLoading();
+    
+    // Load data dari Supabase
+    await loadDashboardData();
+    
+    // Hide loading state
+    hideDashboardLoading();
     
     // Render dashboard components
     renderMetrics();
@@ -31,32 +37,42 @@ function initializeDashboard() {
     console.log('✅ Dashboard initialized successfully');
 }
 
-// Load dashboard data from localStorage and other sources
-function loadDashboardData() {
+// Load dashboard data dari Supabase database
+async function loadDashboardData() {
     try {
-        // Load products data
-        const storedProducts = localStorage.getItem('umkm_products');
-        if (storedProducts) {
-            dashboardData.products = JSON.parse(storedProducts);
+        console.log('📊 Loading dashboard data from Supabase...');
+        
+        // Load products data dari Supabase
+        if (typeof ProductsDB !== 'undefined') {
+            const productsResult = await ProductsDB.getAll();
+            if (productsResult.success) {
+                dashboardData.products = productsResult.data;
+                console.log(`✅ Loaded ${productsResult.data.length} products from Supabase`);
+            } else {
+                console.error('❌ Error loading products from Supabase:', productsResult.error);
+                // Fallback to localStorage
+                const storedProducts = localStorage.getItem('umkm_products');
+                dashboardData.products = storedProducts ? JSON.parse(storedProducts) : [];
+            }
+        } else {
+            console.warn('⚠️ ProductsDB not available, using localStorage fallback');
+            const storedProducts = localStorage.getItem('umkm_products');
+            dashboardData.products = storedProducts ? JSON.parse(storedProducts) : [];
         }
         
-        // Load activities
+        // Load activities dari localStorage (akan diintegrasikan kemudian)
         const storedActivities = localStorage.getItem('umkm_activities');
         if (storedActivities) {
             dashboardData.activities = JSON.parse(storedActivities);
         }
         
-        // Load AI usage stats
+        // Load AI usage stats dari localStorage
         const aiUsage = localStorage.getItem('umkm_ai_usage');
-        if (aiUsage) {
-            dashboardData.aiUsage = parseInt(aiUsage) || 0;
-        }
+        dashboardData.aiUsage = aiUsage ? parseInt(aiUsage) || 0 : 0;
         
-        // Load content generated count
+        // Load content generated count dari localStorage
         const contentGenerated = localStorage.getItem('umkm_content_generated');
-        if (contentGenerated) {
-            dashboardData.contentGenerated = parseInt(contentGenerated) || 0;
-        }
+        dashboardData.contentGenerated = contentGenerated ? parseInt(contentGenerated) || 0 : 0;
         
         // Set last login time
         dashboardData.lastLogin = new Date().toLocaleString('id-ID');
@@ -65,6 +81,12 @@ function loadDashboardData() {
         
     } catch (error) {
         console.error('❌ Error loading dashboard data:', error);
+        // Set fallback data
+        dashboardData.products = [];
+        dashboardData.activities = [];
+        dashboardData.aiUsage = 0;
+        dashboardData.contentGenerated = 0;
+        dashboardData.lastLogin = new Date().toLocaleString('id-ID');
     }
 }
 
@@ -190,18 +212,41 @@ function renderRecentActivity() {
     activityList.innerHTML = html;
 }
 
-// Generate sample activities
+// Generate sample activities berdasarkan data real dari Supabase
 function generateSampleActivities() {
     const activities = [];
     
-    // Add activities based on products
+    // Add activities based on products (dari Supabase)
     if (dashboardData.products.length > 0) {
-        const latestProduct = dashboardData.products[dashboardData.products.length - 1];
-        activities.push({
-            icon: '📦',
-            text: `Produk "${latestProduct.name}" ditambahkan`,
-            timestamp: new Date(latestProduct.createdAt || Date.now()),
-            type: 'product_added'
+        // Sort produk berdasarkan created_at terbaru
+        const sortedProducts = [...dashboardData.products].sort((a, b) => 
+            new Date(b.created_at || 0) - new Date(a.created_at || 0)
+        );
+        
+        // Ambil 2-3 produk terbaru untuk activity
+        sortedProducts.slice(0, 3).forEach((product, index) => {
+            activities.push({
+                icon: '📦',
+                text: `Produk "${product.name}" ditambahkan ke ${product.category}`,
+                timestamp: new Date(product.created_at || Date.now() - (index * 60 * 60 * 1000)),
+                type: 'product_added'
+            });
+        });
+    }
+    
+    // Add category-based activities
+    const categories = getUniqueCategories();
+    if (categories.length > 0) {
+        categories.forEach((category, index) => {
+            const count = dashboardData.products.filter(p => p.category === category).length;
+            if (count > 0) {
+                activities.push({
+                    icon: '📂',
+                    text: `${count} produk dalam kategori ${category}`,
+                    timestamp: new Date(Date.now() - ((index + 1) * 24 * 60 * 60 * 1000)),
+                    type: 'category_update'
+                });
+            }
         });
     }
     
@@ -210,7 +255,7 @@ function generateSampleActivities() {
         activities.push({
             icon: '🤖',
             text: `AI Tools digunakan ${dashboardData.aiUsage} kali`,
-            timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+            timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
             type: 'ai_usage'
         });
     }
@@ -220,18 +265,27 @@ function generateSampleActivities() {
         activities.push({
             icon: '✨',
             text: `${dashboardData.contentGenerated} konten AI berhasil di-generate`,
-            timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+            timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
             type: 'content_generated'
         });
     }
     
+    // Add login activity
+    activities.push({
+        icon: '👋',
+        text: 'Selamat datang kembali!',
+        timestamp: new Date(),
+        type: 'user_login'
+    });
+    
     // Sort by timestamp (newest first)
     activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     
-    dashboardData.activities = activities;
+    // Limit to 10 activities
+    dashboardData.activities = activities.slice(0, 10);
     
     // Save to localStorage
-    localStorage.setItem('umkm_activities', JSON.stringify(activities));
+    localStorage.setItem('umkm_activities', JSON.stringify(dashboardData.activities));
 }
 
 // Render dynamic tips based on user data
@@ -315,19 +369,28 @@ function generateDynamicTips() {
 
 // Setup real-time updates
 function setupRealTimeUpdates() {
-    // Update dashboard setiap 30 detik
-    setInterval(() => {
-        loadDashboardData();
+    // Update dashboard setiap 60 detik untuk data Supabase
+    setInterval(async () => {
+        console.log('🔄 Auto-refreshing dashboard data...');
+        await loadDashboardData();
         renderMetrics();
-    }, 30000);
+        renderCategoryChart();
+    }, 60000);
     
-    // Listen for storage changes dari tab lain
+    // Listen for storage changes dari tab lain (untuk AI usage & activities)
     window.addEventListener('storage', function(e) {
         if (e.key && e.key.startsWith('umkm_')) {
             console.log('📊 Data updated from another tab');
-            loadDashboardData();
+            // Reload hanya localStorage data, bukan Supabase
+            const aiUsage = localStorage.getItem('umkm_ai_usage');
+            const contentGenerated = localStorage.getItem('umkm_content_generated');
+            const activities = localStorage.getItem('umkm_activities');
+            
+            if (aiUsage) dashboardData.aiUsage = parseInt(aiUsage) || 0;
+            if (contentGenerated) dashboardData.contentGenerated = parseInt(contentGenerated) || 0;
+            if (activities) dashboardData.activities = JSON.parse(activities);
+            
             renderMetrics();
-            renderCategoryChart();
             renderRecentActivity();
         }
     });
@@ -404,11 +467,80 @@ function incrementContentGenerated() {
     trackActivity('content_generated', 'Konten AI berhasil di-generate', '✨');
 }
 
+// Show loading state untuk dashboard
+function showDashboardLoading() {
+    // Update metric cards dengan loading state
+    updateElement('total-products', 'Loading...');
+    updateElement('total-categories', 'Loading...');
+    updateElement('ai-usage-count', 'Loading...');
+    updateElement('content-generated', 'Loading...');
+    
+    console.log('📊 Dashboard loading state shown');
+}
+
+// Hide loading state untuk dashboard
+function hideDashboardLoading() {
+    console.log('📊 Dashboard loading state hidden');
+}
+
+// Manual refresh dashboard (bisa dipanggil dari UI)
+async function refreshDashboard() {
+    console.log('🔄 Manual dashboard refresh initiated');
+    showDashboardLoading();
+    
+    try {
+        await loadDashboardData();
+        renderMetrics();
+        renderCategoryChart();
+        renderRecentActivity();
+        renderDynamicTips();
+        
+        // Show success toast jika ada
+        if (typeof showToast !== 'undefined') {
+            showToast('Dashboard berhasil di-refresh!', 'success');
+        }
+        
+    } catch (error) {
+        console.error('❌ Error refreshing dashboard:', error);
+        if (typeof showToast !== 'undefined') {
+            showToast('Gagal refresh dashboard', 'error');
+        }
+    } finally {
+        hideDashboardLoading();
+    }
+}
+
+// Get dashboard statistics (untuk API atau export)
+async function getDashboardStats() {
+    try {
+        // Pastikan data terbaru
+        await loadDashboardData();
+        
+        return {
+            totalProducts: dashboardData.products.length,
+            totalCategories: getUniqueCategories().length,
+            aiUsage: dashboardData.aiUsage,
+            contentGenerated: dashboardData.contentGenerated,
+            categoryDistribution: getUniqueCategories().map(category => ({
+                category,
+                count: dashboardData.products.filter(p => p.category === category).length
+            })),
+            lastUpdate: new Date().toISOString()
+        };
+        
+    } catch (error) {
+        console.error('❌ Error getting dashboard stats:', error);
+        return null;
+    }
+}
+
 // Export functions ke global scope untuk digunakan halaman lain
 window.initializeDashboard = initializeDashboard;
 window.trackActivity = trackActivity;
 window.incrementAIUsage = incrementAIUsage;
 window.incrementContentGenerated = incrementContentGenerated;
+window.refreshDashboard = refreshDashboard;
+window.getDashboardStats = getDashboardStats;
 
 // Untuk testing di console
 window.dashboardData = dashboardData;
