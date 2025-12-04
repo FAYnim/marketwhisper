@@ -42,7 +42,7 @@ body {
 
 .header-content {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     flex: 1;
     padding: 0;
@@ -168,13 +168,6 @@ body.nav-open .nav-backdrop {
 .nav-link:hover {
     background-color: #f0f9ff;
     color: #10b981;
-    border-left-color: #10b981;
-}
-
-.nav-link.active {
-    background-color: #f0f9ff;
-    color: #111827;
-    border-left-color: #10b981;
 }
 
 /* Remove button styling from mobile nav */
