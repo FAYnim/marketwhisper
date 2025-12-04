@@ -214,6 +214,10 @@
         margin-bottom: 0.5rem;
     }
     
+    .nav-content {
+        display: none;
+    }
+    
     .card {
         margin: 0 1rem;
     }
