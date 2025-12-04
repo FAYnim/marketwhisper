@@ -45,6 +45,10 @@
     font-weight: 700;
     margin: 0;
 }
+.logo a {
+    color: white;
+    text-decoration: none;
+}
 
 .span {
     color: #fbbf24;
@@ -215,11 +219,7 @@
     
     .nav-content {
         display: none;
-    }
-    
-    .card {
-        margin: 0 1rem;
-    }
+    }    
 }
 
 @media (max-width: 480px) {
