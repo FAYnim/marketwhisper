@@ -1,7 +1,7 @@
 // Supabase Configuration
 // IMPORTANT: Ganti dengan kredensial Anda sendiri dari https://supabase.com
-const SUPABASE_URL = 'https://dyrrkgehuedqobxashgq.supabase.co'; // Contoh: https://xxxxx.supabase.co
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5cnJrZ2VodWVkcW9ieGFzaGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ2NDA1NDUsImV4cCI6MjA4MDIxNjU0NX0.AIe9beIdfdNVd0LgVUC2Qz5ZJuvPdsFfS1jMW-QieEA';
+const SUPABASE_URL = 'https://hgrpljzalzbinlillkij.supabase.co'; // Contoh: https://xxxxx.supabase.co
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhncnBsanphbHpiaW5saWxsa2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4MDQzOTQsImV4cCI6MjA4MDM4MDM5NH0.IXyL3sGMumUiwLelDyteimQRMSQAPBcRstxsAHROEaQ';
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
