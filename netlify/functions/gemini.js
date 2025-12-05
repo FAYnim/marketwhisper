@@ -1,62 +1,30 @@
-exports.handler = async (event) => {
-  // Dynamic imports untuk ES modules
-  const fetch = (await import('node-fetch')).default;
-  const { GoogleGenAI } = await import('@google/genai');
-  // CORS
-  const headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*', // ganti dengan domain-mu di production
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  };
-
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
-  }
+export async function handler(event) {
+  const { GoogleGenAI } = await import("@google/genai");
 
   try {
-    const { prompt, systemInstructionFile } = JSON.parse(event.body);
+    const { inputContent } = JSON.parse(event.body);
 
-    // Ambil API key dari environment variable
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-    const API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-    let requestBody = {
-      contents: [{ parts: [{ text: prompt }] }],
-    };
-
-    // Kalau ada systemInstructionFile (URL), fetch dulu
-    if (systemInstructionFile) {
-      const res = await fetch(systemInstructionFile);
-      if (!res.ok) throw new Error('Gagal fetch system instruction');
-      const systemText = await res.text();
-      requestBody.system_instruction = {
-        parts: [{ text: systemText }],
-      };
-    }
-
-    const response = await fetch(API_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
+    const ai = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY
     });
 
-    if (!response.ok) throw new Error(`Gemini API error: ${response.status}`);
+    const result = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: [{ role: "user", parts: [{ text: inputContent }] }]
+    });
 
-    const data = await response.json();
-    const resultText = data.candidates[0].content.parts[0].text;
+    const output =
+      result.candidates?.[0]?.content?.parts?.[0]?.text || "No output generated.";
 
     return {
       statusCode: 200,
-      headers,
-      body: JSON.stringify({ result: resultText }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ output })
     };
   } catch (err) {
     return {
       statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify({ error: err.message })
     };
   }
-};
+}
