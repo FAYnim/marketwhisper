@@ -2,6 +2,9 @@
 // AI Ideas - Ide Konten Generator
 // ========================================
 
+// Import AI handler
+import { callAI } from '../../handler/gemini.js';
+
 // Fungsi untuk initialize halaman ideas
 function initializeIdeasPage() {
     console.log('💡 Initializing AI Ideas page');
@@ -14,7 +17,7 @@ function initializeIdeasPage() {
 }
 
 // Handle form submit untuk generate ideas
-function handleIdeasSubmit(event) {
+async function handleIdeasSubmit(event) {
     event.preventDefault();
     
     // Ambil form data
@@ -33,11 +36,11 @@ function handleIdeasSubmit(event) {
     }
     
     // Generate ideas
-    generateIdeas(formData);
+    await generateIdeas(formData);
 }
 
 // Fungsi utama untuk generate ideas
-function generateIdeas(formData) {
+async function generateIdeas(formData) {
     console.log('🔄 Generating ideas with data:', formData);
     
     // Show loading
@@ -45,16 +48,149 @@ function generateIdeas(formData) {
     Utils.showElement('loadingIdeas');
     Utils.hideElement('ideasResults');
     
-    // Simulasi API call (akan diganti dengan real API)
-    // Untuk sekarang, kita gunakan dummy data
-    setTimeout(() => {
-        const dummyIdeas = getDummyIdeas(formData);
-        displayIdeas(dummyIdeas);
+    try {
+        // Map content goal to instruction file
+        const instructionFile = getInstructionFile(formData.contentGoal);
         
+        // Create AI prompt
+        const prompt = createIdeasPrompt(formData);
+        
+        // Call AI API
+        const aiResponse = await callAI(prompt, instructionFile);
+        
+        // Parse and format AI response
+        const ideas = parseAIResponse(aiResponse, formData);
+        
+        // Display results
+        displayIdeas(ideas);
+        
+        console.log('✅ AI Ideas generated successfully');
+        
+    } catch (error) {
+        console.error('❌ Error generating ideas:', error);
+        Utils.showToast('❌ Gagal generate ide konten. Silakan coba lagi.');
+        
+        // Fallback to dummy data jika AI error
+        const fallbackIdeas = getDummyIdeas(formData);
+        displayIdeas(fallbackIdeas);
+    } finally {
         // Hide loading
         Utils.hideButtonLoading('generateBtn', 'Generate Ide Konten');
         Utils.hideElement('loadingIdeas');
-    }, 2000);
+    }
+}
+
+// Fungsi untuk mapping content goal ke instruction file
+function getInstructionFile(contentGoal) {
+    const instructionMap = {
+        'jualan': 'promosi-jualan-harian.md',
+        'brand_awareness': 'brand-awareness.md', 
+        'edukasi': 'edukasi.md',
+        'testimoni': 'review.md',
+        'behind_scene': 'bts.md'
+    };
+    
+    return instructionMap[contentGoal] || 'promosi-jualan-harian.md';
+}
+
+// Fungsi untuk create prompt untuk AI
+function createIdeasPrompt(formData) {
+    const { businessType, contentGoal, platform } = formData;
+    
+    return `Generate ide konten untuk UMKM dengan detail:
+
+Jenis Usaha: ${businessType}
+Tujuan Konten: ${contentGoal}
+Platform: ${platform}
+
+Berikan 3-4 ide konten yang kreatif, praktis, dan mudah dieksekusi untuk UMKM.`;
+}
+
+// Fungsi untuk parse AI response
+function parseAIResponse(aiResponse, formData) {
+    try {
+        // Coba parse sebagai JSON dulu
+        let parsedResponse;
+        if (typeof aiResponse === 'string') {
+            // Cari JSON dalam response
+            const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                parsedResponse = JSON.parse(jsonMatch[0]);
+            } else {
+                throw new Error('No JSON found in response');
+            }
+        } else {
+            parsedResponse = aiResponse;
+        }
+        
+        // Convert AI response format to our format
+        if (parsedResponse.ide_konten && Array.isArray(parsedResponse.ide_konten)) {
+            return parsedResponse.ide_konten.map((item, index) => ({
+                title: item.hook || `Ide Konten ${index + 1}`,
+                description: `${item.format}\n\n${item.visual}\n\nCTA: ${item.cta}`,
+                platform: formData.platform,
+                format: item.format || 'Social Media Post',
+                confidence: 0.85 + (Math.random() * 0.1) // Random confidence 0.85-0.95
+            }));
+        } else {
+            throw new Error('Invalid AI response format');
+        }
+        
+    } catch (error) {
+        console.error('Error parsing AI response:', error);
+        
+        // Fallback: parse as plain text
+        return parseTextResponse(aiResponse, formData);
+    }
+}
+
+// Fungsi untuk parse text response sebagai fallback
+function parseTextResponse(textResponse, formData) {
+    // Split response menjadi ide-ide individual
+    const ideas = [];
+    const lines = textResponse.split('\n').filter(line => line.trim());
+    
+    let currentIdea = null;
+    
+    lines.forEach(line => {
+        line = line.trim();
+        
+        // Deteksi awal ide baru (biasanya berisi angka atau bullet)
+        if (line.match(/^\d+\./) || line.match(/^[•-]/) || line.toLowerCase().includes('ide')) {
+            if (currentIdea) {
+                ideas.push(currentIdea);
+            }
+            
+            currentIdea = {
+                title: line.replace(/^\d+\.\s*/, '').replace(/^[•-]\s*/, ''),
+                description: '',
+                platform: formData.platform,
+                format: 'Social Media Content',
+                confidence: 0.80 + (Math.random() * 0.15)
+            };
+        } else if (currentIdea && line.length > 0) {
+            // Tambah ke deskripsi ide saat ini
+            currentIdea.description += (currentIdea.description ? '\n' : '') + line;
+        }
+    });
+    
+    // Tambah ide terakhir
+    if (currentIdea) {
+        ideas.push(currentIdea);
+    }
+    
+    // Jika tidak ada ide yang ter-parse, buat default
+    if (ideas.length === 0) {
+        ideas.push({
+            title: 'Konten AI Generated',
+            description: textResponse.substring(0, 200) + '...',
+            platform: formData.platform,
+            format: 'AI Content',
+            confidence: 0.75
+        });
+    }
+    
+    return ideas.slice(0, 4); // Maksimal 4 ide
 }
 
 // Fungsi untuk display ideas results
