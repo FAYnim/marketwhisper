@@ -56,6 +56,14 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.logo-img {
+    height: 50px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
 .span {
     background: linear-gradient(to right, #fbbf24, #eab308);
     background-clip: text;

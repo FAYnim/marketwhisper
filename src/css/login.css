@@ -50,6 +50,14 @@
     text-decoration: none;
 }
 
+.logo-img {
+    height: 50px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
 .span {
     color: #fbbf24;
 }
