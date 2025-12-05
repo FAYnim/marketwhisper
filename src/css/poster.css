@@ -49,6 +49,14 @@
     margin: 0;
 }
 
+.sidebar-logo-img {
+    height: 40px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(97%) saturate(1157%) hue-rotate(120deg) brightness(93%) contrast(95%);
+}
+
 .sidebar-close {
     display: none;
     background: none;
