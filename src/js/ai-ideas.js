@@ -2,9 +2,6 @@
 // AI Ideas - Ide Konten Generator
 // ========================================
 
-// Import AI handler
-import { callAI } from '../../handler/gemini.js';
-
 // Fungsi untuk initialize halaman ideas
 function initializeIdeasPage() {
     console.log('💡 Initializing AI Ideas page');
@@ -12,13 +9,20 @@ function initializeIdeasPage() {
     // Setup form submit event
     const form = document.getElementById('ideasForm');
     if (form) {
+        console.log('✅ Form found, adding event listener');
         form.addEventListener('submit', handleIdeasSubmit);
+    } else {
+        console.error('❌ Form not found!');
     }
+    
+    // Check if callAI is available
+    console.log('🔍 Checking callAI availability:', typeof window.callAI);
 }
 
 // Handle form submit untuk generate ideas
 async function handleIdeasSubmit(event) {
     event.preventDefault();
+    console.log('🚀 Form submitted, preventing default');
     
     // Ambil form data
     const formData = {
@@ -27,16 +31,25 @@ async function handleIdeasSubmit(event) {
         platform: document.getElementById('platform').value
     };
     
+    console.log('📝 Form data collected:', formData);
+    
     // Validate form
-    const validation = Utils.validateFormData(formData, ['businessType', 'contentGoal', 'platform']);
+    const validation = Utils.validateFormData ? Utils.validateFormData(formData, ['businessType', 'contentGoal', 'platform']) : { isValid: true };
     
     if (!validation.isValid) {
         Utils.showToast('❌ ' + validation.errors[0]);
         return;
     }
     
+    console.log('✅ Form validation passed');
+    
     // Generate ideas
-    await generateIdeas(formData);
+    try {
+        await generateIdeas(formData);
+    } catch (error) {
+        console.error('💥 Error in handleIdeasSubmit:', error);
+        alert('Terjadi kesalahan: ' + error.message);
+    }
 }
 
 // Fungsi utama untuk generate ideas
@@ -51,15 +64,26 @@ async function generateIdeas(formData) {
     try {
         // Map content goal to instruction file
         const instructionFile = getInstructionFile(formData.contentGoal);
+        console.log('📁 Instruction file:', instructionFile);
         
         // Create AI prompt
         const prompt = createIdeasPrompt(formData);
+        console.log('💭 AI Prompt:', prompt);
         
+        // Check if callAI is available
+        if (typeof window.callAI !== 'function') {
+            console.error('❌ callAI function not available');
+            throw new Error('AI function not available');
+        }
+        
+        console.log('🤖 Calling AI...');
         // Call AI API
-        const aiResponse = await callAI(prompt, instructionFile);
+        const aiResponse = await window.callAI(prompt, instructionFile);
+        console.log('📨 AI Response:', aiResponse);
         
         // Parse and format AI response
         const ideas = parseAIResponse(aiResponse, formData);
+        console.log('🎯 Parsed ideas:', ideas);
         
         // Display results
         displayIdeas(ideas);

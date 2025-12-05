@@ -1,5 +1,5 @@
 // Frontend: tidak perlu API key lagi
-export async function callAI(prompt, systemInstructionFile = null) {
+async function callAI(prompt, systemInstructionFile = null) {
   const response = await fetch('/.netlify/functions/gemini', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -14,3 +14,6 @@ export async function callAI(prompt, systemInstructionFile = null) {
   const { result } = await response.json();
   return result;
 }
+
+// Make function globally accessible
+window.callAI = callAI;
