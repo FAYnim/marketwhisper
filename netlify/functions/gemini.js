@@ -2,9 +2,11 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const functionDirInstructions = path.resolve(__dirname, "..", "..", "assets", "instructions");
+// Support both ESM and bundled CJS where import.meta.url may be undefined
+const moduleUrl = typeof import.meta !== "undefined" && import.meta.url ? import.meta.url : null;
+const currentDir = moduleUrl ? path.dirname(fileURLToPath(moduleUrl)) : (typeof __dirname !== "undefined" ? __dirname : process.cwd());
+
+const functionDirInstructions = path.resolve(currentDir, "..", "..", "assets", "instructions");
 const projectRootInstructions = path.resolve(process.cwd(), "assets", "instructions");
 
 // Base system-style instruction to keep responses structured for easy parsing.
