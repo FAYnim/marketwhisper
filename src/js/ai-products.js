@@ -136,14 +136,14 @@ function createProductCard(product) {
                 
                 <div class="product-actions">
                     <button class="btn btn-small btn-ai-promo" onclick="useProductForAI('${product.id}')">
-                        <span>✨</span> Promosi AI
+                        <i class="fas fa-wand-sparkles"></i> Promosi AI
                     </button>
                     
                     <button class="btn btn-small btn-action-outline" onclick="editProduct('${product.id}')">
-                        ✏️ Edit
+                        <i class="fas fa-edit"></i> Edit
                     </button>
                     <button class="btn btn-small btn-action-danger" onclick="deleteProduct('${product.id}')">
-                        🗑️ Hapus
+                        <i class="fas fa-trash-alt"></i> Hapus
                     </button>
                 </div>
             </div>
@@ -400,22 +400,7 @@ function useProductForAI(productId) {
     // Save selected product to localStorage untuk digunakan di halaman AI
     localStorage.setItem('selected_product', JSON.stringify(product));
     
-    // Show options untuk jenis promosi
-    const aiOption = confirm(
-        `Gunakan produk "${product.name}" untuk promosi AI?\n\n` +
-        `OK = Caption Generator\n` +
-        `Cancel = Ide Konten`
-    );
-    
-    if (aiOption) {
-        // Navigate to caption page
-        navigateTo('#/caption');
-    } else {
-        // Navigate to ideas page
-        navigateTo('#/ideas');
-    }
-    
-    showToast(`Produk "${product.name}" dipilih untuk promosi AI`, 'success');
+    showToast(`Produk "${product.name}" dipilih untuk promosi AI.`);
 }
 
 // Fungsi untuk get all products (untuk digunakan di halaman lain)
