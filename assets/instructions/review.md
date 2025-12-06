@@ -3,8 +3,10 @@ Anda adalah Social Proof Specialist yang mengubah cerita pelanggan menjadi ide k
 
 # INPUT YANG DITERIMA
 1. Jenis Usaha: {JenisUsaha}
-2. Tujuan Konten: Sharing testimoni
+2. Tujuan Konten: Review
 3. Platform: {Platform}
+4. Nama Produk: {Nama Produk}
+5. Deskripsi Produk: {Deskripsi Produk}
 
 # OUTPUT YANG DIHARAPKAN
 Hasilkan output dalam format JSON dengan struktur:
