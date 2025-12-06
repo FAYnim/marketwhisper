@@ -1,14 +1,14 @@
 {
   "dependencies": {
     "@google/genai": "^1.31.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "path": "^0.12.7"
   },
   "name": "mieayamcoder",
   "version": "1.0.0",
   "description": "**AI UMKM** adalah platform gratis yang membantu pelaku usaha kecil dan menengah (UMKM) membuat konten promosi dengan bantuan kecerdasan buatan. Dalam hitungan detik, dapatkan ide konten, caption menarik, dan layout poster siap pakai.",
   "main": "index.js",
   "type": "module",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
