@@ -1,20 +1,19 @@
-// Supabase Storage uploader untuk gambar sederhana
-// Pastikan supabase client sudah dibuat di auth.js
+// Image uploader menggunakan Netlify Functions
+// Tidak perlu supabase client di frontend lagi
 
-const STORAGE_BUCKET = 'product-images';
 const MAX_UPLOAD_MB = 3; // batas aman agar ringan untuk UMKM
 
-// Rapikan nama file supaya aman dipakai di URL
-function sanitizeFileName(name) {
-    return name
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9.-]/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '');
+// Convert file ke base64 untuk dikirim ke netlify function
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
 }
 
-// Upload gambar ke Supabase Storage
+// Upload gambar melalui Netlify Functions
 async function uploadImage(file, folder = 'uploads') {
     try {
         if (!file) {
@@ -30,57 +29,75 @@ async function uploadImage(file, folder = 'uploads') {
             throw new Error(`Ukuran file maksimal ${MAX_UPLOAD_MB}MB`);
         }
 
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
-        if (userError || !user) {
+        // Ambil access token dari auth
+        const accessToken = Auth.getAccessToken();
+        if (!accessToken) {
             throw new Error('Silakan login sebelum upload');
         }
 
-        const fileExt = file.name.split('.').pop();
-        const baseName = sanitizeFileName(file.name.replace(/\.[^.]+$/, '')) || 'gambar';
-        const filePath = `${folder}/${user.id}-${Date.now()}-${baseName}.${fileExt}`;
+        // Convert file ke base64
+        const fileData = await fileToBase64(file);
 
-        const { data, error } = await supabase.storage
-            .from(STORAGE_BUCKET)
-            .upload(filePath, file, {
-                cacheControl: '3600',
-                upsert: false
-            });
+        // Kirim ke Netlify Function
+        const response = await fetch('/.netlify/functions/upload', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'upload',
+                accessToken: accessToken,
+                fileName: file.name,
+                fileData: fileData,
+                folder: folder
+            })
+        });
 
-        if (error) {
-            throw error;
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.error || 'Upload gagal');
         }
 
-        const { data: publicData } = supabase.storage
-            .from(STORAGE_BUCKET)
-            .getPublicUrl(filePath);
-
-        return {
-            success: true,
-            path: data.path,
-            url: publicData.publicUrl
-        };
+        return result;
     } catch (error) {
         console.error('Upload error:', error);
         return { success: false, error: error.message };
     }
 }
 
-// Hapus file dari Storage jika dibutuhkan
+// Hapus file dari Storage melalui Netlify Functions
 async function deleteImage(filePath) {
     try {
         if (!filePath) {
             throw new Error('Path file kosong');
         }
 
-        const { error } = await supabase.storage
-            .from(STORAGE_BUCKET)
-            .remove([filePath]);
-
-        if (error) {
-            throw error;
+        // Ambil access token dari auth
+        const accessToken = Auth.getAccessToken();
+        if (!accessToken) {
+            throw new Error('Silakan login sebelum hapus gambar');
         }
 
-        return { success: true };
+        // Kirim ke Netlify Function
+        const response = await fetch('/.netlify/functions/upload', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                accessToken: accessToken,
+                filePath: filePath
+            })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.error || 'Hapus gambar gagal');
+        }
+
+        return result;
     } catch (error) {
         console.error('Delete error:', error);
         return { success: false, error: error.message };
