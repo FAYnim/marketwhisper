@@ -1,9 +1,13 @@
 // Frontend: tidak perlu API key lagi
-async function callAI(inputContent) {
+async function callAI(prompt, instructionsFile, contentGoal) {
+  const body = { prompt };
+  if (instructionsFile) body.instructionsFile = instructionsFile; // Optional override
+  if (contentGoal) body.contentGoal = contentGoal; // Backend will map if no file provided
+
   const response = await fetch('/.netlify/functions/gemini', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ inputContent }),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {

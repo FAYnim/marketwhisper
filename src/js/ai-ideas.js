@@ -78,7 +78,7 @@ async function generateIdeas(formData) {
         
         console.log('🤖 Calling AI...');
         // Call AI API
-        const aiResponse = await window.callAI(prompt, instructionFile);
+        const aiResponse = await window.callAI(prompt, instructionFile, formData.contentGoal);
         console.log('📨 AI Response:', aiResponse);
         
         // Parse and format AI response
