@@ -1,31 +1,80 @@
-// Supabase Configuration
-// IMPORTANT: Ganti dengan kredensial Anda sendiri dari https://supabase.com
-const SUPABASE_URL = 'https://hgrpljzalzbinlillkij.supabase.co'; // Contoh: https://xxxxx.supabase.co
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhncnBsanphbHpiaW5saWxsa2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4MDQzOTQsImV4cCI6MjA4MDM4MDM5NH0.IXyL3sGMumUiwLelDyteimQRMSQAPBcRstxsAHROEaQ';
-const EMAIL_REDIRECT_URL = `${window.location.origin}/email-confirmation.html`;
+// ========================================
+// AUTENTIKASI AMAN DENGAN NETLIFY FUNCTIONS
+// ========================================
+// Kredensial Supabase TIDAK lagi ada di frontend
+// Semua operasi auth dilakukan lewat Netlify Functions
+// API Key aman tersimpan di environment variables Netlify
 
-// Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// URL Netlify Function untuk autentikasi
+const AUTH_FUNCTION_URL = '/.netlify/functions/auth';
+
+// Simpan session token di localStorage
+const SESSION_STORAGE_KEY = 'umkm_auth_session';
+
+// Helper: Simpan session ke localStorage
+function saveSession(session) {
+    if (session && session.access_token) {
+        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+    }
+}
+
+// Helper: Ambil session dari localStorage
+function getStoredSession() {
+    const stored = localStorage.getItem(SESSION_STORAGE_KEY);
+    if (stored) {
+        try {
+            return JSON.parse(stored);
+        } catch (e) {
+            console.error('Error parsing stored session:', e);
+            return null;
+        }
+    }
+    return null;
+}
+
+// Helper: Hapus session dari localStorage
+function clearStoredSession() {
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+}
+
+// Helper: Panggil Netlify Function
+async function callAuthFunction(action, payload = {}) {
+    try {
+        const response = await fetch(AUTH_FUNCTION_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action,
+                ...payload
+            })
+        });
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Auth function call error:', error);
+        return { success: false, error: error.message };
+    }
+}
 
 // Auth Functions
 const Auth = {
     // Register new user
     async register(email, password, name) {
         try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password,
-                options: {
-                    emailRedirectTo: EMAIL_REDIRECT_URL,
-                    data: {
-                        full_name: name
-                    }
-                }
+            const result = await callAuthFunction('register', {
+                email,
+                password,
+                name
             });
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
             
-            return { success: true, data: data };
+            return { success: true, data: result.data };
         } catch (error) {
             console.error('Register error:', error);
             return { success: false, error: error.message };
@@ -35,15 +84,22 @@ const Auth = {
     // Login user
     async login(email, password, rememberMe = false) {
         try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
+            const result = await callAuthFunction('login', {
+                email,
+                password
             });
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
+            
+            // Simpan session ke localStorage
+            if (result.data && result.data.session) {
+                saveSession(result.data.session);
+            }
             
             // Jika login berhasil, simpan ke cookie (jika fungsi tersedia)
-            if (data.user) {
+            if (result.data.user) {
                 if (typeof window.saveAuthSession === 'function') {
                     window.saveAuthSession(email, rememberMe);
                 }
@@ -52,7 +108,7 @@ const Auth = {
                 }
             }
             
-            return { success: true, data: data };
+            return { success: true, data: result.data };
         } catch (error) {
             console.error('Login error:', error);
             return { success: false, error: error.message };
@@ -62,8 +118,19 @@ const Auth = {
     // Logout user
     async logout() {
         try {
-            const { error } = await supabase.auth.signOut();
-            if (error) throw error;
+            const session = getStoredSession();
+            const accessToken = session ? session.access_token : null;
+
+            const result = await callAuthFunction('logout', {
+                accessToken
+            });
+
+            if (!result.success) {
+                throw new Error(result.error);
+            }
+            
+            // Hapus session dari localStorage
+            clearStoredSession();
             
             // Hapus semua cookie auth saat logout (jika fungsi tersedia)
             if (typeof window.clearAuthSession === 'function') {
@@ -73,6 +140,13 @@ const Auth = {
             return { success: true };
         } catch (error) {
             console.error('Logout error:', error);
+            
+            // Tetap hapus session lokal meskipun logout gagal
+            clearStoredSession();
+            if (typeof window.clearAuthSession === 'function') {
+                window.clearAuthSession();
+            }
+            
             return { success: false, error: error.message };
         }
     },
@@ -80,28 +154,28 @@ const Auth = {
     // Get current user
     async getCurrentUser() {
         try {
-            // First try to get user from Supabase session
-            const { data: { user }, error } = await supabase.auth.getUser();
-            
-            // If no error and user exists, return user
-            if (!error && user) {
-                return { success: true, user: user };
+            const session = getStoredSession();
+            const accessToken = session ? session.access_token : null;
+
+            const result = await callAuthFunction('getUser', {
+                accessToken
+            });
+
+            if (!result.success) {
+                // Jika gagal karena session invalid, hapus session lokal
+                if (result.error && result.error.includes('session')) {
+                    clearStoredSession();
+                }
+                throw new Error(result.error);
             }
             
-            // If AuthSessionMissingError, it's expected for non-authenticated users
-            if (error && error.message.includes('Auth session missing')) {
-                return { success: true, user: null };
-            }
-            
-            // For other errors, throw them
-            if (error) throw error;
-            
-            return { success: true, user: null };
+            return { success: true, user: result.user };
         } catch (error) {
             console.error('Get user error:', error);
             
             // If session missing, it's not really an error - user just not logged in
-            if (error.message.includes('Auth session missing')) {
+            if (error.message && error.message.includes('session')) {
+                clearStoredSession();
                 return { success: true, user: null };
             }
             
@@ -115,21 +189,31 @@ const Auth = {
         return success && user !== null;
     },
 
-    // Listen to auth state changes
+    // Listen to auth state changes (tidak tersedia di serverless, gunakan polling)
+    // Catatan: Fitur ini terbatas karena tidak ada websocket di Netlify Functions
     onAuthStateChange(callback) {
-        return supabase.auth.onAuthStateChange((event, session) => {
-            callback(event, session);
-        });
+        console.warn('onAuthStateChange tidak tersedia dengan Netlify Functions. Gunakan polling manual.');
+        // Return dummy unsubscribe function
+        return () => {};
     },
 
-    // Tukar code dari URL supaya sesi Supabase aktif setelah konfirmasi email
+    // Tukar code dari URL supaya sesi aktif setelah konfirmasi email
     async exchangeCodeForSession(code) {
         try {
-            const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+            const result = await callAuthFunction('exchangeCode', {
+                code
+            });
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            return { success: true, data: data };
+            // Simpan session baru ke localStorage
+            if (result.data && result.data.session) {
+                saveSession(result.data.session);
+            }
+
+            return { success: true, data: result.data };
         } catch (error) {
             console.error('Exchange code error:', error);
             return { success: false, error: error.message };
@@ -161,21 +245,31 @@ const Auth = {
     // Get session
     async getSession() {
         try {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            
-            // If AuthSessionMissingError, return null session (not an error)
-            if (error && error.message.includes('Auth session missing')) {
-                return { success: true, session: null };
+            const session = getStoredSession();
+            const accessToken = session ? session.access_token : null;
+
+            const result = await callAuthFunction('getSession', {
+                accessToken
+            });
+
+            if (!result.success) {
+                // Jika gagal, hapus session lokal
+                clearStoredSession();
+                throw new Error(result.error);
             }
             
-            if (error) throw error;
+            // Update session di localStorage jika ada perubahan
+            if (result.session) {
+                saveSession(result.session);
+            }
             
-            return { success: true, session: session };
+            return { success: true, session: result.session };
         } catch (error) {
             console.error('Get session error:', error);
             
             // Handle session missing as normal case
-            if (error.message.includes('Auth session missing')) {
+            if (error.message && error.message.includes('session')) {
+                clearStoredSession();
                 return { success: true, session: null };
             }
             

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@google/genai": "^1.31.0",
+    "@supabase/supabase-js": "^2.39.0",
     "node-fetch": "^3.3.2",
     "path": "^0.12.7"
   },
@@ -10,6 +11,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build needed'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/FAYnim/marketwhisper/issues"
   },
-  "homepage": "https://github.com/FAYnim/marketwhisper#readme"
+  "homepage": "https://github.com/FAYnim/marketwhisper#readme",
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
 }
