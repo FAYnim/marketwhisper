@@ -54,3 +54,5 @@ secrets/
 *.bak
 *.backup
 assets/data/*
+# Local Netlify folder
+.netlify
