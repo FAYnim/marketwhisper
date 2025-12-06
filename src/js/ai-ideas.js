@@ -229,6 +229,9 @@ function displayIdeas(ideas) {
     
     // Clear previous results
     ideasList.innerHTML = '';
+
+    // Simpan ideas ke global agar bisa di-copy
+    window.currentIdeas = ideas;
     
     // Generate HTML untuk setiap idea
     ideas.forEach((idea, index) => {
