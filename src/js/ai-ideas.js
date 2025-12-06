@@ -271,6 +271,7 @@ function createIdeaCard(idea, index) {
 // Fungsi untuk copy idea
 function copyIdea(index) {
     const ideas = window.currentIdeas || [];
+    console.table(ideas);
     const idea = ideas[index];
     
     if (!idea) {
