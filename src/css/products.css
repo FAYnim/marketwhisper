@@ -14,9 +14,10 @@
 }
 
 .page-title {
-    font-size: 2rem;
-    color: var(--gray-900);
-    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
 }
 
 .page-description {

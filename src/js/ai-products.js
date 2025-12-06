@@ -371,32 +371,20 @@ function generateId() {
 // Fungsi untuk disable tombol tambah produk
 function disableAddProductButtons() {
     const addProductBtn = document.getElementById('add-product-btn');
-    const addProductMobile = document.getElementById('add-product-mobile');
     
     if (addProductBtn) {
         addProductBtn.disabled = true;
         addProductBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memuat...';
-    }
-    
-    if (addProductMobile) {
-        addProductMobile.disabled = true;
-        addProductMobile.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memuat';
     }
 }
 
 // Fungsi untuk enable tombol tambah produk
 function enableAddProductButtons() {
     const addProductBtn = document.getElementById('add-product-btn');
-    const addProductMobile = document.getElementById('add-product-mobile');
     
     if (addProductBtn) {
         addProductBtn.disabled = false;
         addProductBtn.innerHTML = '<i class="fas fa-plus"></i> Tambah Produk Baru';
-    }
-    
-    if (addProductMobile) {
-        addProductMobile.disabled = false;
-        addProductMobile.innerHTML = '<i class="fas fa-plus"></i> Tambah';
     }
 }
 

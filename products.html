@@ -76,11 +76,6 @@
         <header class="top-header">
             <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
             <h2 class="page-title"><i class="fas fa-box"></i> Kelola Produk</h2>
-            <div class="header-actions">
-                <button class="btn btn-small btn-primary" id="add-product-mobile" disabled>
-                    <i class="fas fa-spinner fa-spin"></i> Memuat
-                </button>
-            </div>
         </header>
 
         <!-- Main Content -->
@@ -279,7 +274,6 @@
             const sidebarToggle = document.getElementById('sidebar-toggle');
             const sidebarClose = document.getElementById('sidebar-close');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
-            const addProductMobile = document.getElementById('add-product-mobile');
             const addProductBtn = document.getElementById('add-product-btn');
             const productForm = document.getElementById('product-form');
             const closeFormBtn = document.getElementById('close-form');
@@ -290,10 +284,6 @@
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 
-            // Mobile add product button
-            addProductMobile.addEventListener('click', function() {
-                addProductBtn.click();
-            });
             
             // Add product button click
             addProductBtn.addEventListener('click', function() {
