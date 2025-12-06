@@ -1,7 +1,7 @@
 // Supabase Storage uploader untuk gambar sederhana
 // Pastikan supabase client sudah dibuat di auth.js
 
-const STORAGE_BUCKET = window.SUPABASE_STORAGE_BUCKET || 'product-images';
+const STORAGE_BUCKET = 'product-images';
 const MAX_UPLOAD_MB = 3; // batas aman agar ringan untuk UMKM
 
 // Rapikan nama file supaya aman dipakai di URL

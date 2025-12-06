@@ -62,6 +62,21 @@ function setImageInputMode(mode) {
     }
 }
 
+// Ambil mode input gambar yang sedang aktif (url atau upload)
+function getImageInputMode() {
+    const activeBtn = document.querySelector('.image-input-switcher .switch-btn.active');
+    if (activeBtn) {
+        return activeBtn.getAttribute('data-target');
+    }
+
+    const uploadPanel = document.getElementById('image-upload-panel');
+    if (uploadPanel && !uploadPanel.classList.contains('hidden')) {
+        return 'upload';
+    }
+
+    return 'url';
+}
+
 // Fungsi untuk setup preview upload gambar
 function setupImageUploadPreview() {
     const fileInput = document.getElementById('product-image-file');
@@ -309,7 +324,10 @@ async function handleSubmitProduct(event) {
     const category = document.getElementById('product-category').value;
     const price = document.getElementById('product-price').value;
     const description = document.getElementById('product-description').value.trim();
-    const image = document.getElementById('product-image').value.trim();
+    const imageInput = document.getElementById('product-image');
+    const fileInput = document.getElementById('product-image-file');
+    const imageMode = getImageInputMode();
+    const imageUrlValue = imageInput ? imageInput.value.trim() : '';
     
     // Validation
     if (!name || !category || !price || !description) {
@@ -329,13 +347,44 @@ async function handleSubmitProduct(event) {
     }
     
     try {
+        let finalImageUrl = imageUrlValue;
+
+        // Jika pengguna memilih upload, kirim file ke Supabase Storage
+        if (imageMode === 'upload') {
+            const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+            if (!file) {
+                showToast('❌ Pilih file gambar atau ganti ke mode URL');
+                if (saveBtn && saveText && saveSpinner) {
+                    saveBtn.disabled = false;
+                    saveText.textContent = 'Simpan Produk';
+                    saveSpinner.classList.add('hidden');
+                }
+                return;
+            }
+
+            if (saveText) {
+                saveText.textContent = 'Mengunggah...';
+            }
+
+            const uploadResult = await ImageUploader.uploadImage(file, 'products');
+            if (!uploadResult.success) {
+                throw new Error(uploadResult.error || 'Upload gambar gagal');
+            }
+
+            finalImageUrl = uploadResult.url || '';
+
+            if (saveText) {
+                saveText.textContent = editingProductId ? 'Mengupdate...' : 'Menyimpan...';
+            }
+        }
+
         // Prepare product data
         const productData = {
             name: name,
             category: category,
             price: parseInt(price),
             description: description,
-            image: image || ''
+            image: finalImageUrl || ''
         };
         
         let result;
