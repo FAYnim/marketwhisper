@@ -17,7 +17,7 @@ function initializeCaptionPage() {
 }
 
 // Handle form submit untuk generate caption
-function handleCaptionSubmit(event) {
+async function handleCaptionSubmit(event) {
     event.preventDefault();
     
     // Ambil form data
@@ -37,11 +37,16 @@ function handleCaptionSubmit(event) {
     }
     
     // Generate caption
-    generateCaption(formData);
+    try {
+        await generateCaption(formData);
+    } catch (error) {
+        console.error('💥 Error in handleCaptionSubmit:', error);
+        Utils.showToast('❌ Terjadi kesalahan: ' + error.message);
+    }
 }
 
 // Fungsi utama untuk generate caption
-function generateCaption(formData) {
+async function generateCaption(formData) {
     console.log('🔄 Generating caption with data:', formData);
     
     // Show loading
@@ -49,15 +54,179 @@ function generateCaption(formData) {
     Utils.showElement('loadingCaption');
     Utils.hideElement('captionResults');
     
-    // Simulasi API call (akan diganti dengan real API)
-    setTimeout(() => {
-        const captionData = getDummyCaption(formData);
+    try {
+        // Instruction file untuk caption
+        const instructionFile = 'caption.md';
+        console.log('📁 Instruction file:', instructionFile);
+        
+        // Create AI prompt
+        const prompt = createCaptionPrompt(formData);
+        console.log('💭 AI Prompt:', prompt);
+        
+        // Check if callAI is available
+        if (typeof window.callAI !== 'function') {
+            throw new Error('callAI function not available');
+        }
+        
+        console.log('🤖 Calling AI...');
+        // Call AI API
+        const aiResponse = await window.callAI(prompt, instructionFile, 'caption');
+        console.log('📨 AI Response:', aiResponse);
+        
+        // Parse and format AI response
+        const captionData = parseAICaptionResponse(aiResponse, formData);
+        console.log('🎯 Parsed caption:', captionData);
+        
+        // Display results
         displayCaption(captionData);
         
+        console.log('✅ AI Caption generated successfully');
+        
+    } catch (error) {
+        console.error('❌ Error generating caption:', error);
+        Utils.showToast('❌ Gagal generate caption. Silakan coba lagi.');
+        
+        // Fallback to dummy data jika AI error
+        const fallbackCaption = getDummyCaption(formData);
+        displayCaption(fallbackCaption);
+    } finally {
         // Hide loading
         Utils.hideButtonLoading('generateCaptionBtn', 'Generate Caption');
         Utils.hideElement('loadingCaption');
-    }, 2500);
+    }
+}
+
+// Fungsi untuk create prompt untuk AI
+function createCaptionPrompt(formData) {
+    const { topic, tone, length, cta } = formData;
+    
+    console.log('🔍 Checking getSelectedProduct availability:', typeof getSelectedProduct);
+    const selectedProduct = getSelectedProduct();
+    
+    // Map tone ke format yang sesuai dengan instruction
+    const toneMap = {
+        'friendly': 'Ramah & Santai',
+        'professional': 'Profesional',
+        'enthusiastic': 'Antusias & Energik',
+        'casual': 'Kasual & Menghibur'
+    };
+    
+    // Map length ke jumlah kata
+    const lengthMap = {
+        'short': '75',
+        'medium': '150',
+        'long': '250'
+    };
+    
+    const mappedTone = toneMap[tone] || 'Ramah & Santai';
+    const mappedLength = lengthMap[length] || '150';
+    
+    let prompt = `Generate caption media sosial untuk UMKM dengan detail:
+
+Tema/Topik: ${topic}
+Tone: ${mappedTone}
+Panjang Caption: ${mappedLength} kata
+CTA: ${cta || 'buatkan CTA otomatis yang relevan'}`;
+
+    // Tambahkan info produk jika ada
+    if (selectedProduct) {
+        prompt += `
+
+Detail Produk:
+- Nama Produk: ${selectedProduct.name}
+- Kategori: ${selectedProduct.category}
+- Deskripsi: ${selectedProduct.description}
+- Harga: Rp ${selectedProduct.price.toLocaleString('id-ID')}`;
+    }
+
+    prompt += `
+
+Berikan caption yang menarik dan siap pakai untuk media sosial.`;
+    
+    return prompt;
+}
+
+// Fungsi untuk parse AI response
+function parseAICaptionResponse(aiResponse, formData) {
+    try {
+        // Coba parse sebagai JSON dulu
+        let parsedResponse;
+        if (typeof aiResponse === 'string') {
+            // Bersihkan markdown code blocks jika ada
+            const cleanedResponse = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+            parsedResponse = JSON.parse(cleanedResponse);
+        } else {
+            parsedResponse = aiResponse;
+        }
+        
+        // Extract caption dari response
+        const captionText = parsedResponse.caption || parsedResponse.text || '';
+        
+        // Generate hashtags dan CTA dari caption atau buat default
+        const hashtags = extractHashtags(captionText) || generateTopicHashtags(formData.topic);
+        const cta = formData.cta || extractCTA(captionText) || generateDefaultCTA(formData.topic);
+        
+        // Bersihkan caption dari hashtags yang sudah di-extract
+        const cleanCaption = captionText.replace(/#\w+/g, '').trim();
+        
+        return {
+            caption: cleanCaption,
+            hashtags: hashtags,
+            cta: cta
+        };
+        
+    } catch (error) {
+        console.error('Error parsing AI response:', error);
+        // Fallback: gunakan response sebagai caption langsung
+        return parseTextCaptionResponse(aiResponse, formData);
+    }
+}
+
+// Fungsi untuk parse text response sebagai fallback
+function parseTextCaptionResponse(textResponse, formData) {
+    const hashtags = extractHashtags(textResponse) || generateTopicHashtags(formData.topic);
+    const cta = formData.cta || extractCTA(textResponse) || generateDefaultCTA(formData.topic);
+    
+    // Bersihkan caption dari hashtags
+    const cleanCaption = textResponse.replace(/#\w+/g, '').trim();
+    
+    return {
+        caption: cleanCaption || getDummyCaption(formData).caption,
+        hashtags: hashtags,
+        cta: cta
+    };
+}
+
+// Fungsi untuk extract hashtags dari text
+function extractHashtags(text) {
+    const hashtagRegex = /#\w+/g;
+    const matches = text.match(hashtagRegex);
+    
+    if (matches && matches.length > 0) {
+        return matches.slice(0, 8); // Maksimal 8 hashtags
+    }
+    
+    return null;
+}
+
+// Fungsi untuk extract CTA dari text
+function extractCTA(text) {
+    // Cari pola CTA di akhir caption
+    const ctaPatterns = [
+        /(?:hubungi|dm|chat|pesan|order|kunjungi|follow|share|tag|comment|like|save)[^.!?]*[.!?]/gi,
+        /💬[^.!?\n]+/g,
+        /📞[^.!?\n]+/g,
+        /🛒[^.!?\n]+/g
+    ];
+    
+    for (const pattern of ctaPatterns) {
+        const match = text.match(pattern);
+        if (match && match.length > 0) {
+            return match[match.length - 1].trim();
+        }
+    }
+    
+    return null;
 }
 
 // Fungsi untuk display caption results
@@ -191,5 +360,35 @@ function generateDefaultCTA(topic) {
     return ctas[Math.floor(Math.random() * ctas.length)];
 }
 
+// Fungsi untuk load selected product untuk caption
+function loadSelectedProductForCaption() {
+    const selectedProduct = getSelectedProduct();
+    
+    if (selectedProduct) {
+        console.log('✅ Selected product found:', selectedProduct);
+        
+        // Pre-fill topic dengan nama produk
+        const topicInput = document.getElementById('captionTopic');
+        if (topicInput && !topicInput.value) {
+            topicInput.value = selectedProduct.name;
+        }
+    }
+}
+
+// Fungsi untuk clear selected product
+function clearSelectedProductForCaption() {
+    clearSelectedProduct();
+    
+    // Clear topic input jika isinya adalah nama produk
+    const topicInput = document.getElementById('captionTopic');
+    if (topicInput) {
+        topicInput.value = '';
+    }
+    
+    // Reload page untuk refresh
+    location.reload();
+}
+
 // Export functions untuk global access
 window.initializeCaptionPage = initializeCaptionPage;
+window.clearSelectedProductForCaption = clearSelectedProductForCaption;

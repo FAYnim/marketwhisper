@@ -56,7 +56,8 @@ function mapInstructionFile(contentGoal) {
     brand_awarness: "brand-awareness.md", // handle possible typo
     edukasi: "edukasi.md",
     testimoni: "review.md",
-    behind_scene: "bts.md"
+    behind_scene: "bts.md",
+    caption: "caption.md"
   };
 
   return map[contentGoal] || "promosi-jualan-harian.md";
