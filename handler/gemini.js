@@ -12,10 +12,22 @@ async function callAI(prompt, instructionsFile, contentGoal) {
 
   if (!response.ok) {
     const { error } = await response.json();
+    
+    // Check if error contains quota exceeded information
+    if (error && (error.includes('429') || error.includes('quota') || error.includes('RESOURCE_EXHAUSTED'))) {
+      console.log('AI Limit: Free tier quota exceeded, system automatically switched to production API');
+    }
+    
     throw new Error(error || 'Gagal memanggil AI');
   }
 
-  const { output } = await response.json();
+  const { output, warning } = await response.json();
+  
+  // Log if production API key was used
+  if (warning) {
+    console.log('AI Limit:', warning);
+  }
+  
   return output;
 }
 

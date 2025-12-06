@@ -87,7 +87,8 @@ export async function handler(event) {
       };
     }
 
-    const ai = new GoogleGenAI({
+    // First try with free tier API key
+    let ai = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY
     });
 
@@ -96,23 +97,61 @@ export async function handler(event) {
       instructionsText ? "Instruksi konten (markdown):\n" + instructionsText : ""
     ].filter(Boolean).join("\n\n");
 
-    const result = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-      config: {
-        systemInstruction
+    try {
+      const result = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+        config: {
+          systemInstruction
+        }
+      });
+
+      const output =
+        result.candidates?.[0]?.content?.parts?.[0]?.text || "No output generated.";
+
+      return {
+        statusCode: 200,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ output })
+      };
+    } catch (aiError) {
+      // Check if it's a quota exceeded error (429)
+      if (aiError.message && aiError.message.includes('429') || 
+          aiError.message && aiError.message.includes('quota') ||
+          aiError.message && aiError.message.includes('RESOURCE_EXHAUSTED')) {
+        
+        console.log('AI Limit: Free tier quota exceeded, switching to production API key');
+        
+        // Try with production API key
+        ai = new GoogleGenAI({
+          apiKey: process.env.GEMINI_API_KEY_PROD
+        });
+
+        const result = await ai.models.generateContent({
+          model: "gemini-2.5-flash",
+          contents: prompt,
+          config: {
+            systemInstruction
+          }
+        });
+
+        const output =
+          result.candidates?.[0]?.content?.parts?.[0]?.text || "No output generated.";
+
+        return {
+          statusCode: 200,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            output, 
+            warning: "Switched to production API key due to free tier quota exceeded" 
+          })
+        };
+      } else {
+        throw aiError;
       }
-    });
-
-    const output =
-      result.candidates?.[0]?.content?.parts?.[0]?.text || "No output generated.";
-
-    return {
-      statusCode: 200,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ output })
-    };
+    }
   } catch (err) {
+    console.log('AI Limit: Error occurred -', err.message);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: err.message })
