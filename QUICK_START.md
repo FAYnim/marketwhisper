@@ -30,8 +30,9 @@ URL=http://localhost:8888
 ## ✅ What's New?
 
 - ✅ **Auth now secure** - Credentials only on server
+- ✅ **Products CRUD secure** - Database operations via Netlify Functions
 - ✅ **No Supabase CDN** - Removed from all HTML files
-- ✅ **Netlify Functions** - All auth via `/.netlify/functions/auth`
+- ✅ **Netlify Functions** - All auth & DB via serverless functions
 - ✅ **Session in localStorage** - Key: `umkm_auth_session`
 
 ---

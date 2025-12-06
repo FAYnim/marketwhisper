@@ -1,39 +1,53 @@
 // ========================================
-// Database Products - Supabase CRUD Operations
+// Database Products - Netlify Functions CRUD Operations
 // ========================================
+// AMAN - Operasi database lewat Netlify Functions
+// Kredensial Supabase tidak terexpose di frontend
+
+// URL Netlify Function untuk products
+const PRODUCTS_FUNCTION_URL = '/.netlify/functions/products';
+
+// Helper: Panggil Netlify Function untuk Products
+async function callProductsFunction(action, payload = {}) {
+    try {
+        // Ambil access token dari session
+        const session = getStoredSession ? getStoredSession() : null;
+        const accessToken = session ? session.access_token : null;
+
+        const response = await fetch(PRODUCTS_FUNCTION_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action,
+                accessToken,
+                ...payload
+            })
+        });
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Products function call error:', error);
+        return { success: false, error: error.message };
+    }
+}
 
 const ProductsDB = {
-    // Create: Tambah produk baru ke Supabase
+    // Create: Tambah produk baru
     async create(productData) {
         try {
-            // Get current user
-            const { data: { user }, error: userError } = await supabase.auth.getUser();
-            
-            if (userError || !user) {
-                throw new Error('User not authenticated');
+            const result = await callProductsFunction('create', {
+                productData
+            });
+
+            if (!result.success) {
+                throw new Error(result.error);
             }
 
-            // Prepare product data
-            const product = {
-                user_id: user.id,
-                name: productData.name,
-                category: productData.category,
-                price: parseInt(productData.price),
-                description: productData.description,
-                image: productData.image || null
-            };
-
-            // Insert to Supabase
-            const { data, error } = await supabase
-                .from('products')
-                .insert([product])
-                .select()
-                .single();
-
-            if (error) throw error;
-
-            console.log('✅ Product created:', data);
-            return { success: true, data: data };
+            console.log('✅ Product created:', result.data);
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error creating product:', error);
@@ -41,25 +55,17 @@ const ProductsDB = {
         }
     },
 
-    // Read: Ambil semua produk user dari Supabase
+    // Read: Ambil semua produk user
     async getAll() {
         try {
-            const { data: { user }, error: userError } = await supabase.auth.getUser();
-            
-            if (userError || !user) {
-                throw new Error('User not authenticated');
+            const result = await callProductsFunction('getAll');
+
+            if (!result.success) {
+                throw new Error(result.error);
             }
 
-            // Get products dari Supabase (RLS akan filter by user_id otomatis)
-            const { data, error } = await supabase
-                .from('products')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-
-            console.log(`✅ Loaded ${data.length} products from Supabase`);
-            return { success: true, data: data };
+            console.log(`✅ Loaded ${result.data.length} products`);
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error loading products:', error);
@@ -70,15 +76,15 @@ const ProductsDB = {
     // Read: Ambil satu produk by ID
     async getById(productId) {
         try {
-            const { data, error } = await supabase
-                .from('products')
-                .select('*')
-                .eq('id', productId)
-                .single();
+            const result = await callProductsFunction('getById', {
+                productId
+            });
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            return { success: true, data: data };
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error getting product:', error);
@@ -86,30 +92,20 @@ const ProductsDB = {
         }
     },
 
-    // Update: Update produk di Supabase
+    // Update: Update produk
     async update(productId, productData) {
         try {
-            // Prepare update data
-            const updates = {
-                name: productData.name,
-                category: productData.category,
-                price: parseInt(productData.price),
-                description: productData.description,
-                image: productData.image || null
-            };
+            const result = await callProductsFunction('update', {
+                productId,
+                productData
+            });
 
-            // Update di Supabase
-            const { data, error } = await supabase
-                .from('products')
-                .update(updates)
-                .eq('id', productId)
-                .select()
-                .single();
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            if (error) throw error;
-
-            console.log('✅ Product updated:', data);
-            return { success: true, data: data };
+            console.log('✅ Product updated:', result.data);
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error updating product:', error);
@@ -117,20 +113,19 @@ const ProductsDB = {
         }
     },
 
-    // Delete: Hapus produk dari Supabase
+    // Delete: Hapus produk
     async delete(productId) {
         try {
-            const { data, error } = await supabase
-                .from('products')
-                .delete()
-                .eq('id', productId)
-                .select()
-                .single();
+            const result = await callProductsFunction('delete', {
+                productId
+            });
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            console.log('✅ Product deleted:', data);
-            return { success: true, data: data };
+            console.log('✅ Product deleted:', result.data);
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error deleting product:', error);
@@ -141,15 +136,15 @@ const ProductsDB = {
     // Get products by category
     async getByCategory(category) {
         try {
-            const { data, error } = await supabase
-                .from('products')
-                .select('*')
-                .eq('category', category)
-                .order('created_at', { ascending: false });
+            const result = await callProductsFunction('getByCategory', {
+                category
+            });
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            return { success: true, data: data };
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error getting products by category:', error);
@@ -160,15 +155,15 @@ const ProductsDB = {
     // Search products by name
     async search(searchTerm) {
         try {
-            const { data, error } = await supabase
-                .from('products')
-                .select('*')
-                .ilike('name', `%${searchTerm}%`)
-                .order('created_at', { ascending: false });
+            const result = await callProductsFunction('search', {
+                searchTerm
+            });
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            return { success: true, data: data };
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error searching products:', error);
@@ -179,13 +174,13 @@ const ProductsDB = {
     // Get products count
     async count() {
         try {
-            const { count, error } = await supabase
-                .from('products')
-                .select('*', { count: 'exact', head: true });
+            const result = await callProductsFunction('count');
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            return { success: true, count: count };
+            return { success: true, count: result.count };
 
         } catch (error) {
             console.error('❌ Error counting products:', error);
@@ -196,19 +191,13 @@ const ProductsDB = {
     // Get category distribution for dashboard
     async getCategoryStats() {
         try {
-            const { data, error } = await supabase
-                .from('products')
-                .select('category');
+            const result = await callProductsFunction('getCategoryStats');
 
-            if (error) throw error;
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            // Count by category
-            const stats = {};
-            data.forEach(product => {
-                stats[product.category] = (stats[product.category] || 0) + 1;
-            });
-
-            return { success: true, data: stats };
+            return { success: true, data: result.data };
 
         } catch (error) {
             console.error('❌ Error getting category stats:', error);
