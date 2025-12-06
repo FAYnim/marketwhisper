@@ -223,7 +223,7 @@
 }
 
 .page-title {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: #1e293b;
     margin: 0;
@@ -253,7 +253,7 @@
 }
 
 .page-header .page-title {
-    font-size: 2.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: #1e293b;
     margin: 0 0 1rem 0;
@@ -719,10 +719,6 @@
         padding: 3rem;
     }
     
-    .page-header .page-title {
-        font-size: 3rem;
-    }
-    
     .caption-output {
         grid-template-columns: 1fr;
         gap: 1.5rem;
@@ -750,10 +746,6 @@
     
     .results-section {
         padding: 2rem;
-    }
-    
-    .page-header .page-title {
-        font-size: 2rem;
     }
     
     .form-row {
@@ -790,12 +782,6 @@
     
     .page-header {
         margin-bottom: 2rem;
-    }
-    
-    .page-header .page-title {
-        font-size: 1.75rem;
-        flex-direction: column;
-        gap: 0.5rem;
     }
     
     .page-description {
@@ -848,10 +834,6 @@
 @media (max-width: 480px) {
     .top-header {
         padding: 0.75rem 1rem;
-    }
-    
-    .page-title {
-        font-size: 1rem;
     }
     
     .dashboard-content {

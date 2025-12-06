@@ -105,6 +105,7 @@
 .page-title {
     color: var(--primary-green);
     margin-bottom: 0.5rem;
+	font-size: 1.25rem;
 }
 
 .page-description {

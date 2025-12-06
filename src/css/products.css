@@ -402,7 +402,7 @@
 }
 
 .dashboard-content .page-title {
-    font-size: 2rem;
+    font-size: 1.25rem;
     color: #1e293b;
     margin-bottom: 0.5rem;
 }
@@ -624,7 +624,7 @@
     }
     
     .dashboard-content .page-title {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     
     .dashboard-content .products-grid {
