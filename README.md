@@ -1,79 +1,29 @@
-# 🚀 AI UMKM - Platform AI untuk Promosi UMKM
+![UMKM Boost Logo](./assets/icons/icon-primary.png)
 
-**AI UMKM** adalah platform gratis yang membantu pelaku usaha kecil dan menengah (UMKM) membuat konten promosi dengan bantuan kecerdasan buatan. Dalam hitungan detik, dapatkan ide konten, caption menarik, dan layout poster siap pakai.
+# UMKM Boost
 
-## ✨ Fitur Utama
+UMKM Boost adalah platform AI-first bagi pelaku UMKM Indonesia untuk membuat ide konten, caption, dan layout poster tanpa ribet. Dengan UI mobile-first dan tombol besar, pengguna bisa menghasilkan materi promosi siap pakai dalam hitungan detik. Setiap output dipandu konteks Bahasa Indonesia dan rekomendasi CTA sehingga pemilik warung, kedai kopi, butik, hingga jasa rumahan dapat langsung mem-posting ke Instagram, Facebook, atau WhatsApp tanpa tim kreatif. Platform memadukan koleksi contoh promosi lokal dengan API AI generatif agar hasil tetap relevan, ringan, dan mudah dijelaskan ke juri atau klien. Tidak perlu login atau biaya berlangganan—cukup isi form singkat dan salin hasilnya.
 
-### 🧠 AI Ide Konten
-- Generate 3 ide konten promosi berdasarkan jenis usaha Anda
-- Cocok untuk Instagram, TikTok, atau WhatsApp Story
-- Hasil yang relevan dengan target pelanggan UMKM
+## Tools yang Tersedia
+- AI Ide Konten Promosi (3 ide relevan per permintaan)
+- AI Caption Generator (tone friendly/profesional/casual, lengkap CTA dan hashtag)
+- AI Poster Text Generator (layout teks siap copy ke Canva)
+- Pengelolaan produk sederhana beserta upload gambar
 
-### ✍️ AI Caption Generator  
-- Buat caption menarik lengkap dengan hashtag
-- Berbagai pilihan tone: casual, friendly, professional
-- Include call-to-action yang tepat untuk bisnis Anda
+## Manfaat Utama
+- Hemat waktu: form singkat → hasil instan
+- Konten siap posting untuk Instagram, Facebook, dan WhatsApp
+- Bahasa Indonesia natural dengan CTA jelas
+- Antarmuka mobile-first dengan tombol besar ramah pemula
 
-### 🎨 AI Poster Generator
-- Layout poster siap copy-paste ke Canva
-- Saran kombinasi warna dan font
-- Format teks yang rapi dan profesional
+## Kelebihan Platform
+- Gratis dan tanpa login
+- Ringan dengan hash routing vanilla JS
+- Copy-to-clipboard plus toast feedback
+- Berbasis contoh promosi lokal agar lebih relevan
 
-## 🎯 Cocok Untuk
+## URL Akses
+https://umkm-boost.netlify.app
 
-- 🍕 Warung makan & kuliner
-- 👕 Fashion & thrifting  
-- ☕ Minuman kekinian
-- 💄 Salon & barbershop
-- 📸 Jasa foto & printing
-- 🧺 Laundry & jasa lainnya
-
-## 🚀 Cara Menggunakan
-
-1. **Buka Website** - Tidak perlu daftar atau login
-2. **Pilih Fitur** - Ide konten, caption, atau poster
-3. **Isi Form** - Masukkan jenis usaha dan tujuan promosi
-4. **Dapatkan Hasil** - AI akan generate konten dalam 30 detik
-5. **Copy & Gunakan** - Langsung bisa dipaste ke media sosial
-
-## 💡 Keunggulan
-
-- ✅ **Gratis** - Tanpa biaya berlangganan
-- ✅ **Tanpa Login** - Langsung bisa digunakan
-- ✅ **Mobile Friendly** - Bisa diakses dari HP
-- ✅ **Hasil Instan** - Konten siap dalam detik
-- ✅ **Bahasa Indonesia** - Sesuai dengan target market UMKM lokal
-
-## 🛠️ Teknologi
-
-Platform ini dibangun dengan teknologi modern:
-- Frontend: HTML5, CSS3, JavaScript
-- Backend: Serverless Functions
-- AI: Google Gemini API
-- Hosting: Netlify
-
-## 📱 Akses Platform
-
-Kunjungi: [AI UMKM Website](https://marketwhisper.netlify.app)
-
-## 🤝 Dukungan
-
-Untuk pertanyaan, saran, atau laporan bug, silakan hubungi:
-- Email: admin@faydev.my.id
-
-## 📄 Lisensi & Penggunaan
-
-**AI UMKM** adalah platform freeware yang dapat digunakan secara gratis untuk keperluan bisnis UMKM. Dilarang untuk:
-- Menyalin atau mendistribusikan ulang kode platform
-- Menggunakan untuk keperluan komersial skala besar
-- Reverse engineering atau modifikasi sistem
-
-## 🎯 Tentang Proyek
-
-Platform ini dikembangkan khusus untuk mendukung UMKM Indonesia dalam era digital. Kami percaya bahwa teknologi AI harus dapat diakses oleh semua lapisan masyarakat, terutama pelaku usaha kecil yang membutuhkan solusi praktis untuk promosi bisnis mereka.
-
----
-
-**© 2025 AI UMKM Platform - Membantu UMKM Indonesia Berkembang dengan AI** 
-
-*Dibuat dengan ❤️ oleh MieAyamCoder untuk kemajuan UMKM Indonesia*
+## Creator
+- MieAyamCoder ([FAYnim](https://github.com/FAYnim), [farhansyahbanna](https://github.com/farhansyahbanna), [JASMINE1018](https://github.com/JASMINE1018), [Brendataaa079](https://github.com/Brendataaa079), [zamaror](https://github.com/zamaror))
