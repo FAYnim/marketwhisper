@@ -168,8 +168,6 @@ function getLoginStats() {
     };
 }
 
-// ===== FUNGSI UNTUK MENAMPILKAN INFO COOKIE =====
-
 // Tampilkan welcome message berdasarkan data cookie
 function getWelcomeMessage() {
     const session = getAuthSession();

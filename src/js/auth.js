@@ -303,7 +303,7 @@ const Auth = {
     }
 };
 
-// Auth Guard - Protect pages that require authentication
+// Auth Guard - Protect pages yang butuh require authentication
 async function requireAuth() {
     const { success, user } = await Auth.getCurrentUser();
     
