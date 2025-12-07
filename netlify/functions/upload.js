@@ -1,7 +1,3 @@
-// netlify/functions/upload.js
-// Netlify Function untuk handle upload gambar ke Supabase Storage
-// Kredensial Supabase aman di environment variables
-
 const { createClient } = require('@supabase/supabase-js');
 
 // Headers untuk CORS
@@ -54,7 +50,7 @@ exports.handler = async (event, context) => {
           throw new Error('File name dan data harus ada');
         }
 
-        // Create authenticated supabase client
+        // Ngebuat authenticated supabase client
         const supabaseWithAuth = createClient(
           process.env.SUPABASE_URL,
           process.env.SUPABASE_ANON_KEY,
@@ -136,7 +132,6 @@ exports.handler = async (event, context) => {
         throw new Error('File path required');
       }
 
-      // Create authenticated supabase client
       const supabaseWithAuth = createClient(
         process.env.SUPABASE_URL,
         process.env.SUPABASE_ANON_KEY,

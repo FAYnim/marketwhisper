@@ -2,14 +2,12 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// Support both ESM and bundled CJS where import.meta.url may be undefined
+
 const moduleUrl = typeof import.meta !== "undefined" && import.meta.url ? import.meta.url : null;
 const currentDir = moduleUrl ? path.dirname(fileURLToPath(moduleUrl)) : (typeof __dirname !== "undefined" ? __dirname : process.cwd());
 
 const functionDirInstructions = path.resolve(currentDir, "..", "..", "assets", "instructions");
 const projectRootInstructions = path.resolve(process.cwd(), "assets", "instructions");
-
-// Base system-style instruction to keep responses structured for easy parsing.
 const baseInstruction = `
 Anda adalah asisten AI untuk UMKM di Indonesia. Jawab SELALU dalam Bahasa Indonesia.
 Formatkan jawaban sebagai JSON dengan struktur:
@@ -48,7 +46,6 @@ async function loadInstructionsFile(instructionsFile) {
   throw new Error("File instruksi tidak ditemukan");
 }
 
-// Map tujuan konten ke file instruksi markdown
 function mapInstructionFile(contentGoal) {
   const map = {
     jualan: "promosi-jualan-harian.md",
@@ -87,7 +84,6 @@ export async function handler(event) {
       };
     }
 
-    // First try with free tier API key
     let ai = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY
     });
@@ -115,14 +111,13 @@ export async function handler(event) {
         body: JSON.stringify({ output })
       };
     } catch (aiError) {
-      // Check if it's a quota exceeded error (429)
+      // Cek kuota api habis atau nggak (429)
       if (aiError.message && aiError.message.includes('429') || 
           aiError.message && aiError.message.includes('quota') ||
           aiError.message && aiError.message.includes('RESOURCE_EXHAUSTED')) {
         
         console.log('AI Limit: Free tier quota exceeded, switching to production API key');
         
-        // Try with production API key
         ai = new GoogleGenAI({
           apiKey: process.env.GEMINI_API_KEY_PROD
         });

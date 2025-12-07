@@ -1,9 +1,5 @@
-// netlify/functions/auth.js
-// Netlify Function untuk handle semua operasi autentikasi Supabase
-// Kredensial API disimpan di environment variables Netlify, tidak terexpose ke frontend
 const { createClient } = require('@supabase/supabase-js');
 
-// Headers untuk CORS
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -12,7 +8,6 @@ const headers = {
 };
 
 exports.handler = async (event, context) => {
-  // Handle OPTIONS untuk CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -21,7 +16,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Pastikan method POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -33,13 +27,10 @@ exports.handler = async (event, context) => {
   try {
     const { action, email, password, name, accessToken, code } = JSON.parse(event.body);
 
-    // Buat Supabase client
     const supabase = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_ANON_KEY
     );
-
-    // REGISTER: Daftar user baru
     if (action === 'register') {
       const emailRedirectUrl = `${process.env.URL || 'http://localhost:8888'}/email-confirmation.html`;
       
@@ -63,7 +54,6 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // LOGIN: Login dengan email dan password
     if (action === 'login') {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -78,15 +68,11 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ success: true, data })
       };
     }
-
-    // LOGOUT: Logout user
     if (action === 'logout') {
-      // Perlu access token untuk logout
+  
       if (!accessToken) {
         throw new Error('Access token required for logout');
       }
-
-      // Buat client dengan access token user
       const supabaseWithAuth = createClient(
         process.env.SUPABASE_URL,
         process.env.SUPABASE_ANON_KEY,
@@ -109,19 +95,14 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ success: true })
       };
     }
-
-    // GET_USER: Ambil data user dari access token
     if (action === 'getUser') {
       if (!accessToken) {
-        // Tidak ada token = user belum login (bukan error)
         return {
           statusCode: 200,
           headers,
           body: JSON.stringify({ success: true, user: null })
         };
       }
-
-      // Buat client dengan access token user
       const supabaseWithAuth = createClient(
         process.env.SUPABASE_URL,
         process.env.SUPABASE_ANON_KEY,
@@ -135,8 +116,6 @@ exports.handler = async (event, context) => {
       );
 
       const { data: { user }, error } = await supabaseWithAuth.auth.getUser();
-
-      // Jika session missing, return null (bukan error)
       if (error && error.message.includes('Auth session missing')) {
         return {
           statusCode: 200,
@@ -153,8 +132,6 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ success: true, user })
       };
     }
-
-    // GET_SESSION: Ambil session dari access token
     if (action === 'getSession') {
       if (!accessToken) {
         return {
@@ -194,8 +171,6 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ success: true, session })
       };
     }
-
-    // EXCHANGE_CODE: Tukar code dari email confirmation jadi session
     if (action === 'exchangeCode') {
       if (!code) {
         throw new Error('Code required for exchange');
@@ -211,8 +186,6 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ success: true, data })
       };
     }
-
-    // Action tidak dikenali
     return {
       statusCode: 400,
       headers,

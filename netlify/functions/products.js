@@ -1,10 +1,4 @@
-// netlify/functions/products.js
-// Netlify Function untuk handle semua operasi CRUD Products
-// Kredensial Supabase aman di environment variables
-
 const { createClient } = require('@supabase/supabase-js');
-
-// Headers untuk CORS
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -13,7 +7,6 @@ const headers = {
 };
 
 exports.handler = async (event, context) => {
-  // Handle OPTIONS untuk CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -21,8 +14,6 @@ exports.handler = async (event, context) => {
       body: ''
     };
   }
-
-  // Pastikan method POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -78,8 +69,6 @@ exports.handler = async (event, context) => {
         description: productData.description,
         image: productData.image || null
       };
-
-      // Insert to Supabase
       const { data, error } = await supabaseWithAuth
         .from('products')
         .insert([product])
@@ -203,7 +192,6 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // GET BY CATEGORY: Filter by category
     if (action === 'getByCategory') {
       if (!accessToken) {
         throw new Error('Access token required');
@@ -228,7 +216,6 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // SEARCH: Search by name
     if (action === 'search') {
       if (!accessToken) {
         throw new Error('Access token required');
@@ -272,7 +259,6 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // GET CATEGORY STATS: Get category distribution
     if (action === 'getCategoryStats') {
       if (!accessToken) {
         throw new Error('Access token required');
@@ -283,8 +269,6 @@ exports.handler = async (event, context) => {
         .select('category');
 
       if (error) throw error;
-
-      // Count by category
       const stats = {};
       (data || []).forEach(product => {
         stats[product.category] = (stats[product.category] || 0) + 1;
