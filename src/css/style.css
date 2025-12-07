@@ -1,9 +1,3 @@
-/* ========================================
-   AI UMKM - Global Styles (Mobile-First)
-   Reset, Typography, Colors, Buttons, Forms, Utils
-   ======================================== */
-
-/* Reset & Base */
 * {
     margin: 0;
     padding: 0;
@@ -24,7 +18,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
@@ -39,7 +32,6 @@ h4 { font-size: 1.25rem; }
 
 p { margin-bottom: 1rem; }
 
-/* Colors */
 :root {
     --primary-green: #10b981;
     --secondary-navy: #003b59;
@@ -56,13 +48,11 @@ p { margin-bottom: 1rem; }
     --gray-700: #374151;
     --gray-800: #1F2937;
     --gray-900: #111827;
-    
-    /* Backward compatibility aliases */
+
     --primary-blue: var(--primary-green);
     --secondary-yellow: var(--secondary-navy);
 }
 
-/* Layout - Base Container */
 .container {
     width: 100%;
     max-width: 600px;
@@ -70,9 +60,6 @@ p { margin-bottom: 1rem; }
     padding: 0 1rem;
 }
 
-/* ========================================
-   FORMS & INPUTS
-   ======================================== */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -114,9 +101,6 @@ p { margin-bottom: 1rem; }
     display: block;
 }
 
-/* ========================================
-   BUTTONS
-   ======================================== */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -187,9 +171,6 @@ p { margin-bottom: 1rem; }
     font-size: 14px;
 }
 
-/* ========================================
-   LOADING & ANIMATIONS
-   ======================================== */
 .loading {
     text-align: center;
     padding: 3rem 0;
@@ -224,7 +205,6 @@ p { margin-bottom: 1rem; }
     animation: spin 1s linear infinite;
 }
 
-/* Toast */
 .toast {
     position: fixed;
     bottom: 2rem;
@@ -250,10 +230,6 @@ p { margin-bottom: 1rem; }
     font-weight: 500;
 }
 
-/* ========================================
-   UTILITY CLASSES
-   ======================================== */
-
 .hidden { display: none !important; }
 .text-center { text-align: center; }
 .text-left { text-align: left; }
@@ -274,9 +250,6 @@ p { margin-bottom: 1rem; }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ========================================
-   RESPONSIVE UTILITIES
-   ======================================== */
 
 @media (min-width: 640px) {
     .container {
@@ -295,10 +268,6 @@ p { margin-bottom: 1rem; }
         max-width: 1024px;
     }
 }
-
-/* ========================================
-   PRINT STYLES
-   ======================================== */
 
 @media print {
     .btn, .sidebar, .top-header { display: none; }

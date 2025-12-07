@@ -1,11 +1,3 @@
-/* ========================================
-   Home/Landing Page Styles
-   Specific styles for index.html
-   ======================================== */
-
-/* ========================================
-   HEADER & NAVIGATION
-   ======================================== */
 
 .header {
     background: linear-gradient(135deg, var(--primary-green), var(--secondary-navy));
@@ -81,10 +73,6 @@
     border-color: rgba(255,255,255,0.5);
 }
 
-/* ========================================
-   MAIN CONTENT & LAYOUT
-   ======================================== */
-
 .main-content {
     min-height: calc(100vh - 80px);
     padding: 2rem 0;
@@ -114,10 +102,6 @@
     max-width: 400px;
     margin: 0 auto;
 }
-
-/* ========================================
-   HERO SECTION
-   ======================================== */
 
 .hero {
     text-align: center;
@@ -162,10 +146,6 @@
     background: var(--gray-100);
     color: var(--gray-900);
 }
-
-/* ========================================
-   FEATURE GRID
-   ======================================== */
 
 .feature-grid {
     display: grid;
@@ -215,10 +195,6 @@
     font-size: 14px;
 }
 
-/* ========================================
-   ABOUT SECTION
-   ======================================== */
-
 .about {
     padding: 3rem 0;
 }
@@ -256,10 +232,6 @@
     font-size: 15px;
     margin: 0;
 }
-
-/* ========================================
-   CTA SECTION
-   ======================================== */
 
 .cta-section {
     background: linear-gradient(135deg, var(--primary-green), var(--secondary-navy));
@@ -311,10 +283,6 @@
     border-color: rgba(255,255,255,0.5);
 }
 
-/* ========================================
-   FOOTER
-   ======================================== */
-
 .footer {
     background: var(--gray-100);
     padding: 2rem 0;
@@ -359,10 +327,6 @@
     color: var(--gray-500);
     margin: 0;
 }
-
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
 
 @media (min-width: 640px) {
     .feature-grid {
@@ -429,35 +393,26 @@
     }
 }
 
-/* ========================================
-   FONT AWESOME ICONS STYLING
-   ======================================== */
-
-/* Logo Icons */
 .logo i {
     margin-right: 0.5rem;
     color: #0B7350;
     font-size: 1.3rem;
 }
 
-/* Hero Title Icons */
 .hero-title i {
     margin-right: 0.5rem;
     color: #f59e0b;
 }
 
-/* Button Icons */
 .btn i {
     margin-right: 0.5rem;
 }
 
-/* Section Title Icons */
 .section-title i {
     margin-right: 0.5rem;
     color: #0B7350;
 }
 
-/* Feature Icons */
 .feature-icon {
     width: 80px;
     height: 80px;
@@ -475,7 +430,6 @@
     font-size: 2rem;
 }
 
-/* Print Styles */
 @media print {
     .header, .nav, .btn, .cta-section { display: none; }
     .page-container { max-width: none; }

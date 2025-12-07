@@ -1,18 +1,8 @@
-/* ========================================
-   Dashboard with Sidebar Layout
-   CRM-style Analytics Dashboard
-   ======================================== */
-
-/* Dashboard Body Layout */
 .dashboard-body {
     display: flex;
     min-height: 100vh;
     background: #faf9f7;
 }
-
-/* ========================================
-   SIDEBAR STYLES
-   ======================================== */
 
 .sidebar {
     width: 280px;
@@ -33,8 +23,6 @@
 .sidebar.active {
     transform: translateX(0);
 }
-
-/* Sidebar Header */
 .sidebar-header {
     padding: 1.5rem;
     border-bottom: 1px solid #e2e8f0;
@@ -73,7 +61,6 @@
     background: #f1f5f9;
 }
 
-/* Sidebar Navigation */
 .sidebar-nav {
     flex: 1;
     padding: 1rem 0;
@@ -117,7 +104,6 @@
     font-weight: 500;
 }
 
-/* Sidebar Footer */
 .sidebar-footer {
     padding: 1.5rem;
     border-top: 1px solid #e2e8f0;
@@ -194,10 +180,6 @@
     visibility: visible;
 }
 
-/* ========================================
-   MAIN CONTENT AREA - FIXED FOR DESKTOP
-   ======================================== */
-
 .main-wrapper {
     flex: 1;
     width: 100%;
@@ -246,7 +228,6 @@
     gap: 0.5rem;
 }
 
-/* Dashboard Content */
 .dashboard-content {
     flex: 1;
     width: 100%;
@@ -255,7 +236,6 @@
     background: linear-gradient(135deg, #faf9f7 0%, #f5f3f0 100%);
 }
 
-/* Dashboard Header */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
@@ -347,7 +327,6 @@
     color: #94a3b8;
 }
 
-/* Dashboard Grid Layout */
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -355,7 +334,6 @@
     margin-bottom: 2rem;
 }
 
-/* Dashboard Panels */
 .dashboard-panel {
     background: white;
     padding: 1.5rem;
@@ -372,7 +350,6 @@
     border-bottom: 2px solid #e2e8f0;
 }
 
-/* Quick Actions Panel */
 .quick-actions {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -419,7 +396,6 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* Activity Panel */
 .activity-list {
     max-height: 300px;
     overflow-y: auto;
@@ -539,7 +515,6 @@
     color: #64748b;
 }
 
-/* Tips Panel */
 .tips-list {
     display: flex;
     flex-direction: column;
@@ -583,25 +558,21 @@
     line-height: 1.5;
 }
 
-/* ========================================
-   RESPONSIVE DESIGN - UPDATED
-   ======================================== */
-
-/* Desktop - FIXED LAYOUT */
+/* Desktop */
 @media (min-width: 1024px) {
     .sidebar {
-        position: fixed; /* Keep fixed position */
+        position: fixed; 
         transform: translateX(0);
         box-shadow: none;
     }
     
     .main-wrapper {
-        margin-left: 280px; /* Push content right by sidebar width */
-        width: calc(100% - 280px); /* Full remaining width */
+        margin-left: 280px;
+        width: calc(100% - 280px); 
     }
     
     .top-header {
-        display: none; /* Hide mobile header */
+        display: none;
     }
     
     .sidebar-close {
@@ -613,11 +584,11 @@
     }
     
     .dashboard-content {
-        padding: 2rem; /* More padding on desktop */
+        padding: 2rem; 
     }
 }
 
-/* Large Desktop - Extra space */
+/* Large Desktop*/
 @media (min-width: 1440px) {
     .dashboard-content {
         padding: 2rem 3rem;
@@ -635,7 +606,7 @@
     }
     
     .main-wrapper {
-        margin-left: 0; /* Full width on tablet */
+        margin-left: 0; 
         width: 100%;
     }
     
@@ -712,7 +683,7 @@
     }
 }
 
-/* Loading & Animation States */
+/* Loading & Animation */
 .loading-skeleton {
     background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
     background-size: 200% 100%;
@@ -734,11 +705,6 @@
     100% { transform: scale(1); }
 }
 
-/* ========================================
-   FONT AWESOME ICONS STYLING
-   ======================================== */
-
-/* Sidebar Icons */
 .sidebar-icon i {
     font-size: 1rem;
     color: inherit;
@@ -761,7 +727,6 @@
     font-size: 1.2rem;
 }
 
-/* Button Icons */
 .btn i {
     margin-right: 0.5rem;
 }
@@ -781,7 +746,6 @@
     color: #f59e0b;
 }
 
-/* Metric Icons */
 .metric-icon {
     font-size: 2rem;
     margin-bottom: 0.75rem;
@@ -794,7 +758,6 @@
     font-size: 2rem;
 }
 
-/* Quick Action Icons */
 .action-icon {
     font-size: 2rem;
     margin-bottom: 0.75rem;
@@ -807,7 +770,6 @@
     font-size: 2rem;
 }
 
-/* Activity Icons */
 .activity-icon {
     width: 40px;
     height: 40px;
@@ -825,7 +787,6 @@
     font-size: 1.2rem;
 }
 
-/* Tip Icons */
 .tip-icon {
     width: 48px;
     height: 48px;

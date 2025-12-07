@@ -1,17 +1,8 @@
-/* ========================================
-   AI Ideas - Ide Konten Generator Styles
-   ======================================== */
-
-/* Dashboard Body Layout untuk Ideas */
 .dashboard-body {
     display: flex;
     min-height: 100vh;
     background: #faf9f7;
 }
-
-/* ========================================
-   SIDEBAR STYLES (inherited from dashboard)
-   ======================================== */
 
 .sidebar {
     width: 280px;
@@ -33,7 +24,6 @@
     transform: translateX(0);
 }
 
-/* Sidebar Header */
 .sidebar-header {
     padding: 1.5rem;
     border-bottom: 1px solid #e2e8f0;
@@ -67,7 +57,6 @@
     padding: 0.25rem;
 }
 
-/* Sidebar Navigation */
 .sidebar-nav {
     flex: 1;
     padding: 1rem 0;
@@ -106,8 +95,6 @@
     width: 20px;
     text-align: center;
 }
-
-/* Sidebar Footer */
 .sidebar-footer {
     padding: 1.5rem;
     border-top: 1px solid #e2e8f0;
@@ -164,7 +151,6 @@
     background: #dc2626;
 }
 
-/* Sidebar Overlay for Mobile */
 .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -183,9 +169,6 @@
     visibility: visible;
 }
 
-/* ========================================
-   MAIN WRAPPER & HEADER
-   ======================================== */
 
 .main-wrapper {
     flex: 1;
@@ -194,7 +177,6 @@
     flex-direction: column;
 }
 
-/* Top Header for Mobile */
 .top-header {
     display: flex;
     align-items: center;
@@ -234,7 +216,6 @@
     gap: 0.5rem;
 }
 
-/* Dashboard Content */
 .dashboard-content {
     flex: 1;
     padding: 2rem;
@@ -242,10 +223,6 @@
     margin: 0 auto;
     width: 100%;
 }
-
-/* ========================================
-   PAGE HEADER
-   ======================================== */
 
 .page-header {
     margin-bottom: 2.5rem;
@@ -274,10 +251,6 @@
     margin: 0 auto;
     line-height: 1.6;
 }
-
-/* ========================================
-   SELECTED PRODUCT INFO
-   ======================================== */
 
 .selected-product {
     margin-bottom: 2rem;
@@ -315,10 +288,6 @@
     font-size: 14px;
     color: #64748b;
 }
-
-/* ========================================
-   IDEAS FORM SECTION
-   ======================================== */
 
 .ideas-section {
     background: white;
@@ -381,7 +350,6 @@
     color: #374151;
 }
 
-/* Generate Button */
 .btn-generate {
     width: 100%;
     max-width: 300px;
@@ -428,10 +396,6 @@
     100% { transform: rotate(360deg); }
 }
 
-/* ========================================
-   RESULTS SECTION
-   ======================================== */
-
 .results-section {
     background: white;
     border-radius: 16px;
@@ -454,7 +418,6 @@
     color: #0B7350;
 }
 
-/* Ideas Grid */
 .ideas-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -525,10 +488,6 @@
     background: #065f42;
 }
 
-/* ========================================
-   LOADING STATE
-   ======================================== */
-
 .loading-state {
     text-align: center;
     padding: 3rem;
@@ -552,11 +511,6 @@
     font-size: 16px;
     margin: 0;
 }
-
-/* ========================================
-   ANIMATIONS
-   ======================================== */
-
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -567,10 +521,6 @@
         transform: translateY(0);
     }
 }
-
-/* ========================================
-   UTILITY CLASSES
-   ======================================== */
 
 .hidden {
     display: none !important;
@@ -614,7 +564,7 @@
     font-size: 13px;
 }
 
-/* Toast Notification */
+/* Toast Notif */
 .toast {
     position: fixed;
     bottom: 2rem;
@@ -639,10 +589,6 @@
     margin: 0;
     font-size: 14px;
 }
-
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
 
 /* Desktop */
 @media (min-width: 1024px) {

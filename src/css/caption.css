@@ -1,18 +1,9 @@
-/* ========================================
-   AI Caption Generator Styles
-   ======================================== */
-
 /* Dashboard Body Layout untuk Caption */
 .dashboard-body {
     display: flex;
     min-height: 100vh;
     background: #faf9f7;
 }
-
-/* ========================================
-   SIDEBAR STYLES (inherited from dashboard)
-   ======================================== */
-
 .sidebar {
     width: 280px;
     background: white;
@@ -183,10 +174,6 @@
     visibility: visible;
 }
 
-/* ========================================
-   MAIN WRAPPER & HEADER
-   ======================================== */
-
 .main-wrapper {
     flex: 1;
     margin-left: 0;
@@ -243,10 +230,6 @@
     width: 100%;
 }
 
-/* ========================================
-   PAGE HEADER
-   ======================================== */
-
 .page-header {
     margin-bottom: 2.5rem;
     text-align: center;
@@ -274,10 +257,6 @@
     margin: 0 auto;
     line-height: 1.6;
 }
-
-/* ========================================
-   SELECTED PRODUCT INFO
-   ======================================== */
 
 .selected-product,
 .product-selection {
@@ -324,10 +303,6 @@
     color: #64748b;
     margin-bottom: 0.25rem;
 }
-
-/* ========================================
-   CAPTION FORM SECTION
-   ======================================== */
 
 .caption-section {
     background: white;
@@ -473,10 +448,6 @@
     100% { transform: rotate(360deg); }
 }
 
-/* ========================================
-   RESULTS SECTION
-   ======================================== */
-
 .results-section {
     background: white;
     border-radius: 16px;
@@ -499,7 +470,6 @@
     color: #0B7350;
 }
 
-/* Caption Output */
 .caption-output {
     display: grid;
     gap: 2rem;
@@ -556,13 +526,12 @@
     color: #0B7350;
 }
 
-/* Copy Button in Output */
+/* Copy Button di Output */
 .output-header .btn {
     padding: 0.5rem 1rem;
     font-size: 13px;
 }
 
-/* Quick Actions */
 .quick-actions {
     display: flex;
     gap: 1rem;
@@ -570,10 +539,6 @@
     padding-top: 1.5rem;
     border-top: 1px solid #e5e7eb;
 }
-
-/* ========================================
-   LOADING STATE
-   ======================================== */
 
 .loading-state {
     text-align: center;
@@ -599,10 +564,6 @@
     margin: 0;
 }
 
-/* ========================================
-   ANIMATIONS
-   ======================================== */
-
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -613,10 +574,6 @@
         transform: translateY(0);
     }
 }
-
-/* ========================================
-   UTILITY CLASSES
-   ======================================== */
 
 .hidden {
     display: none !important;
@@ -669,7 +626,7 @@
     font-size: 13px;
 }
 
-/* Toast Notification */
+/* Toast Notifikasi */
 .toast {
     position: fixed;
     bottom: 2rem;
@@ -694,10 +651,6 @@
     margin: 0;
     font-size: 14px;
 }
-
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
 
 /* Desktop */
 @media (min-width: 1024px) {
