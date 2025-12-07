@@ -1,16 +1,7 @@
-// ========================================
-// Database Products - Netlify Functions CRUD Operations
-// ========================================
-// AMAN - Operasi database lewat Netlify Functions
-// Kredensial Supabase tidak terexpose di frontend
-
-// URL Netlify Function untuk products
 const PRODUCTS_FUNCTION_URL = '/.netlify/functions/products';
 
-// Helper: Panggil Netlify Function untuk Products
 async function callProductsFunction(action, payload = {}) {
     try {
-        // Ambil access token dari session
         const session = getStoredSession ? getStoredSession() : null;
         const accessToken = session ? session.access_token : null;
 
@@ -35,7 +26,6 @@ async function callProductsFunction(action, payload = {}) {
 }
 
 const ProductsDB = {
-    // Create: Tambah produk baru
     async create(productData) {
         try {
             const result = await callProductsFunction('create', {
@@ -55,7 +45,6 @@ const ProductsDB = {
         }
     },
 
-    // Read: Ambil semua produk user
     async getAll() {
         try {
             const result = await callProductsFunction('getAll');
@@ -73,7 +62,6 @@ const ProductsDB = {
         }
     },
 
-    // Read: Ambil satu produk by ID
     async getById(productId) {
         try {
             const result = await callProductsFunction('getById', {
@@ -92,7 +80,6 @@ const ProductsDB = {
         }
     },
 
-    // Update: Update produk
     async update(productId, productData) {
         try {
             const result = await callProductsFunction('update', {
@@ -113,7 +100,6 @@ const ProductsDB = {
         }
     },
 
-    // Delete: Hapus produk
     async delete(productId) {
         try {
             const result = await callProductsFunction('delete', {
@@ -133,7 +119,6 @@ const ProductsDB = {
         }
     },
 
-    // Get products by category
     async getByCategory(category) {
         try {
             const result = await callProductsFunction('getByCategory', {
@@ -152,7 +137,6 @@ const ProductsDB = {
         }
     },
 
-    // Search products by name
     async search(searchTerm) {
         try {
             const result = await callProductsFunction('search', {
@@ -171,7 +155,6 @@ const ProductsDB = {
         }
     },
 
-    // Get products count
     async count() {
         try {
             const result = await callProductsFunction('count');
@@ -188,7 +171,6 @@ const ProductsDB = {
         }
     },
 
-    // Get category distribution for dashboard
     async getCategoryStats() {
         try {
             const result = await callProductsFunction('getCategoryStats');
@@ -206,5 +188,4 @@ const ProductsDB = {
     }
 };
 
-// Export ke global scope
 window.ProductsDB = ProductsDB;

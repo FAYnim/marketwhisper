@@ -1,30 +1,20 @@
-// ========================================
-// AI Products - CRUD Data Produk UMKM
-// ========================================
-
-// Global state untuk products
 let products = [];
 let editingProductId = null;
 
-// Fungsi untuk initialize products page
 async function initializeProductsPage() {
     console.log('📦 Initialize Products Page');
     
-    // Setup image input toggles & preview
+    // Setup image
     setupImageInputSwitcher();
     setupImageUploadPreview();
 
-    // Show loading state
     showLoadingState();
     
-    // Load products dari Supabase
     await loadProducts();
     
-    // Render products
     renderProducts();
 }
 
-// Fungsi untuk setup tombol switch input gambar
 function setupImageInputSwitcher() {
     const switchButtons = document.querySelectorAll('.image-input-switcher .switch-btn');
     if (!switchButtons || switchButtons.length === 0) return;
@@ -37,7 +27,6 @@ function setupImageInputSwitcher() {
     });
 }
 
-// Fungsi untuk mengatur mode input gambar (url atau upload)
 function setImageInputMode(mode) {
     const urlPanel = document.getElementById('image-url-panel');
     const uploadPanel = document.getElementById('image-upload-panel');
@@ -62,7 +51,6 @@ function setImageInputMode(mode) {
     }
 }
 
-// Ambil mode input gambar yang sedang aktif (url atau upload)
 function getImageInputMode() {
     const activeBtn = document.querySelector('.image-input-switcher .switch-btn.active');
     if (activeBtn) {
@@ -77,7 +65,6 @@ function getImageInputMode() {
     return 'url';
 }
 
-// Fungsi untuk setup preview upload gambar
 function setupImageUploadPreview() {
     const fileInput = document.getElementById('product-image-file');
     const previewImg = document.getElementById('image-preview');
@@ -116,7 +103,6 @@ function setupImageUploadPreview() {
     });
 }
 
-// Fungsi untuk reset preview upload
 function resetImagePreview() {
     const previewImg = document.getElementById('image-preview');
     const placeholder = document.getElementById('image-preview-placeholder');
@@ -127,7 +113,6 @@ function resetImagePreview() {
     placeholder.classList.remove('hidden');
 }
 
-// Fungsi untuk load products dari Supabase
 async function loadProducts() {
     try {
         const result = await ProductsDB.getAll();
@@ -138,7 +123,6 @@ async function loadProducts() {
         } else {
             console.error('❌ Error loading products:', result.error);
             products = [];
-            // Hide loading state even on error
             hideLoadingState();
             // Enable tombol meskipun error
             enableAddProductButtons();
@@ -147,15 +131,12 @@ async function loadProducts() {
     } catch (error) {
         console.error('❌ Error loading products:', error);
         products = [];
-        // Hide loading state even on error
         hideLoadingState();
-        // Enable tombol meskipun error
         enableAddProductButtons();
         showToast('Gagal memuat produk', 'error');
     }
 }
 
-// Fungsi untuk show loading state
 function showLoadingState() {
     const loadingState = document.getElementById('loading-state');
     const emptyState = document.getElementById('empty-state');
@@ -170,22 +151,16 @@ function showLoadingState() {
     if (productsGrid) {
         productsGrid.classList.add('hidden');
     }
-    
-    // Tombol sudah disabled dari awal, tidak perlu disable lagi di sini
 }
 
-// Fungsi untuk hide loading state
 function hideLoadingState() {
     const loadingState = document.getElementById('loading-state');
     
     if (loadingState) {
         loadingState.classList.add('hidden');
-    }
-    
-    // Tombol akan di-enable di renderProducts, tidak di sini
+    }    
 }
 
-// Fungsi untuk render products ke grid
 function renderProducts() {
     const productsGrid = document.getElementById('products-grid');
     const emptyState = document.getElementById('empty-state');
@@ -195,24 +170,19 @@ function renderProducts() {
         return;
     }
     
-    // Hide loading state terlebih dahulu
     hideLoadingState();
     
-    // Enable tombol setelah selesai loading (baik ada produk atau empty)
     enableAddProductButtons();
     
-    // Show empty state jika tidak ada produk
     if (products.length === 0) {
         emptyState.classList.remove('hidden');
         productsGrid.classList.add('hidden');
         return;
     }
     
-    // Hide empty state dan show grid
     emptyState.classList.add('hidden');
     productsGrid.classList.remove('hidden');
     
-    // Generate product cards HTML
     let html = '';
     products.forEach(product => {
         html += createProductCard(product);
@@ -221,10 +191,7 @@ function renderProducts() {
     productsGrid.innerHTML = html;
 }
 
-// Fungsi untuk create product card HTML
-// Fungsi untuk create product card HTML yang diperbarui
 function createProductCard(product) {
-    // Gunakan placeholder jika tidak ada gambar
     const imageUrl = product.image && product.image.trim() !== '' 
         ? product.image 
         : 'https://placehold.co/600x400/e2e8f0/1e293b?text=No+Image';
@@ -258,7 +225,6 @@ function createProductCard(product) {
     `;
 }
 
-// Fungsi untuk format Rupiah
 function formatRupiah(amount) {
     const numberAmount = parseInt(amount);
     if (isNaN(numberAmount)) return 'Rp 0';
@@ -266,13 +232,11 @@ function formatRupiah(amount) {
     return 'Rp ' + numberAmount.toLocaleString('id-ID');
 }
 
-// Fungsi untuk truncate text
 function truncateText(text, maxLength) {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';
 }
 
-// Fungsi untuk show add product form
 function showAddProductForm() {
     const formContainer = document.getElementById('product-form-container');
     const formTitle = document.getElementById('form-title');
@@ -286,36 +250,29 @@ function showAddProductForm() {
     resetImageInputs();
     editingProductId = null;
     
-    // Update title
     formTitle.textContent = 'Tambah Produk Baru';
     if (saveText) {
         saveText.textContent = 'Simpan Produk';
     }
     
-    // Show form
     formContainer.classList.remove('hidden');
     
-    // Scroll to form
     formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Fungsi untuk close product form
 function closeProductForm() {
     const formContainer = document.getElementById('product-form-container');
     const form = document.getElementById('product-form');
     
     if (!formContainer) return;
     
-    // Hide form
     formContainer.classList.add('hidden');
     
-    // Reset form
     form.reset();
     resetImageInputs();
     editingProductId = null;
 }
 
-// Fungsi untuk handle submit product form
 async function handleSubmitProduct(event) {
     event.preventDefault();
     
@@ -335,7 +292,6 @@ async function handleSubmitProduct(event) {
         return;
     }
     
-    // Show loading state
     const saveBtn = document.getElementById('save-product');
     const saveText = document.getElementById('save-text');
     const saveSpinner = document.getElementById('save-spinner');
@@ -349,7 +305,6 @@ async function handleSubmitProduct(event) {
     try {
         let finalImageUrl = imageUrlValue;
 
-        // Jika pengguna memilih upload, kirim file ke Supabase Storage
         if (imageMode === 'upload') {
             const file = fileInput && fileInput.files ? fileInput.files[0] : null;
             if (!file) {
@@ -378,7 +333,6 @@ async function handleSubmitProduct(event) {
             }
         }
 
-        // Prepare product data
         const productData = {
             name: name,
             category: category,
@@ -390,11 +344,9 @@ async function handleSubmitProduct(event) {
         let result;
         
         if (editingProductId) {
-            // Update existing product
             result = await ProductsDB.update(editingProductId, productData);
             
             if (result.success) {
-                // Update local state
                 const index = products.findIndex(p => p.id === editingProductId);
                 if (index !== -1) {
                     products[index] = result.data;
@@ -404,11 +356,9 @@ async function handleSubmitProduct(event) {
                 throw new Error(result.error);
             }
         } else {
-            // Create new product
             result = await ProductsDB.create(productData);
             
             if (result.success) {
-                // Add to local state
                 products.unshift(result.data);
                 showToast('✅ Produk berhasil ditambahkan!');
             } else {
@@ -416,17 +366,14 @@ async function handleSubmitProduct(event) {
             }
         }
         
-        // Re-render products
         renderProducts();
         
-        // Close form
         closeProductForm();
         
     } catch (error) {
         console.error('Error saving product:', error);
         showToast('❌ Gagal menyimpan produk: ' + error.message);
     } finally {
-        // Hide loading state
         if (saveBtn && saveText && saveSpinner) {
             saveBtn.disabled = false;
             saveText.textContent = 'Simpan Produk';
@@ -435,7 +382,6 @@ async function handleSubmitProduct(event) {
     }
 }
 
-// Fungsi untuk edit product
 function editProduct(productId) {
     const product = getProductById(productId);
     
@@ -443,8 +389,7 @@ function editProduct(productId) {
         showToast('❌ Produk tidak ditemukan');
         return;
     }
-    
-    // Fill form with product data
+
     document.getElementById('product-name').value = product.name;
     document.getElementById('product-category').value = product.category;
     document.getElementById('product-price').value = product.price;
@@ -453,14 +398,12 @@ function editProduct(productId) {
     setImageInputMode('url');
     resetImagePreview();
     
-    // Update form title
     document.getElementById('form-title').textContent = 'Edit Produk';
     const saveText = document.getElementById('save-text');
     if (saveText) {
         saveText.textContent = 'Update Produk';
     }
     
-    // Show form
     const formContainer = document.getElementById('product-form-container');
     formContainer.classList.remove('hidden');
     formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -468,7 +411,6 @@ function editProduct(productId) {
     editingProductId = productId;
 }
 
-// Fungsi untuk reset input gambar (url & upload)
 function resetImageInputs() {
     const urlInput = document.getElementById('product-image');
     const fileInput = document.getElementById('product-image-file');
@@ -485,7 +427,6 @@ function resetImageInputs() {
     setImageInputMode('url');
 }
 
-// Fungsi untuk delete product
 async function deleteProduct(productId) {
     const product = getProductById(productId);
     
@@ -494,19 +435,15 @@ async function deleteProduct(productId) {
         return;
     }
     
-    // Confirm delete
     const confirmDelete = confirm(`Apakah Anda yakin ingin menghapus produk "${product.name}"?`);
     
     if (confirmDelete) {
         try {
-            // Delete from Supabase
             const result = await ProductsDB.delete(productId);
             
             if (result.success) {
-                // Remove from local state
                 products = products.filter(p => p.id !== productId);
                 
-                // Re-render products
                 renderProducts();
                 
                 showToast('✅ Produk berhasil dihapus');
@@ -520,17 +457,14 @@ async function deleteProduct(productId) {
     }
 }
 
-// Fungsi untuk get product by ID
 function getProductById(productId) {
     return products.find(p => p.id === productId);
 }
 
-// Fungsi untuk generate unique ID
 function generateId() {
     return 'prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 }
 
-// Fungsi untuk disable tombol tambah produk
 function disableAddProductButtons() {
     const addProductBtn = document.getElementById('add-product-btn');
     

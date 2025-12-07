@@ -1,34 +1,25 @@
-// ========================================
-// AI Caption - Caption Generator
-// ========================================
-
-// Fungsi untuk initialize halaman caption
 function initializeCaptionPage() {
     console.log('✍️ Initializing AI Caption page');
     
-    // Setup form submit event
+    // Setup form
     const form = document.getElementById('captionForm');
     if (form) {
         form.addEventListener('submit', handleCaptionSubmit);
     }
     
-    // Check if ada selected product
     loadSelectedProductForCaption();
 }
 
-// Handle form submit untuk generate caption
 async function handleCaptionSubmit(event) {
     event.preventDefault();
     
-    // Ambil form data
     const formData = {
         topic: document.getElementById('captionTopic').value,
         tone: document.getElementById('captionTone').value,
         length: document.getElementById('captionLength').value,
         cta: document.getElementById('captionCTA').value
     };
-    
-    // Validate required fields
+
     const validation = Utils.validateFormData(formData, ['topic', 'tone', 'length']);
     
     if (!validation.isValid) {
@@ -36,7 +27,6 @@ async function handleCaptionSubmit(event) {
         return;
     }
     
-    // Generate caption
     try {
         await generateCaption(formData);
     } catch (error) {
@@ -45,41 +35,34 @@ async function handleCaptionSubmit(event) {
     }
 }
 
-// Fungsi utama untuk generate caption
 async function generateCaption(formData) {
     console.log('🔄 Generating caption with data:', formData);
     const selectedProduct = getSelectedProduct();
     let prompt = '';
     
-    // Show loading
     Utils.showButtonLoading('generateCaptionBtn', 'Generating...');
     Utils.showElement('loadingCaption');
     Utils.hideElement('captionResults');
     
     try {
-        // Instruction file untuk caption
         const instructionFile = 'caption.md';
         console.log('📁 Instruction file:', instructionFile);
         
-        // Create AI prompt
         prompt = createCaptionPrompt(formData);
         console.log('💭 AI Prompt:', prompt);
         
-        // Check if callAI is available
         if (typeof window.callAI !== 'function') {
             throw new Error('callAI function not available');
         }
         
         console.log('🤖 Calling AI...');
-        // Call AI API
+
         const aiResponse = await window.callAI(prompt, instructionFile, 'caption');
         console.log('📨 AI Response:', aiResponse);
         
-        // Parse and format AI response
         const captionData = parseAICaptionResponse(aiResponse, formData);
         console.log('🎯 Parsed caption:', captionData);
         
-        // Display results
         displayCaption(captionData);
         await Utils.logAIUsage('caption', prompt, captionData, selectedProduct ? selectedProduct.id : null);
         
@@ -89,25 +72,21 @@ async function generateCaption(formData) {
         console.error('❌ Error generating caption:', error);
         Utils.showToast('❌ Gagal generate caption. Silakan coba lagi.');
         
-        // Fallback to dummy data jika AI error
         const fallbackCaption = getDummyCaption(formData);
         displayCaption(fallbackCaption);
         await Utils.logAIUsage('caption', prompt || formData, { fallback: true, error: error.message, caption: fallbackCaption }, selectedProduct ? selectedProduct.id : null);
     } finally {
-        // Hide loading
         Utils.hideButtonLoading('generateCaptionBtn', 'Generate Caption');
         Utils.hideElement('loadingCaption');
     }
 }
 
-// Fungsi untuk create prompt untuk AI
 function createCaptionPrompt(formData) {
     const { topic, tone, length, cta } = formData;
     
     console.log('🔍 Checking getSelectedProduct availability:', typeof getSelectedProduct);
     const selectedProduct = getSelectedProduct();
     
-    // Map tone ke format yang sesuai dengan instruction
     const toneMap = {
         'friendly': 'Ramah & Santai',
         'professional': 'Profesional',
@@ -115,7 +94,6 @@ function createCaptionPrompt(formData) {
         'casual': 'Kasual & Menghibur'
     };
     
-    // Map length ke jumlah kata
     const lengthMap = {
         'short': '75',
         'medium': '150',
@@ -132,7 +110,6 @@ Tone: ${mappedTone}
 Panjang Caption: ${mappedLength} kata
 CTA: ${cta || 'buatkan CTA otomatis yang relevan'}`;
 
-    // Tambahkan info produk jika ada
     if (selectedProduct) {
         prompt += `
 
@@ -150,20 +127,17 @@ Berikan caption yang menarik dan siap pakai untuk media sosial.`;
     return prompt;
 }
 
-// Fungsi untuk parse AI response
 function parseAICaptionResponse(aiResponse, formData) {
     try {
-        // Coba parse sebagai JSON dulu
+        // coba parse json
         let parsedResponse;
         if (typeof aiResponse === 'string') {
-            // Bersihkan markdown code blocks jika ada
             const cleanedResponse = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
             parsedResponse = JSON.parse(cleanedResponse);
         } else {
             parsedResponse = aiResponse;
         }
         
-        // Extract caption dari response
         const captionText = parsedResponse.caption || parsedResponse.text || '';
         
         // Generate hashtags dan CTA dari caption atau buat default

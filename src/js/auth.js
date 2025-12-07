@@ -1,24 +1,13 @@
-// ========================================
-// AUTENTIKASI AMAN DENGAN NETLIFY FUNCTIONS
-// ========================================
-// Kredensial Supabase TIDAK lagi ada di frontend
-// Semua operasi auth dilakukan lewat Netlify Functions
-// API Key aman tersimpan di environment variables Netlify
-
-// URL Netlify Function untuk autentikasi
 const AUTH_FUNCTION_URL = '/.netlify/functions/auth';
 
-// Simpan session token di localStorage
 const SESSION_STORAGE_KEY = 'umkm_auth_session';
 
-// Helper: Simpan session ke localStorage
 function saveSession(session) {
     if (session && session.access_token) {
         localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
     }
 }
 
-// Helper: Ambil session dari localStorage
 function getStoredSession() {
     const stored = localStorage.getItem(SESSION_STORAGE_KEY);
     if (stored) {
@@ -32,12 +21,10 @@ function getStoredSession() {
     return null;
 }
 
-// Helper: Hapus session dari localStorage
 function clearStoredSession() {
     localStorage.removeItem(SESSION_STORAGE_KEY);
 }
 
-// Helper: Panggil Netlify Function
 async function callAuthFunction(action, payload = {}) {
     try {
         const response = await fetch(AUTH_FUNCTION_URL, {
@@ -59,9 +46,7 @@ async function callAuthFunction(action, payload = {}) {
     }
 }
 
-// Auth Functions
 const Auth = {
-    // Register new user
     async register(email, password, name) {
         try {
             const result = await callAuthFunction('register', {
@@ -81,7 +66,6 @@ const Auth = {
         }
     },
 
-    // Login user
     async login(email, password, rememberMe = false) {
         try {
             const result = await callAuthFunction('login', {
@@ -93,12 +77,10 @@ const Auth = {
                 throw new Error(result.error);
             }
             
-            // Simpan session ke localStorage
             if (result.data && result.data.session) {
                 saveSession(result.data.session);
             }
             
-            // Jika login berhasil, simpan ke cookie (jika fungsi tersedia)
             if (result.data.user) {
                 if (typeof window.saveAuthSession === 'function') {
                     window.saveAuthSession(email, rememberMe);
@@ -115,7 +97,6 @@ const Auth = {
         }
     },
 
-    // Logout user
     async logout() {
         try {
             const session = getStoredSession();
@@ -129,10 +110,8 @@ const Auth = {
                 throw new Error(result.error);
             }
             
-            // Hapus session dari localStorage
             clearStoredSession();
             
-            // Hapus semua cookie auth saat logout (jika fungsi tersedia)
             if (typeof window.clearAuthSession === 'function') {
                 window.clearAuthSession();
             }
@@ -141,7 +120,6 @@ const Auth = {
         } catch (error) {
             console.error('Logout error:', error);
             
-            // Tetap hapus session lokal meskipun logout gagal
             clearStoredSession();
             if (typeof window.clearAuthSession === 'function') {
                 window.clearAuthSession();
@@ -151,7 +129,6 @@ const Auth = {
         }
     },
 
-    // Get current user
     async getCurrentUser() {
         try {
             const session = getStoredSession();
@@ -173,7 +150,6 @@ const Auth = {
         } catch (error) {
             console.error('Get user error:', error);
             
-            // If session missing, it's not really an error - user just not logged in
             if (error.message && error.message.includes('session')) {
                 clearStoredSession();
                 return { success: true, user: null };
@@ -183,21 +159,17 @@ const Auth = {
         }
     },
 
-    // Check if user is authenticated
     async isAuthenticated() {
         const { success, user } = await this.getCurrentUser();
         return success && user !== null;
     },
 
-    // Listen to auth state changes (tidak tersedia di serverless, gunakan polling)
-    // Catatan: Fitur ini terbatas karena tidak ada websocket di Netlify Functions
     onAuthStateChange(callback) {
         console.warn('onAuthStateChange tidak tersedia dengan Netlify Functions. Gunakan polling manual.');
         // Return dummy unsubscribe function
         return () => {};
     },
 
-    // Tukar code dari URL supaya sesi aktif setelah konfirmasi email
     async exchangeCodeForSession(code) {
         try {
             const result = await callAuthFunction('exchangeCode', {
@@ -220,7 +192,6 @@ const Auth = {
         }
     },
 
-    // Cek apakah email user sudah terverifikasi
     async isEmailVerified() {
         try {
             const { success, user, error } = await this.getCurrentUser();
@@ -242,13 +213,11 @@ const Auth = {
         }
     },
 
-    // Get access token from stored session
     getAccessToken() {
         const session = getStoredSession();
         return session ? session.access_token : null;
     },
 
-    // Get session
     async getSession() {
         try {
             const session = getStoredSession();
@@ -283,7 +252,6 @@ const Auth = {
         }
     },
 
-    // Check if user has remember me enabled
     hasRememberMe() {
         if (typeof window.hasRememberMe === 'function') {
             return window.hasRememberMe();
@@ -291,7 +259,6 @@ const Auth = {
         return false;
     },
 
-    // Get remembered email for auto-fill
     getRememberedEmail() {
         if (typeof window.getAuthSession === 'function') {
             const session = window.getAuthSession();
@@ -300,7 +267,6 @@ const Auth = {
         return '';
     },
 
-    // Get login statistics
     getLoginStats() {
         if (typeof window.getLoginStats === 'function') {
             return window.getLoginStats();
@@ -308,22 +274,17 @@ const Auth = {
         return { totalLogins: 0, lastLoginDate: null, lastLoginTime: null };
     },
 
-    // Initialize auth system and check for valid session
     async initAuth() {
         try {
-            // Check if we have a valid Supabase session
             const { success, session } = await this.getSession();
             
             if (success && session && session.user) {
-                // Valid session exists, user is authenticated
                 console.log('Valid session found:', session.user.email);
                 return { authenticated: true, user: session.user };
             }
             
-            // No valid session, check for remember me cookie
             if (typeof window.hasRememberMe === 'function' && window.hasRememberMe()) {
                 console.log('No active session but remember me is enabled');
-                // Clear cookie since session is invalid
                 if (typeof window.clearAuthSession === 'function') {
                     window.clearAuthSession();
                 }
@@ -333,7 +294,6 @@ const Auth = {
         } catch (error) {
             console.error('Auth initialization error:', error);
             
-            // Clear potentially corrupted cookies
             if (typeof window.clearAuthSession === 'function') {
                 window.clearAuthSession();
             }
@@ -348,7 +308,6 @@ async function requireAuth() {
     const { success, user } = await Auth.getCurrentUser();
     
     if (!success || !user) {
-        // User not authenticated, redirect to login
         window.location.href = 'login.html';
         return false;
     }
@@ -356,12 +315,10 @@ async function requireAuth() {
     return true;
 }
 
-// Redirect if already authenticated (for login/register pages)
 async function redirectIfAuthenticated() {
     const { success, user } = await Auth.getCurrentUser();
     
     if (success && user) {
-        // User already authenticated, redirect to dashboard
         window.location.href = 'dashboard.html';
         return true;
     }

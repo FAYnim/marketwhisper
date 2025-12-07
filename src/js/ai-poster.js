@@ -1,8 +1,3 @@
-// ========================================
-// AI Poster - Poster Generator
-// ========================================
-
-// Fungsi untuk initialize halaman poster
 function initializePosterPage() {
     console.log('🎨 Initializing AI Poster page');
     

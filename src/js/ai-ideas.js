@@ -1,7 +1,3 @@
-// ========================================
-// AI Ideas - Ide Konten Generator
-// ========================================
-
 // Fungsi untuk initialize halaman ideas
 function initializeIdeasPage() {
     console.log('💡 Initializing AI Ideas page');

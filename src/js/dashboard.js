@@ -1,9 +1,3 @@
-// ========================================
-// Dashboard Analytics & Statistics
-// Sistem CRM untuk UMKM
-// ========================================
-
-// Global state untuk dashboard
 let dashboardData = {
     products: [],
     activities: [],
@@ -12,37 +6,29 @@ let dashboardData = {
     lastLogin: null
 };
 
-// Initialize dashboard
 async function initializeDashboard() {
     console.log('📊 Initialize Dashboard CRM');
     
-    // Show loading state
     showDashboardLoading();
     
-    // Load data dari Supabase
     await loadDashboardData();
     
-    // Hide loading state
     hideDashboardLoading();
     
-    // Render dashboard components
     renderMetrics();
     renderCategoryChart();
     renderRecentActivity();
     renderDynamicTips();
     
-    // Setup real-time updates
     setupRealTimeUpdates();
     
     console.log('✅ Dashboard initialized successfully');
 }
 
-// Load dashboard data dari Supabase database
 async function loadDashboardData() {
     try {
         console.log('📊 Loading dashboard data from Supabase...');
         
-        // Load products data dari Supabase
         if (typeof ProductsDB !== 'undefined') {
             const productsResult = await ProductsDB.getAll();
             if (productsResult.success) {
@@ -50,7 +36,6 @@ async function loadDashboardData() {
                 console.log(`✅ Loaded ${productsResult.data.length} products from Supabase`);
             } else {
                 console.error('❌ Error loading products from Supabase:', productsResult.error);
-                // Fallback to localStorage
                 const storedProducts = localStorage.getItem('umkm_products');
                 dashboardData.products = storedProducts ? JSON.parse(storedProducts) : [];
             }
@@ -60,25 +45,21 @@ async function loadDashboardData() {
             dashboardData.products = storedProducts ? JSON.parse(storedProducts) : [];
         }
         
-        // Load activities dari localStorage (akan diintegrasikan kemudian)
         const storedActivities = localStorage.getItem('umkm_activities');
         if (storedActivities) {
             dashboardData.activities = JSON.parse(storedActivities);
         }
         
-        // Load AI usage stats dari localStorage
         const { aiUsage, contentGenerated } = await fetchAIUsageStats();
         dashboardData.aiUsage = aiUsage;
         dashboardData.contentGenerated = contentGenerated;
         
-        // Set last login time
         dashboardData.lastLogin = new Date().toLocaleString('id-ID');
         
         console.log('📊 Dashboard data loaded:', dashboardData);
         
     } catch (error) {
         console.error('❌ Error loading dashboard data:', error);
-        // Set fallback data
         dashboardData.products = [];
         dashboardData.activities = [];
         dashboardData.aiUsage = 0;
@@ -87,7 +68,7 @@ async function loadDashboardData() {
     }
 }
 
-// Ambil statistik AI usage dari Supabase (fallback ke localStorage jika error)
+// stat ai usage
 async function fetchAIUsageStats() {
     const fallback = () => {
         const aiUsageLS = localStorage.getItem('umkm_ai_usage');
@@ -103,13 +84,11 @@ async function fetchAIUsageStats() {
             return fallback();
         }
 
-        // Pastikan user sudah login (RLS membutuhkan user_id)
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError || !user) {
             return fallback();
         }
 
-        // Hitung total usage
         const { count, error } = await supabase
             .from('ai_usage')
             .select('*', { count: 'exact', head: true });
@@ -119,7 +98,6 @@ async function fetchAIUsageStats() {
             return fallback();
         }
 
-        // Kita anggap setiap baris = 1 konten generated
         return {
             aiUsage: count || 0,
             contentGenerated: count || 0
@@ -130,30 +108,25 @@ async function fetchAIUsageStats() {
     }
 }
 
-// Render key metrics cards
 function renderMetrics() {
     const totalProducts = dashboardData.products.length;
     const totalCategories = getUniqueCategories().length;
     const aiUsage = dashboardData.aiUsage;
     const contentGenerated = dashboardData.contentGenerated;
     
-    // Update metric values
     updateElement('total-products', totalProducts.toString());
     updateElement('total-categories', totalCategories.toString());
     updateElement('ai-usage-count', aiUsage.toString());
     updateElement('content-generated', contentGenerated.toString());
     
-    // Update last login time
     updateElement('last-login-time', dashboardData.lastLogin);
 }
 
-// Get unique categories from products
 function getUniqueCategories() {
     const categories = dashboardData.products.map(product => product.category);
     return [...new Set(categories)].filter(cat => cat && cat.trim() !== '');
 }
 
-// Render category distribution chart (simple CSS-based)
 function renderCategoryChart() {
     const chartContainer = document.getElementById('category-chart');
     const legendContainer = document.getElementById('category-legend');
@@ -172,17 +145,14 @@ function renderCategoryChart() {
     emptyState.classList.add('hidden');
     chartContainer.parentElement.classList.remove('hidden');
     
-    // Calculate category distribution
     const categoryData = categories.map(category => {
         const count = dashboardData.products.filter(p => p.category === category).length;
         const percentage = (count / dashboardData.products.length) * 100;
         return { category, count, percentage };
     });
     
-    // Colors for categories
     const colors = ['#3B82F6', '#EAB308', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
     
-    // Render simple bar chart
     let chartHTML = '<div class="chart-bars">';
     categoryData.forEach((data, index) => {
         const color = colors[index % colors.length];
@@ -197,7 +167,6 @@ function renderCategoryChart() {
     
     chartContainer.innerHTML = chartHTML;
     
-    // Render legend
     let legendHTML = '';
     categoryData.forEach((data, index) => {
         const color = colors[index % colors.length];
@@ -212,7 +181,6 @@ function renderCategoryChart() {
     legendContainer.innerHTML = legendHTML;
 }
 
-// Render recent activity
 function renderRecentActivity() {
     const activityList = document.getElementById('activity-list');
     const emptyState = document.getElementById('activity-empty');
@@ -233,7 +201,6 @@ function renderRecentActivity() {
     emptyState.classList.add('hidden');
     activityList.classList.remove('hidden');
     
-    // Show last 5 activities
     const recentActivities = dashboardData.activities.slice(0, 5);
     
     let html = '';
@@ -252,18 +219,14 @@ function renderRecentActivity() {
     activityList.innerHTML = html;
 }
 
-// Generate sample activities berdasarkan data real dari Supabase
 function generateSampleActivities() {
     const activities = [];
     
-    // Add activities based on products (dari Supabase)
     if (dashboardData.products.length > 0) {
-        // Sort produk berdasarkan created_at terbaru
         const sortedProducts = [...dashboardData.products].sort((a, b) => 
             new Date(b.created_at || 0) - new Date(a.created_at || 0)
         );
         
-        // Ambil 2-3 produk terbaru untuk activity
         sortedProducts.slice(0, 3).forEach((product, index) => {
             activities.push({
                 icon: '📦',
@@ -274,7 +237,6 @@ function generateSampleActivities() {
         });
     }
     
-    // Add category-based activities
     const categories = getUniqueCategories();
     if (categories.length > 0) {
         categories.forEach((category, index) => {
@@ -290,7 +252,6 @@ function generateSampleActivities() {
         });
     }
     
-    // Add AI usage activities
     if (dashboardData.aiUsage > 0) {
         activities.push({
             icon: '🤖',
@@ -300,7 +261,6 @@ function generateSampleActivities() {
         });
     }
     
-    // Add content generation activities
     if (dashboardData.contentGenerated > 0) {
         activities.push({
             icon: '✨',
@@ -310,7 +270,6 @@ function generateSampleActivities() {
         });
     }
     
-    // Add login activity
     activities.push({
         icon: '👋',
         text: 'Selamat datang kembali!',
@@ -318,17 +277,13 @@ function generateSampleActivities() {
         type: 'user_login'
     });
     
-    // Sort by timestamp (newest first)
     activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     
-    // Limit to 10 activities
     dashboardData.activities = activities.slice(0, 10);
     
-    // Save to localStorage
     localStorage.setItem('umkm_activities', JSON.stringify(dashboardData.activities));
 }
 
-// Render dynamic tips based on user data
 function renderDynamicTips() {
     const tipsContainer = document.getElementById('tips-list');
     if (!tipsContainer) return;
@@ -336,7 +291,7 @@ function renderDynamicTips() {
     const tips = generateDynamicTips();
     
     let html = '';
-    tips.slice(0, 3).forEach(tip => { // Show max 3 tips
+    tips.slice(0, 3).forEach(tip => { // max 3 tips
         html += `
             <div class="tip-item">
                 <div class="tip-icon">${tip.icon}</div>
@@ -351,7 +306,6 @@ function renderDynamicTips() {
     tipsContainer.innerHTML = html;
 }
 
-// Generate dynamic tips based on user data
 function generateDynamicTips() {
     const tips = [];
     
@@ -407,9 +361,7 @@ function generateDynamicTips() {
     return tips;
 }
 
-// Setup real-time updates
 function setupRealTimeUpdates() {
-    // Update dashboard setiap 60 detik untuk data Supabase
     setInterval(async () => {
         console.log('🔄 Auto-refreshing dashboard data...');
         await loadDashboardData();
@@ -417,11 +369,9 @@ function setupRealTimeUpdates() {
         renderCategoryChart();
     }, 60000);
     
-    // Listen for storage changes dari tab lain (untuk AI usage & activities)
     window.addEventListener('storage', function(e) {
         if (e.key && e.key.startsWith('umkm_')) {
             console.log('📊 Data updated from another tab');
-            // Reload hanya localStorage data, bukan Supabase
             const aiUsage = localStorage.getItem('umkm_ai_usage');
             const contentGenerated = localStorage.getItem('umkm_content_generated');
             const activities = localStorage.getItem('umkm_activities');
@@ -436,7 +386,6 @@ function setupRealTimeUpdates() {
     });
 }
 
-// Helper function to update element content safely
 function updateElement(elementId, content) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -444,7 +393,6 @@ function updateElement(elementId, content) {
     }
 }
 
-// Helper function to format time ago
 function formatTimeAgo(timestamp) {
     const now = new Date();
     const time = new Date(timestamp);
@@ -462,7 +410,6 @@ function formatTimeAgo(timestamp) {
     return time.toLocaleDateString('id-ID');
 }
 
-// Functions untuk tracking activity (akan dipanggil dari halaman lain)
 function trackActivity(type, text, icon = '📝') {
     const activity = {
         icon: icon,
@@ -471,45 +418,35 @@ function trackActivity(type, text, icon = '📝') {
         type: type
     };
     
-    // Load existing activities
     const storedActivities = localStorage.getItem('umkm_activities');
     let activities = storedActivities ? JSON.parse(storedActivities) : [];
     
-    // Add new activity at the beginning
     activities.unshift(activity);
     
-    // Keep only last 50 activities
     activities = activities.slice(0, 50);
     
-    // Save back to localStorage
     localStorage.setItem('umkm_activities', JSON.stringify(activities));
     
     console.log('📋 Activity tracked:', text);
 }
 
-// Functions untuk tracking AI usage
 function incrementAIUsage() {
     const currentUsage = parseInt(localStorage.getItem('umkm_ai_usage')) || 0;
     const newUsage = currentUsage + 1;
     localStorage.setItem('umkm_ai_usage', newUsage.toString());
     
-    // Track activity
     trackActivity('ai_usage', 'AI Tools digunakan', '🤖');
 }
 
-// Functions untuk tracking content generation
 function incrementContentGenerated() {
     const currentCount = parseInt(localStorage.getItem('umkm_content_generated')) || 0;
     const newCount = currentCount + 1;
     localStorage.setItem('umkm_content_generated', newCount.toString());
     
-    // Track activity
     trackActivity('content_generated', 'Konten AI berhasil di-generate', '✨');
 }
 
-// Show loading state untuk dashboard
 function showDashboardLoading() {
-    // Update metric cards dengan loading state
     updateElement('total-products', 'Loading...');
     updateElement('total-categories', 'Loading...');
     updateElement('ai-usage-count', 'Loading...');
@@ -518,12 +455,10 @@ function showDashboardLoading() {
     console.log('📊 Dashboard loading state shown');
 }
 
-// Hide loading state untuk dashboard
 function hideDashboardLoading() {
     console.log('📊 Dashboard loading state hidden');
 }
 
-// Manual refresh dashboard (bisa dipanggil dari UI)
 async function refreshDashboard() {
     console.log('🔄 Manual dashboard refresh initiated');
     showDashboardLoading();
@@ -550,10 +485,8 @@ async function refreshDashboard() {
     }
 }
 
-// Get dashboard statistics (untuk API atau export)
 async function getDashboardStats() {
     try {
-        // Pastikan data terbaru
         await loadDashboardData();
         
         return {
@@ -574,7 +507,6 @@ async function getDashboardStats() {
     }
 }
 
-// Export functions ke global scope untuk digunakan halaman lain
 window.initializeDashboard = initializeDashboard;
 window.trackActivity = trackActivity;
 window.incrementAIUsage = incrementAIUsage;
@@ -582,5 +514,4 @@ window.incrementContentGenerated = incrementContentGenerated;
 window.refreshDashboard = refreshDashboard;
 window.getDashboardStats = getDashboardStats;
 
-// Untuk testing di console
 window.dashboardData = dashboardData;

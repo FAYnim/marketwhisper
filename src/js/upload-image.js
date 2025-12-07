@@ -1,7 +1,4 @@
-// Image uploader menggunakan Netlify Functions
-// Tidak perlu supabase client di frontend lagi
-
-const MAX_UPLOAD_MB = 3; // batas aman agar ringan untuk UMKM
+const MAX_UPLOAD_MB = 1; // maks file (MB)
 
 // Convert file ke base64 untuk dikirim ke netlify function
 function fileToBase64(file) {

@@ -1,8 +1,3 @@
-// ========================================
-// Utils.js - Helper Functions
-// ========================================
-
-// Fungsi untuk copy text ke clipboard
 function copyToClipboard(elementId) {
     const element = document.getElementById(elementId);
     
@@ -11,10 +6,8 @@ function copyToClipboard(elementId) {
         return;
     }
     
-    // Ambil text content dari element
     const text = element.textContent || element.innerText;
     
-    // Copy menggunakan Clipboard API (modern browsers)
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(() => {
             showToast('✅ Berhasil disalin ke clipboard!');
@@ -24,21 +17,18 @@ function copyToClipboard(elementId) {
             fallbackCopyText(text);
         });
     } else {
-        // Fallback untuk browser lama
         fallbackCopyText(text);
     }
 }
 
-// Fallback copy method untuk browser lama
 function fallbackCopyText(text) {
-    // Buat temporary textarea
+    // tmp textarea
     const textArea = document.createElement('textarea');
     textArea.value = text;
     
-    // Add ke DOM sementara
     document.body.appendChild(textArea);
     
-    // Select dan copy
+    // copy
     textArea.focus();
     textArea.select();
     
@@ -55,16 +45,13 @@ function fallbackCopyText(text) {
         showToast('❌ Gagal menyalin text');
     }
     
-    // Remove temporary element
+    // hapus element
     document.body.removeChild(textArea);
 }
 
-// Fungsi untuk show toast notification
 function showToast(message, duration = 3000) {
-    // Ambil atau buat toast element
     let toast = document.getElementById('toast');
     if (!toast) {
-        // Buat toast jika belum ada
         toast = document.createElement('div');
         toast.id = 'toast';
         toast.className = 'toast hidden';
@@ -76,10 +63,8 @@ function showToast(message, duration = 3000) {
     const messageEl = document.getElementById('toast-message');
     messageEl.textContent = message;
     
-    // Show toast
     toast.classList.remove('hidden');
     
-    // Hide toast after duration
     setTimeout(() => {
         toast.classList.add('hidden');
     }, duration);
@@ -87,51 +72,43 @@ function showToast(message, duration = 3000) {
     console.log('🔔 Toast shown:', message);
 }
 
-// Fungsi untuk show loading pada button
 function showButtonLoading(buttonId, loadingText = 'Loading...') {
     const button = document.getElementById(buttonId);
     if (!button) return;
     
-    // Simpan text asli
     const originalText = button.querySelector('.btn-text');
     if (originalText) {
         originalText.textContent = loadingText;
     }
     
-    // Show spinner
     const spinner = button.querySelector('.btn-spinner');
     if (spinner) {
         spinner.classList.remove('hidden');
     }
     
-    // Disable button
     button.disabled = true;
     button.style.opacity = '0.7';
 }
 
-// Fungsi untuk hide loading pada button
 function hideButtonLoading(buttonId, originalText = 'Generate') {
     const button = document.getElementById(buttonId);
     if (!button) return;
     
-    // Restore text asli
     const textEl = button.querySelector('.btn-text');
     if (textEl) {
         textEl.textContent = originalText;
     }
     
-    // Hide spinner
     const spinner = button.querySelector('.btn-spinner');
     if (spinner) {
         spinner.classList.add('hidden');
     }
     
-    // Enable button
     button.disabled = false;
     button.style.opacity = '1';
 }
 
-// Fungsi untuk show/hide element dengan class
+// Show/Hide
 function showElement(elementId) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -148,7 +125,6 @@ function hideElement(elementId) {
     }
 }
 
-// Fungsi untuk validate form input
 function validateFormData(formData, requiredFields) {
     const errors = [];
     
@@ -164,12 +140,11 @@ function validateFormData(formData, requiredFields) {
     };
 }
 
-// Fungsi untuk format text dengan line breaks
+// format teks
 function formatTextWithBreaks(text) {
     return text.replace(/\n/g, '<br>');
 }
 
-// Fungsi untuk scroll ke element
 function scrollToElement(elementId, offset = 0) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -181,7 +156,6 @@ function scrollToElement(elementId, offset = 0) {
     }
 }
 
-// Fungsi untuk debounce (mencegah multiple calls terlalu cepat)
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -194,7 +168,6 @@ function debounce(func, wait) {
     };
 }
 
-// Fungsi untuk safe JSON parse
 function safeJsonParse(jsonString, fallback = null) {
     try {
         return JSON.parse(jsonString);
@@ -204,17 +177,15 @@ function safeJsonParse(jsonString, fallback = null) {
     }
 }
 
-// Fungsi untuk format number dengan separator
 function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-// Fungsi untuk generate random ID
 function generateId() {
     return 'id_' + Math.random().toString(36).substr(2, 9);
 }
 
-// Simpan histori pemakaian AI ke Supabase (jika user login)
+// AI Log
 async function logAIUsage(aiType, prompt, resultData, productId = null) {
     try {
         if (typeof supabase === 'undefined') return;
@@ -239,7 +210,6 @@ async function logAIUsage(aiType, prompt, resultData, productId = null) {
     }
 }
 
-// Export functions ke global scope agar bisa dipakai di file lain
 window.Utils = {
     copyToClipboard,
     showToast,

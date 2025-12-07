@@ -1,58 +1,43 @@
-// Fungsi-fungsi cookie sederhana untuk UMKM website
-// Dibuat untuk pemula, tanpa OOP atau konsep rumit
 
-// Fungsi untuk menyimpan cookie
 function setCookie(name, value, days) {
-    // Buat tanggal expired (berapa hari dari sekarang)
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
     
-    // Simpan cookie
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
     
     console.log(`Cookie '${name}' berhasil disimpan untuk ${days} hari`);
 }
 
-// Fungsi untuk mengambil nilai cookie
 function getCookie(name) {
-    // Cari nama cookie di semua cookie yang ada
     const cookieName = name + "=";
     const allCookies = document.cookie.split(';');
     
-    // Loop untuk mencari cookie yang sesuai
     for (let i = 0; i < allCookies.length; i++) {
         let cookie = allCookies[i];
         
-        // Hapus spasi di awal
         while (cookie.charAt(0) === ' ') {
             cookie = cookie.substring(1);
         }
         
-        // Jika ketemu cookie yang dicari
         if (cookie.indexOf(cookieName) === 0) {
             return cookie.substring(cookieName.length, cookie.length);
         }
     }
     
-    // Kalau tidak ketemu, return kosong
     return "";
 }
 
-// Fungsi untuk menghapus cookie
 function deleteCookie(name) {
-    // Set cookie dengan tanggal expired yang sudah lewat
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     console.log(`Cookie '${name}' berhasil dihapus`);
 }
 
-// Fungsi untuk cek apakah cookie ada atau tidak
 function hasCookie(name) {
     const cookieValue = getCookie(name);
     return cookieValue !== "";
 }
 
-// Fungsi untuk menyimpan data user login (khusus untuk UMKM)
 function saveUserLogin(username, rememberDays = 7) {
     setCookie("umkm_user", username, rememberDays);
     setCookie("umkm_login", "true", rememberDays);
@@ -60,12 +45,10 @@ function saveUserLogin(username, rememberDays = 7) {
     console.log(`User ${username} tersimpan untuk ${rememberDays} hari`);
 }
 
-// Fungsi untuk cek apakah user sudah login
 function isUserLoggedIn() {
     return hasCookie("umkm_login") && getCookie("umkm_login") === "true";
 }
 
-// Fungsi untuk mengambil nama user yang login
 function getLoggedInUser() {
     if (isUserLoggedIn()) {
         return getCookie("umkm_user");
@@ -73,31 +56,26 @@ function getLoggedInUser() {
     return null;
 }
 
-// Fungsi untuk logout user (hapus semua cookie login)
 function logoutUser() {
     deleteCookie("umkm_user");
     deleteCookie("umkm_login");
     console.log("User berhasil logout");
 }
 
-// Fungsi untuk menyimpan preferensi user (misalnya jenis usaha)
 function saveUserPreference(key, value, days = 30) {
     const prefName = "umkm_pref_" + key;
     setCookie(prefName, value, days);
 }
 
-// Fungsi untuk mengambil preferensi user
 function getUserPreference(key) {
     const prefName = "umkm_pref_" + key;
     return getCookie(prefName);
 }
 
-// Fungsi untuk menyimpan riwayat konten yang pernah dibuat
 function saveContentHistory(contentType, content, maxHistory = 5) {
     const historyKey = "umkm_history_" + contentType;
     let history = [];
     
-    // Ambil history yang sudah ada
     const existingHistory = getCookie(historyKey);
     if (existingHistory) {
         try {
@@ -107,22 +85,18 @@ function saveContentHistory(contentType, content, maxHistory = 5) {
         }
     }
     
-    // Tambah konten baru ke awal array
     history.unshift({
         content: content,
         date: new Date().toLocaleDateString('id-ID')
     });
     
-    // Batasi jumlah history
     if (history.length > maxHistory) {
         history = history.slice(0, maxHistory);
     }
     
-    // Simpan kembali ke cookie (30 hari)
     setCookie(historyKey, JSON.stringify(history), 30);
 }
 
-// Fungsi untuk mengambil riwayat konten
 function getContentHistory(contentType) {
     const historyKey = "umkm_history_" + contentType;
     const history = getCookie(historyKey);
@@ -138,31 +112,23 @@ function getContentHistory(contentType) {
     return [];
 }
 
-// Fungsi untuk menampilkan semua cookie (untuk debugging)
 function showAllCookies() {
     console.log("Semua cookie yang tersimpan:");
     console.log(document.cookie);
 }
 
-// ===== FUNGSI KHUSUS UNTUK SUPABASE AUTH =====
-
-// Simpan data login dengan Supabase session
 function saveAuthSession(email, rememberMe = false) {
-    // Simpan email yang login
     setCookie("umkm_auth_email", email, rememberMe ? 30 : 1);
     
-    // Simpan status remember me
     if (rememberMe) {
         setCookie("umkm_remember_me", "true", 30);
     }
     
-    // Simpan waktu login terakhir
     setCookie("umkm_last_login", new Date().toISOString(), 7);
     
     console.log(`Session tersimpan untuk email: ${email}`);
 }
 
-// Ambil data session yang tersimpan
 function getAuthSession() {
     return {
         email: getCookie("umkm_auth_email"),
@@ -171,7 +137,6 @@ function getAuthSession() {
     };
 }
 
-// Hapus semua data auth session
 function clearAuthSession() {
     deleteCookie("umkm_auth_email");
     deleteCookie("umkm_remember_me");
