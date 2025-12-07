@@ -6,21 +6,17 @@
     <title>Masuk - AI UMKM</title>
     <meta name="description" content="Masuk ke platform AI UMKM untuk mengakses fitur premium">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/login.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Header -->
     <header class="header">
         <nav class="nav" aria-label="Main navigation">
             <div class="nav-links">
@@ -39,9 +35,7 @@
         </nav>
     </header>
 
-    <!-- Main Content Area -->
     <main class="main-content">
-        <!-- LOGIN SECTION -->
         <section class="login-section">
             <div class="features">
                 <div class="container">
@@ -83,51 +77,37 @@
                 </div>
             </div>
         </section>
-
-        <!-- FOOTER -->
         <footer class="footer">
             <p>&copy; 2025 AI UMKM - Platform AI untuk UMKM Indonesia</p>
             <p>Membantu usaha lokal berkembang dengan teknologi kecerdasan buatan</p>
         </footer>
     </main>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Pesan berhasil disalin!</p>
     </div>
 
-    <!-- JavaScript -->
-    <!-- Catatan: Supabase client tidak diperlukan - auth lewat Netlify Functions -->
     <script src="src/js/cookies.js"></script>
     <script src="src/js/utils.js"></script>
     <script src="src/js/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check for auto-login first
             const isAutoLoggedIn = await checkAutoLogin();
-            
-            // Only check manual authentication if auto-login didn't succeed
             if (!isAutoLoggedIn) {
-                // Check if already authenticated, redirect to dashboard
                 await redirectIfAuthenticated();
-                
-                // Load remembered email if exists
                 loadRememberedData();
             }
             
-            // Handle login form submission
             const loginForm = document.getElementById('loginForm');
             
             if (loginForm) {
                 loginForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
-                    // Get form values
                     const email = document.getElementById('loginEmail').value.trim();
                     const password = document.getElementById('loginPassword').value;
                     const rememberMe = document.getElementById('rememberMe').checked;
-                    
-                    // Validation
+        
                     if (!email) {
                         showToast('Email harus diisi!');
                         return;
@@ -138,7 +118,6 @@
                         return;
                     }
                     
-                    // Disable submit button
                     const submitBtn = loginForm.querySelector('button[type="submit"]');
                     const originalText = submitBtn.textContent;
                     submitBtn.disabled = true;
@@ -170,15 +149,12 @@
                         }
                         
                         showToast(errorMessage);
-                        
-                        // Re-enable submit button
                         submitBtn.disabled = false;
                         submitBtn.textContent = originalText;
                     }
                 });
             }
             
-            // Listen for auth state changes
             Auth.onAuthStateChange((event, session) => {
                 console.log('Auth state changed:', event, session);
                 
@@ -195,10 +171,8 @@
             });
         });
         
-        // Function to check auto-login
         async function checkAutoLogin() {
             try {
-                // Initialize auth system and check for valid sessions
                 const authState = await Auth.initAuth();
                 
                 if (authState.authenticated) {
@@ -218,8 +192,6 @@
                 return false;
             }
         }
-        
-        // Function to load remembered data
         function loadRememberedData() {
             if (typeof window.getAuthSession === 'function') {
                 const session = window.getAuthSession();
@@ -228,13 +200,13 @@
                     document.getElementById('loginEmail').value = session.email;
                     document.getElementById('rememberMe').checked = true;
                     
-                    // Show toast about remembered data
+
                     showToast('Email tersimpan dari login sebelumnya');
                 }
             }
         }
         
-        // Toast notification function
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');

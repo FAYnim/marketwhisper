@@ -6,21 +6,17 @@
     <title>AI Ide Konten - UMKM Marketing Assistant</title>
     <meta name="description" content="Generate ide konten promosi kreatif untuk UMKM">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/ideas.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dashboard-body">
-    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1 class="sidebar-logo">
@@ -60,22 +56,17 @@
         </div>
     </aside>
 
-    <!-- Mobile Overlay -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-    <!-- Main Content Area -->
     <div class="main-wrapper">
         
-        <!-- Top Header (Mobile) -->
         <header class="top-header">
             <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
             <h2 class="page-title"><i class="fas fa-lightbulb"></i> Ide Konten AI</h2>
         </header>
 
-        <!-- Ideas Main Content -->
         <main class="dashboard-content">
             
-            <!-- Page Header -->
             <section class="page-header">
                 <h1 class="page-title"><i class="fas fa-lightbulb"></i> Ide Konten AI</h1>
                 <p class="page-description">
@@ -83,7 +74,6 @@
                 </p>
             </section>
 
-            <!-- Selected Product Info (if any) -->
             <div id="selected-product-info" class="selected-product hidden">
                 <div class="product-info-card">
                     <h3><i class="fas fa-exclamation-circle"></i> Data Produk:</h3>
@@ -97,7 +87,6 @@
                 </div>
             </div>
 
-            <!-- Ideas Form -->
             <section class="ideas-section">
                 <form class="ideas-form" id="ideasForm">
                     <div class="form-row">
@@ -145,15 +134,13 @@
                 </form>
             </section>
 
-            <!-- Results Area -->
             <section id="ideasResults" class="results-section hidden">
                 <h3 class="results-title"><i class="fas fa-lightbulb"></i> Ide Konten untuk Anda:</h3>
                 <div id="ideasList" class="ideas-grid">
-                    <!-- Ideas akan dimuat di sini -->
+                 
                 </div>
             </section>
 
-            <!-- Loading State -->
             <div id="loadingIdeas" class="loading-state hidden">
                 <div class="spinner"></div>
                 <p>AI sedang menyiapkan ide konten untuk Anda...</p>
@@ -162,13 +149,10 @@
         </main>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Pesan</p>
     </div>
 
-    <!-- JavaScript -->
-    <!-- Catatan: Supabase client tidak diperlukan - auth lewat Netlify Functions -->
     <script src="handler/gemini.js"></script>
     <script src="src/js/utils.js"></script>
     <script src="src/js/auth.js"></script>
@@ -177,7 +161,6 @@
     <script src="src/js/dashboard.js"></script>
 
     <script>
-        // Fungsi sederhana untuk toggle sidebar (mobile)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
@@ -186,16 +169,13 @@
             overlay.classList.toggle('active');
         }
 
-        // Event listeners untuk sidebar
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check authentication first
             const isAuth = await requireAuth();
             
             if (!isAuth) {
-                return; // User will be redirected to login
+                return; // redir user ke login
             }
             
-            // Load user info
             const { success, user } = await Auth.getCurrentUser();
             if (success && user) {
                 const userNameEl = document.getElementById('user-name');
@@ -204,7 +184,6 @@
                 }
             }
             
-            // Setup logout button
             const logoutBtn = document.getElementById('btn-logout');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', async function() {
@@ -222,20 +201,16 @@
             const sidebarClose = document.getElementById('sidebar-close');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-            // Buka sidebar
-            sidebarToggle.addEventListener('click', toggleSidebar);
             
-            // Tutup sidebar
+            sidebarToggle.addEventListener('click', toggleSidebar);
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 
-            // Initialize dashboard and ideas page
             initializeDashboard();
             checkSelectedProduct();
             initializeIdeasPage();
         });
 
-        // Check if there's a selected product
         function checkSelectedProduct() {
             const selectedProduct = getSelectedProduct();
             const productInfo = document.getElementById('selected-product-info');

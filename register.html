@@ -5,22 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar - AI UMKM</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     <meta name="description" content="Daftar akun baru di platform AI UMKM">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/register.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Header -->
     <header class="header">
         <nav class="nav" aria-label="Main navigation">
             <div class="nav-links">
@@ -39,9 +35,8 @@
         </nav>
     </header>
 
-    <!-- Main Content Area -->
     <main class="main-content">
-        <!-- REGISTER SECTION -->
+       
         <section class="login-section">
             <div class="features">
                 <div class="container">
@@ -86,14 +81,12 @@
             </div>
         </section>
 
-        <!-- FOOTER -->
         <footer class="footer">
             <p>&copy; 2025 AI UMKM - Platform AI untuk UMKM Indonesia</p>
             <p>Membantu usaha lokal berkembang dengan teknologi kecerdasan buatan</p>
         </footer>
     </main>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Pesan berhasil disalin!</p>
     </div>
@@ -104,7 +97,6 @@
     <script src="src/js/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check if already authenticated, redirect to dashboard
             await redirectIfAuthenticated();
             
             // Handle register form submission
@@ -114,13 +106,13 @@
                 signupForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
-                    // Get form values
+                   
                     const name = document.getElementById('signupName').value.trim();
                     const email = document.getElementById('signupEmail').value.trim();
                     const password = document.getElementById('signupPassword').value;
                     const confirmPassword = document.getElementById('signupPasswordConfirm').value;
                     
-                    // Validation
+                   
                     if (!name) {
                         showToast('Nama lengkap harus diisi!');
                         return;
@@ -141,7 +133,6 @@
                         return;
                     }
                     
-                    // Disable submit button
                     const submitBtn = signupForm.querySelector('button[type="submit"]');
                     const originalText = submitBtn.textContent;
                     submitBtn.disabled = true;
@@ -182,7 +173,6 @@
             }
         });
         
-        // Toast notification function
         function showToast(message) {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');

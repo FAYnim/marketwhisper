@@ -6,21 +6,17 @@
     <title>Konfirmasi Email - AI UMKM</title>
     <meta name="description" content="Konfirmasi email untuk mengaktifkan akun AI UMKM">
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/email-confirmation.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
 
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Header -->
     <header class="header">
         <nav class="nav" aria-label="Main navigation">
             <div class="nav-links">
@@ -38,8 +34,6 @@
             </div>
         </nav>
     </header>
-
-    <!-- Main Content Area -->
     <main class="main-content">
         <section class="login-section">
             <div class="features">
@@ -67,15 +61,12 @@
             </div>
         </section>
 
-        <!-- FOOTER -->
         <footer class="footer">
             <p>&copy; 2025 AI UMKM - Platform AI untuk UMKM Indonesia</p>
             <p>Membantu usaha lokal berkembang dengan teknologi kecerdasan buatan</p>
         </footer>
     </main>
 
-    <!-- JavaScript -->
-    <!-- Catatan: Supabase client tidak diperlukan - auth lewat Netlify Functions -->
     <script src="src/js/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
@@ -90,7 +81,6 @@
                 statusMessage.textContent = message;
                 statusNote.textContent = note;
 
-                // Reset icon styles
                 statusIcon.classList.remove('success', 'pending', 'error');
 
                 if (type === 'success') {
@@ -122,7 +112,6 @@
                 if (code) {
                     setStatus('pending', 'Memverifikasi tautan...', 'Kami sedang mengaktifkan akun kamu.', 'Sebentar ya, proses konfirmasi berjalan.', false);
 
-                    // Tukar code menjadi session Supabase
                     const exchangeResult = await Auth.exchangeCodeForSession(code);
 
                     if (!exchangeResult.success) {

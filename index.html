@@ -6,20 +6,16 @@
     <title>AI UMKM - Promosi Cerdas untuk Usaha Lokal</title>
     <meta name="description" content="Platform AI untuk membantu UMKM membuat konten promosi yang menarik">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/landing.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Header -->
     <header class="header">
         <nav class="nav" aria-label="Main navigation">
             <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -45,7 +41,6 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
     <main class="main-content">
         <!-- HERO SECTION -->
         <section id="beranda" class="hero">
@@ -258,31 +253,23 @@
             </div>
         </section>
 
-        <!-- FOOTER -->
         <footer class="footer">
             <p>&copy; 2025 UMKM Boost AI - Platform AI untuk UMKM Indonesia</p>
             <p>Membantu usaha lokal berkembang dengan teknologi kecerdasan buatan</p>
         </footer>
     </main>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Pesan berhasil disalin!</p>
     </div>
 
-    <!-- Auth handled on separate login page (#/login) -->
-
-    <!-- JavaScript -->
     <script src="src/js/utils.js"></script>
     <script>
-        // Simple navigation functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle hamburger menu
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
             const navBackdrop = document.querySelector('.nav-backdrop');
             
-            // Close menu function
             const closeMenu = () => {
                 navLinks.classList.remove('open');
                 hamburger.classList.remove('open');
@@ -299,12 +286,10 @@
                 });
             }
             
-            // Close menu when clicking backdrop
             if (navBackdrop) {
                 navBackdrop.addEventListener('click', closeMenu);
             }
             
-            // Handle smooth scrolling for navigation links
             const navLinksElements = document.querySelectorAll('.nav-link');
             navLinksElements.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -319,17 +304,14 @@
                             });
                         }
                         
-                        // Close mobile menu
                         closeMenu();
                         
-                        // Update active state
                         navLinksElements.forEach(nl => nl.classList.remove('active'));
                         this.classList.add('active');
                     }
                 });
             });
             
-            // Handle form submissions for remaining forms (placeholder)
             const forms = document.querySelectorAll('form');
             forms.forEach(form => {
                 form.addEventListener('submit', function(e) {
@@ -338,7 +320,6 @@
                 });
             });
             
-            // Handle buy buttons (placeholder)
             const buyButtons = document.querySelectorAll('.buy-btn');
             buyButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -348,7 +329,6 @@
             });
         });
         
-        // Toast notification function
         function showToast(message) {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');

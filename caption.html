@@ -6,21 +6,17 @@
     <title>AI Caption Generator - UMKM Marketing Assistant</title>
     <meta name="description" content="Generate caption menarik untuk media sosial UMKM">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/caption.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dashboard-body">
-    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1 class="sidebar-logo">
@@ -62,8 +58,6 @@
 
     <!-- Mobile Overlay -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
-    <!-- Main Content Area -->
     <div class="main-wrapper">
         
         <!-- Top Header (Mobile) -->
@@ -183,7 +177,6 @@
                             </button>
                         </div>
                         <div class="output-box hashtags-box" id="captionHashtags">
-                            <!-- Hashtags akan dimuat di sini -->
                         </div>
                     </div>
 
@@ -195,12 +188,11 @@
                             </button>
                         </div>
                         <div class="output-box cta-box" id="captionCTAText">
-                            <!-- CTA akan dimuat di sini -->
+                        
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="quick-actions">
                     <button class="btn btn-secondary" onclick="copyFullCaption()">
                         <i class="fas fa-file-alt"></i> Copy Semua
@@ -211,7 +203,6 @@
                 </div>
             </section>
 
-            <!-- Loading State -->
             <div id="loadingCaption" class="loading-state hidden">
                 <div class="spinner"></div>
                 <p>AI sedang menyusun caption yang menarik...</p>
@@ -220,13 +211,10 @@
         </main>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Pesan</p>
     </div>
 
-    <!-- JavaScript -->
-    <!-- Catatan: Supabase client tidak diperlukan - auth lewat Netlify Functions -->
     <script src="handler/gemini.js"></script>
     <script src="src/js/utils.js"></script>
     <script src="src/js/auth.js"></script>
@@ -235,7 +223,6 @@
     <script src="src/js/dashboard.js"></script>
 
     <script>
-        // Fungsi sederhana untuk toggle sidebar (mobile)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
@@ -244,7 +231,6 @@
             overlay.classList.toggle('active');
         }
 
-        // Copy to clipboard function
         function copyToClipboard(elementId) {
             const element = document.getElementById(elementId);
             if (!element) return;
@@ -263,7 +249,6 @@
             }
         }
 
-        // Fallback copy function
         function fallbackCopyTextToClipboard(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
@@ -336,10 +321,8 @@
             const sidebarClose = document.getElementById('sidebar-close');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-            // Buka sidebar
             sidebarToggle.addEventListener('click', toggleSidebar);
             
-            // Tutup sidebar
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 
@@ -348,8 +331,6 @@
             checkSelectedProduct();
             initializeCaptionPage();
         });
-
-        // Check if there's a selected product
         function checkSelectedProduct() {
             const selectedProduct = getSelectedProduct();
             const productInfo = document.getElementById('selected-product-info');

@@ -6,22 +6,17 @@
     <title>Dashboard UMKM - AI Marketing Center</title>
     <meta name="description" content="Dashboard analytics dan management untuk UMKM">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/dashboard.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dashboard-body">
-    
-    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1 class="sidebar-logo">
@@ -61,30 +56,18 @@
         </div>
     </aside>
 
-    <!-- Mobile Overlay -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-    <!-- Main Content Area -->
     <div class="main-wrapper">
         
         <!-- Top Header (Mobile) -->
         <header class="top-header">
             <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
             <h2 class="page-title"><i class="fas fa-chart-bar"></i> Dashboard Bisnis</h2>
-            <!-- <div class="header-actions">
-                <button class="btn btn-small btn-outline" onclick="refreshDashboard()" id="refresh-btn">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-                <button class="btn btn-small btn-primary" onclick="location.href='products.html'">
-                    <i class="fas fa-plus"></i> Produk
-                </button>
-            </div> -->
         </header>
 
-        <!-- Dashboard Main Content -->
         <main class="dashboard-content">
             
-            <!-- Dashboard Header -->
             <section class="dashboard-header">
                 <div class="welcome-section">
                     <h1 class="dashboard-title">Selamat datang kembali! <i class="fas fa-hand-paper"></i></h1>
@@ -100,8 +83,6 @@
                     </button>
                 </div>
             </section>
-
-            <!-- Key Metrics Cards -->
             <section class="metrics-grid">
                 <div class="metric-card">
                     <div class="metric-icon"><i class="fas fa-box"></i></div>
@@ -142,8 +123,6 @@
 
             <!-- Quick Actions & Recent Activity -->
             <div class="dashboard-grid">
-                
-                <!-- Quick Actions Panel -->
                 <section class="dashboard-panel quick-actions-panel">
                     <h2 class="panel-title"><i class="fas fa-rocket"></i> Quick Actions</h2>
                     <div class="quick-actions">
@@ -172,7 +151,7 @@
                         </a> -->
                     </div>
                 </section>
-
+ 
                 <!-- Recent Activity Panel -->
                 <!-- <section class="dashboard-panel activity-panel">
                     <h2 class="panel-title"><i class="fas fa-clipboard-list"></i> Aktivitas Terbaru</h2>
@@ -210,7 +189,6 @@
 
             </div>
 
-            <!-- Category Distribution Chart -->
             <section class="dashboard-panel chart-panel">
                 <h2 class="panel-title"><i class="fas fa-chart-bar"></i> Distribusi Kategori Produk</h2>
                 <div class="chart-container">
@@ -260,13 +238,10 @@
         </main>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Notifikasi</p>
     </div>
 
-    <!-- JavaScript -->
-    <!-- Catatan: Supabase client tidak diperlukan - auth lewat Netlify Functions -->
     <script src="src/js/utils.js"></script>
     <script src="src/js/auth.js"></script>
     <script src="src/js/db-products.js"></script>
@@ -288,7 +263,7 @@
             const isAuth = await requireAuth();
             
             if (!isAuth) {
-                return; // User will be redirected to login
+                return; // User redirected login
             }
             
             // Load user info
@@ -318,10 +293,8 @@
             const sidebarClose = document.getElementById('sidebar-close');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-            // Buka sidebar
             sidebarToggle.addEventListener('click', toggleSidebar);
             
-            // Tutup sidebar
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 

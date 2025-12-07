@@ -6,23 +6,19 @@
     <title>Kelola Produk - AI UMKM</title>
     <meta name="description" content="Kelola data produk UMKM untuk promosi AI">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/dashboard.css">
     <link rel="stylesheet" href="src/css/products.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dashboard-body">
     
-    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1 class="sidebar-logo">
@@ -62,36 +58,29 @@
         </div>
     </aside>
 
-    <!-- Mobile Overlay -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-    <!-- Main Content Area -->
     <div class="main-wrapper">
         
-        <!-- Top Header (Mobile) -->
         <header class="top-header">
             <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
             <h2 class="page-title"><i class="fas fa-box"></i> Kelola Produk</h2>
         </header>
 
-        <!-- Main Content -->
         <main class="dashboard-content" id="app">
             
-            <!-- Products Section -->
             <section class="products-section">
                 <div class="section-header">
                     <h1 class="page-title"><i class="fas fa-box"></i> Kelola Produk</h1>
                     <p class="page-description">Tambah, edit, dan kelola produk UMKM Anda untuk promosi AI</p>
                 </div>
 
-                <!-- Action Bar -->
                 <div class="action-bar">
                     <button class="btn btn-primary" id="add-product-btn" disabled>
                         <i class="fas fa-spinner fa-spin"></i> Memuat...
                     </button>
                 </div>
 
-                <!-- Form Container (Hidden by default) -->
                 <div class="form-container hidden" id="product-form-container">
                     <div class="form-card">
                         <div class="form-header">
@@ -166,11 +155,9 @@
                     </div>
                 </div>
 
-                <!-- Products Container -->
                 <div class="products-container">
                     <h3 class="section-subtitle" id="products-title">Produk Anda</h3>
                     
-                    <!-- Loading State -->
                     <div class="loading-state" id="loading-state">
                         <div class="loading-container">
                             <div class="loading-spinner">
@@ -183,7 +170,6 @@
                         </div>
                     </div>
                     
-                    <!-- Empty State -->
                     <div class="empty-state hidden" id="empty-state">
                         <div class="empty-icon"><i class="fas fa-box-open"></i></div>
                         <h3>Belum Ada Produk</h3>
@@ -193,9 +179,7 @@
                         </button>
                     </div>
 
-                    <!-- Products Grid -->
                     <div class="products-grid hidden" id="products-grid">
-                        <!-- Products akan di-render oleh JavaScript -->
                     </div>
                 </div>
 
@@ -204,7 +188,6 @@
         </main>
     </div>
 
-    <!-- Custom Pop Up - Pilih Jenis Promosi -->
     <div class="promo-popup-overlay hidden" id="promo-popup-overlay">
         <div class="promo-popup">
             <div class="promo-popup-header">
@@ -243,13 +226,10 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Pesan berhasil disalin!</p>
     </div>
 
-    <!-- JavaScript -->
-    <!-- Catatan: Supabase client tidak diperlukan - auth lewat Netlify Functions -->
     <script src="src/js/utils.js"></script>
     <script src="src/js/auth.js"></script>
     <script src="src/js/db-products.js"></script>
@@ -257,7 +237,6 @@
     <script src="src/js/ai-products.js"></script>
 
     <script>
-        // Fungsi sederhana untuk toggle sidebar (mobile)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
@@ -266,16 +245,13 @@
             overlay.classList.toggle('active');
         }
 
-        // Event listeners untuk sidebar
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check authentication first
             const isAuth = await requireAuth();
             
             if (!isAuth) {
-                return; // User will be redirected to login
+                return;
             }
             
-            // Load user info
             const { success, user } = await Auth.getCurrentUser();
             if (success && user) {
                 const userNameEl = document.getElementById('user-name');
@@ -284,7 +260,6 @@
                 }
             }
             
-            // Setup logout button
             const logoutBtn = document.getElementById('btn-logout');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', async function() {
@@ -302,21 +277,16 @@
             const sidebarClose = document.getElementById('sidebar-close');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-            // Buka sidebar
             sidebarToggle.addEventListener('click', toggleSidebar);
             
-            // Tutup sidebar
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 
-            // Initialize dashboard
             initializeDashboard();
         });
     
 
-        // Event listeners untuk sidebar dan products
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check authentication first
             const isAuth = await requireAuth();
             if (!isAuth) {
                 return;
@@ -329,23 +299,18 @@
             const closeFormBtn = document.getElementById('close-form');
             const cancelFormBtn = document.getElementById('cancel-form');
 
-            // Sidebar events
             sidebarToggle.addEventListener('click', toggleSidebar);
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 
-            
-            // Add product button click
             addProductBtn.addEventListener('click', function() {
                 showAddProductForm();
             });
             
-            // Form submission
             productForm.addEventListener('submit', function(e) {
                 handleSubmitProduct(e);
             });
             
-            // Close form buttons
             closeFormBtn.addEventListener('click', function() {
                 closeProductForm();
             });
@@ -354,25 +319,21 @@
                 closeProductForm();
             });
 
-            // Initialize products page
             if (typeof initializeProductsPage === 'function') {
                 initializeProductsPage();
             }
             
-            // Event listeners untuk promo popup
             const promoPopupClose = document.getElementById('promo-popup-close');
             const promoPopupOverlay = document.getElementById('promo-popup-overlay');
             const promoIdeasBtn = document.getElementById('promo-ideas-btn');
             const promoCaptionBtn = document.getElementById('promo-caption-btn');
             
-            // Close popup dengan tombol X
             if (promoPopupClose) {
                 promoPopupClose.addEventListener('click', function() {
                     closePromoPopup();
                 });
             }
             
-            // Close popup ketika klik di luar popup
             if (promoPopupOverlay) {
                 promoPopupOverlay.addEventListener('click', function(e) {
                     if (e.target === promoPopupOverlay) {
@@ -381,14 +342,12 @@
                 });
             }
             
-            // Redirect ke halaman Ide Konten
             if (promoIdeasBtn) {
                 promoIdeasBtn.addEventListener('click', function() {
                     goToIdeasPage();
                 });
             }
             
-            // Redirect ke halaman Caption
             if (promoCaptionBtn) {
                 promoCaptionBtn.addEventListener('click', function() {
                     goToCaptionPage();

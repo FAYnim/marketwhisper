@@ -5,22 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Poster Generator - UMKM Marketing Assistant</title>
     <meta name="description" content="Generate layout poster promosi untuk UMKM">
-    
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/icons/icon-primary.png">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/poster.css">
     <link rel="stylesheet" href="src/css/fontawesome/css/all.min.css">
     
-    <!-- Font Inter & Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body class="dashboard-body">
-    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1 class="sidebar-logo">
@@ -64,30 +59,21 @@
         </div>
     </aside>
 
-    <!-- Mobile Overlay -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
-    <!-- Main Content Area -->
     <div class="main-wrapper">
         
-        <!-- Top Header (Mobile) -->
         <header class="top-header">
             <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
             <h2 class="page-title"><i class="fas fa-palette"></i> Poster AI</h2>
         </header>
-
-        <!-- Poster Main Content -->
         <main class="dashboard-content">
             
-            <!-- Page Header -->
             <section class="page-header">
                 <h1 class="page-title"><i class="fas fa-palette"></i> Poster AI Generator</h1>
                 <p class="page-description">
                     Buat layout poster promosi dengan teks yang menarik dan saran desain
                 </p>
             </section>
-
-            <!-- Selected Product Info (if any) -->
             <div id="selected-product-info" class="selected-product hidden">
                 <div class="product-info-card">
                     <h3><i class="fas fa-sync-alt"></i> Menggunakan Data Produk:</h3>
@@ -100,8 +86,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Poster Form -->
             <section class="poster-section">
                 <form class="poster-form" id="posterForm">
                     <div class="form-row">
@@ -148,13 +132,10 @@
                     </button>
                 </form>
             </section>
-
-            <!-- Results Area -->
             <section id="posterResults" class="results-section hidden">
                 <h3 class="results-title"><i class="fas fa-palette"></i> Layout Poster Siap Pakai:</h3>
                 
                 <div class="poster-output">
-                    <!-- Layout Text Section -->
                     <div class="output-section layout-section">
                         <div class="output-header">
                             <h4><i class="fas fa-file-text"></i> Layout Teks:</h4>
@@ -167,9 +148,8 @@
                         </div>
                     </div>
 
-                    <!-- Design Elements Grid -->
                     <div class="design-grid">
-                        <!-- Color Palette Section -->
+    
                         <div class="output-section color-section">
                             <div class="output-header">
                                 <h4><i class="fas fa-palette"></i> Saran Warna:</h4>
@@ -178,11 +158,10 @@
                                 </button>
                             </div>
                             <div class="color-palette" id="colorPalette">
-                                <!-- Color palette akan dimuat di sini -->
                             </div>
                         </div>
 
-                        <!-- Font Section -->
+
                         <div class="output-section font-section">
                             <div class="output-header">
                                 <h4><i class="fas fa-font"></i> Rekomendasi Font:</h4>
@@ -191,13 +170,11 @@
                                 </button>
                             </div>
                             <div class="output-box font-preview" id="fontSuggestion">
-                                <!-- Font suggestion akan dimuat di sini -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Design Tips -->
                 <div class="design-tips">
                     <h4><i class="fas fa-lightbulb"></i> Tips Desain Poster:</h4>
                     <div class="tips-grid">
@@ -224,7 +201,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
                 <div class="quick-actions">
                     <button class="btn btn-secondary" onclick="copyAllDesign()">
                         <i class="fas fa-download"></i> Copy Semua Design
@@ -235,7 +211,6 @@
                 </div>
             </section>
 
-            <!-- Loading State -->
             <div id="loadingPoster" class="loading-state hidden">
                 <div class="spinner"></div>
                 <p>AI sedang merancang layout poster untuk Anda...</p>
@@ -243,13 +218,10 @@
 
         </main>
     </div>
-
-    <!-- Toast Notification -->
     <div id="toast" class="toast hidden">
         <p id="toast-message">Pesan</p>
     </div>
 
-    <!-- JavaScript -->
     <!-- Catatan: Supabase client tidak diperlukan - auth lewat Netlify Functions -->
     <script src="src/js/utils.js"></script>
     <script src="src/js/auth.js"></script>
@@ -258,7 +230,6 @@
     <script src="src/js/dashboard.js"></script>
 
     <script>
-        // Fungsi sederhana untuk toggle sidebar (mobile)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
@@ -267,7 +238,6 @@
             overlay.classList.toggle('active');
         }
 
-        // Copy to clipboard function
         function copyToClipboard(elementId) {
             const element = document.getElementById(elementId);
             if (!element) return;
@@ -286,12 +256,10 @@
             }
         }
 
-        // Copy color palette function
         function copyColorPalette() {
             const colorElement = document.getElementById('colorPalette');
             if (!colorElement) return;
             
-            // Extract colors from the color palette HTML
             const colorDivs = colorElement.querySelectorAll('[style*="background"]');
             const colors = Array.from(colorDivs).map(div => {
                 const style = div.getAttribute('style');
@@ -312,7 +280,6 @@
             }
         }
 
-        // Fallback copy function
         function fallbackCopyTextToClipboard(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
@@ -330,12 +297,10 @@
             document.body.removeChild(textArea);
         }
 
-        // Copy all design elements
         function copyAllDesign() {
             const layout = document.getElementById('posterLayout').textContent || '';
             const font = document.getElementById('fontSuggestion').textContent || '';
             
-            // Get colors
             const colorElement = document.getElementById('colorPalette');
             const colorDivs = colorElement.querySelectorAll('[style*="background"]');
             const colors = Array.from(colorDivs).map(div => {
@@ -368,16 +333,12 @@ ${font}
             }
         }
 
-        // Event listeners untuk sidebar dan initialization
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check authentication first
             const isAuth = await requireAuth();
             
             if (!isAuth) {
                 return; // User will be redirected to login
             }
-            
-            // Load user info
             const { success, user } = await Auth.getCurrentUser();
             if (success && user) {
                 const userNameEl = document.getElementById('user-name');
@@ -385,8 +346,6 @@ ${font}
                     userNameEl.textContent = user.user_metadata?.full_name || user.email;
                 }
             }
-            
-            // Setup logout button
             const logoutBtn = document.getElementById('btn-logout');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', async function() {
@@ -404,20 +363,14 @@ ${font}
             const sidebarClose = document.getElementById('sidebar-close');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-            // Buka sidebar
             sidebarToggle.addEventListener('click', toggleSidebar);
-            
-            // Tutup sidebar
             sidebarClose.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
-
-            // Initialize dashboard and poster page
             initializeDashboard();
             checkSelectedProduct();
             initializePosterPage();
         });
 
-        // Check if there's a selected product
         function checkSelectedProduct() {
             const selectedProduct = getSelectedProduct();
             const productInfo = document.getElementById('selected-product-info');
@@ -428,8 +381,6 @@ ${font}
                 productInfo.classList.remove('hidden');
             }
         }
-
-        // Export functions
         window.copyToClipboard = copyToClipboard;
         window.copyColorPalette = copyColorPalette;
         window.copyAllDesign = copyAllDesign;
