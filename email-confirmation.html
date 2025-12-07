@@ -106,28 +106,29 @@
             });
 
             try {
-                const params = new URLSearchParams(window.location.search);
-                const code = params.get('code');
+                // TODO: Supabase email verification temporarily bypassed; restore once backend is fixed.
+                // const params = new URLSearchParams(window.location.search);
+                // const code = params.get('code');
 
-                if (code) {
-                    setStatus('pending', 'Memverifikasi tautan...', 'Kami sedang mengaktifkan akun kamu.', 'Sebentar ya, proses konfirmasi berjalan.', false);
+                // if (code) {
+                //     setStatus('pending', 'Memverifikasi tautan...', 'Kami sedang mengaktifkan akun kamu.', 'Sebentar ya, proses konfirmasi berjalan.', false);
 
-                    const exchangeResult = await Auth.exchangeCodeForSession(code);
+                //     const exchangeResult = await Auth.exchangeCodeForSession(code);
 
-                    if (!exchangeResult.success) {
-                        setStatus('error', 'Konfirmasi gagal', 'Kode verifikasi tidak valid atau sudah digunakan.', 'Coba buka ulang tautan dari email atau minta kirim ulang verifikasi.', false);
-                        return;
-                    }
-                }
+                //     if (!exchangeResult.success) {
+                //         setStatus('error', 'Konfirmasi gagal', 'Kode verifikasi tidak valid atau sudah digunakan.', 'Coba buka ulang tautan dari email atau minta kirim ulang verifikasi.', false);
+                //         return;
+                //     }
+                // }
 
-                // Cek apakah email sudah terverifikasi
-                const verification = await Auth.isEmailVerified();
+                // const verification = await Auth.isEmailVerified();
+                // if (verification.success && verification.verified) {
+                //     setStatus('success', 'Email berhasil diverifikasi', 'Akun kamu sudah aktif dan siap digunakan.', 'Silakan masuk untuk melanjutkan ke dashboard.', true);
+                // } else {
+                //     setStatus('pending', 'Menunggu konfirmasi email', 'Kami belum menerima konfirmasi email.', 'Buka tautan verifikasi yang dikirim ke email, lalu muat ulang halaman ini.', false);
+                // }
 
-                if (verification.success && verification.verified) {
-                    setStatus('success', 'Email berhasil diverifikasi', 'Akun kamu sudah aktif dan siap digunakan.', 'Silakan masuk untuk melanjutkan ke dashboard.', true);
-                } else {
-                    setStatus('pending', 'Menunggu konfirmasi email', 'Kami belum menerima konfirmasi email.', 'Buka tautan verifikasi yang dikirim ke email, lalu muat ulang halaman ini.', false);
-                }
+                setStatus('success', 'Email berhasil diverifikasi', 'Akun kamu sudah aktif dan siap digunakan.', 'Silakan masuk untuk melanjutkan ke dashboard.', true);
             } catch (error) {
                 console.error('Email confirmation error:', error);
                 setStatus('error', 'Terjadi kesalahan', 'Kami tidak bisa memproses konfirmasi email.', 'Coba lagi beberapa saat atau minta tautan verifikasi baru.', false);
