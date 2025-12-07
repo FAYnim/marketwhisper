@@ -1,4 +1,0 @@
-<!-- CATATAN PENTING: Script Supabase CDN tidak diperlukan lagi -->
-<!-- Autentikasi sekarang menggunakan Netlify Functions -->
-<!-- Hapus baris ini dari semua file HTML: -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
